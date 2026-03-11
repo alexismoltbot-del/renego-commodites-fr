@@ -1,560 +1,517 @@
-import { startTransition, useDeferredValue, useState } from "react";
+import { startTransition, useState } from "react";
+import { PriceTrendChart } from "./components/PriceTrendChart";
+import { analyzeContractText } from "./lib/contractAnalysis";
+import { formatMoney, formatSaving, formatScore } from "./lib/format";
+import { extractPdfText } from "./lib/pdf";
+import type {
+  ActionItem,
+  AnalysisResult,
+  AuditEntry,
+  WorkflowStatus,
+} from "./types";
 
-type SectorKey =
-  | "electricity"
-  | "gas"
-  | "mobile"
-  | "fixed_internet"
-  | "home_insurance";
+function delay(duration: number) {
+  return new Promise((resolve) => {
+    window.setTimeout(resolve, duration);
+  });
+}
 
-type SectorDefinition = {
-  key: SectorKey;
-  label: string;
-  kicker: string;
-  summary: string;
-  confidence: string;
-  currentContract: {
-    provider: string;
-    offer: string;
-    monthlyPrice: string;
-    commitment: string;
-    extractedFrom: string;
+function buildRuntimeAuditEntry(title: string, detail: string): AuditEntry {
+  return {
+    title,
+    detail,
+    timestampLabel: new Intl.DateTimeFormat("fr-FR", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    }).format(new Date()),
   };
-  retentionOffer: {
-    provider: string;
-    delta: string;
-    detail: string;
-  };
-  recommendations: Array<{
-    provider: string;
-    offer: string;
-    annualGain: string;
-    tradeoff: string;
-    quality: string;
-    recommendation: string;
-  }>;
-  observatory: Array<{
-    label: string;
-    current: string;
-    weekly: string;
-    monthly: string;
-  }>;
-};
+}
 
-const sectors: SectorDefinition[] = [
-  {
-    key: "electricity",
-    label: "Electricite",
-    kicker: "MVP le plus propre",
-    summary:
-      "Changement gratuit, resiliation automatique et observatoire public des prix.",
-    confidence: "Confiance produit: tres elevee",
-    currentContract: {
-      provider: "EDF",
-      offer: "Zen Online 9 kVA",
-      monthlyPrice: "118 EUR/mois estimes",
-      commitment: "Sans engagement",
-      extractedFrom: "Facture PDF importee le 11 mars 2026",
-    },
-    retentionOffer: {
-      provider: "EDF",
-      delta: "-84 EUR/an",
-      detail: "Remise retention simulee si le client menace un changement immediat.",
-    },
-    recommendations: [
-      {
-        provider: "Octopus Energy",
-        offer: "Eco Saison",
-        annualGain: "212 EUR/an",
-        tradeoff: "Aucun impact service attendu",
-        quality: "Support correct, prix 12 mois le plus bas",
-        recommendation: "Changer maintenant",
-      },
-      {
-        provider: "TotalEnergies",
-        offer: "Fixe 1 an",
-        annualGain: "176 EUR/an",
-        tradeoff: "Prix moins agressif mais plus stable",
-        quality: "Bon compromis budget / lisibilite",
-        recommendation: "Option prudente",
-      },
-    ],
-    observatory: [
-      { label: "Prix annuel median", current: "1 428 EUR", weekly: "-1.2%", monthly: "-3.8%" },
-      { label: "Promo la plus agressive", current: "-140 EUR", weekly: "+12 EUR", monthly: "+18 EUR" },
-      { label: "Taux d'offres sans engagement", current: "100%", weekly: "stable", monthly: "stable" },
-    ],
-  },
-  {
-    key: "gas",
-    label: "Gaz",
-    kicker: "Tres comparable",
-    summary:
-      "Bonne verticale pour tracker le prix repere, les remises et les evolutions mensuelles.",
-    confidence: "Confiance produit: elevee",
-    currentContract: {
-      provider: "Engie",
-      offer: "Gaz Ajust 2 ans",
-      monthlyPrice: "96 EUR/mois estimes",
-      commitment: "Sans engagement de duree",
-      extractedFrom: "Contrat PDF importe le 11 mars 2026",
-    },
-    retentionOffer: {
-      provider: "Engie",
-      delta: "-51 EUR/an",
-      detail: "Retention utile mais encore battue par le marche a date.",
-    },
-    recommendations: [
-      {
-        provider: "EDF",
-        offer: "Avantage Gaz 2 ans",
-        annualGain: "104 EUR/an",
-        tradeoff: "Prix fixe, peu de risque",
-        quality: "Lecture tres simple des conditions",
-        recommendation: "Changer maintenant",
-      },
-      {
-        provider: "Vattenfall",
-        offer: "Gaz Eco Plus",
-        annualGain: "87 EUR/an",
-        tradeoff: "Plus agressif sur 12 mois",
-        quality: "Moins lisible que l'option EDF",
-        recommendation: "Alternative budget",
-      },
-    ],
-    observatory: [
-      { label: "Prix repere equivalent", current: "1 152 EUR", weekly: "-0.8%", monthly: "-2.5%" },
-      { label: "Remise mediane", current: "7.4%", weekly: "+0.2 pt", monthly: "+0.9 pt" },
-      { label: "Ecarts max fournisseur", current: "241 EUR", weekly: "+9 EUR", monthly: "+21 EUR" },
-    ],
-  },
-  {
-    key: "mobile",
-    label: "Mobile",
-    kicker: "Prix oui, couverture d'abord",
-    summary:
-      "Le moteur ne doit jamais pousser un switch sans score local de couverture et qualite.",
-    confidence: "Confiance produit: moyenne a elevee",
-    currentContract: {
-      provider: "Orange",
-      offer: "120 Go 5G",
-      monthlyPrice: "24,99 EUR/mois",
-      commitment: "Sans engagement",
-      extractedFrom: "Email de facture transfere",
-    },
-    retentionOffer: {
-      provider: "Orange",
-      delta: "-72 EUR/an",
-      detail: "Offre retention credible si l'usage reseau est prioritaire.",
-    },
-    recommendations: [
-      {
-        provider: "Sosh",
-        offer: "100 Go 5G",
-        annualGain: "108 EUR/an",
-        tradeoff: "Legerement moins de data",
-        quality: "Couverture locale quasi identique",
-        recommendation: "Changer maintenant",
-      },
-      {
-        provider: "B&You",
-        offer: "130 Go 5G",
-        annualGain: "144 EUR/an",
-        tradeoff: "Prix meilleur mais qualite trajet domicile-travail plus faible",
-        quality: "Bonne option si usage peu sensible",
-        recommendation: "Changer avec prudence",
-      },
-    ],
-    observatory: [
-      { label: "Panier median 100 Go+", current: "11,99 EUR", weekly: "stable", monthly: "-1,00 EUR" },
-      { label: "Difference low-cost / premium", current: "13,00 EUR", weekly: "+0,50 EUR", monthly: "-2,00 EUR" },
-      { label: "Taux promos sans engagement", current: "96%", weekly: "stable", monthly: "+1 pt" },
-    ],
-  },
-  {
-    key: "fixed_internet",
-    label: "Box internet",
-    kicker: "Fort gain, plus de friction",
-    summary:
-      "Il faut croiser prix, eligibilite a l'adresse, techno et restitution de materiel.",
-    confidence: "Confiance produit: moyenne",
-    currentContract: {
-      provider: "Free",
-      offer: "Freebox Pop",
-      monthlyPrice: "39,99 EUR/mois",
-      commitment: "Sans engagement",
-      extractedFrom: "Facture PDF importee",
-    },
-    retentionOffer: {
-      provider: "Free",
-      delta: "-96 EUR/an",
-      detail: "Reduction retention plausible si le dossier est eligible fibre chez plusieurs concurrents.",
-    },
-    recommendations: [
-      {
-        provider: "SFR",
-        offer: "Starter Fibre",
-        annualGain: "168 EUR/an",
-        tradeoff: "Setup plus agressif, experience support moins stable",
-        quality: "Bonne option si le prix domine",
-        recommendation: "Changer avec checklist",
-      },
-      {
-        provider: "Orange",
-        offer: "Livebox Fibre",
-        annualGain: "72 EUR/an",
-        tradeoff: "Gain moindre",
-        quality: "Meilleur confort d'execution",
-        recommendation: "Option premium",
-      },
-    ],
-    observatory: [
-      { label: "Prix fibre entree de gamme", current: "26,99 EUR", weekly: "-2,00 EUR", monthly: "-4,00 EUR" },
-      { label: "Prix fibre milieu de gamme", current: "33,99 EUR", weekly: "stable", monthly: "-1,00 EUR" },
-      { label: "Frais de mise en service medians", current: "39 EUR", weekly: "stable", monthly: "stable" },
-    ],
-  },
-  {
-    key: "home_insurance",
-    label: "Assurance habitation",
-    kicker: "Verticale plus delicate",
-    summary:
-      "Pas une commodite pure. Le moteur doit bloquer si les garanties minimales ne sont pas equivalentes.",
-    confidence: "Confiance produit: moyenne",
-    currentContract: {
-      provider: "MAIF",
-      offer: "Contrat residence principale",
-      monthlyPrice: "31,40 EUR/mois",
-      commitment: "Resiliable apres 1 an",
-      extractedFrom: "Contrat PDF importe",
-    },
-    retentionOffer: {
-      provider: "MAIF",
-      delta: "-38 EUR/an",
-      detail: "Marge retention plus faible que dans les autres verticales.",
-    },
-    recommendations: [
-      {
-        provider: "Acheel",
-        offer: "Habitation Connect",
-        annualGain: "92 EUR/an",
-        tradeoff: "Franchise plus haute sur degats des eaux",
-        quality: "Equivalent seulement si l'utilisateur accepte la franchise",
-        recommendation: "Attendre validation",
-      },
-      {
-        provider: "Luko by Allianz Direct",
-        offer: "Habitation Flex",
-        annualGain: "58 EUR/an",
-        tradeoff: "Garanties plus proches",
-        quality: "Option la plus propre juridiquement",
-        recommendation: "Option prudente",
-      },
-    ],
-    observatory: [
-      { label: "Prime mediane T3 Paris", current: "287 EUR", weekly: "+1 EUR", monthly: "+4 EUR" },
-      { label: "Prime mediane T3 Lyon", current: "221 EUR", weekly: "stable", monthly: "+3 EUR" },
-      { label: "Dispersion selon franchise", current: "jusqu'a 37%", weekly: "stable", monthly: "stable" },
-    ],
-  },
-];
-
-const flowSteps = [
-  "Importer un contrat, une facture ou un email de facturation.",
-  "Extraire les clauses critiques et calculer le cout reel annuel.",
-  "Chercher les offres equivalentes du moment.",
-  "Tenter une retention chez le fournisseur actuel.",
-  "Faire valider la meilleure action par l'utilisateur.",
-  "Executer la resiliation, la souscription ou la portabilite avec preuves.",
-];
-
-const testCases = [
-  {
-    title: "Cas A - electricite simple",
-    detail:
-      "Importer une facture EDF, verifier extraction du prix, proposer 2 alternatives et 1 retention.",
-  },
-  {
-    title: "Cas B - mobile avec couverture",
-    detail:
-      "Comparer Orange vs Sosh vs B&You et s'assurer qu'une offre moins chere peut etre declassée si la couverture locale baisse.",
-  },
-  {
-    title: "Cas C - box fibre",
-    detail:
-      "Bloquer les offres non eligibles a l'adresse et imposer une checklist de restitution materiel.",
-  },
-  {
-    title: "Cas D - assurance habitation",
-    detail:
-      "Verifier qu'une prime plus basse n'est pas marquee 'Changer maintenant' si la franchise ou les exclusions degradent la couverture.",
-  },
-];
-
-const metrics = [
-  { label: "Economies annuelles cible", value: "180 a 540 EUR" },
-  { label: "Temps vers recommandation", value: "< 5 min" },
-  { label: "Actions irreversibles sans validation", value: "0" },
-  { label: "Sources prix historisees", value: "quotidien" },
-];
-
-function formatUploadedFiles(files: FileList | null) {
-  if (!files || files.length === 0) {
-    return "Aucun document importe pour l'instant.";
-  }
-
-  return Array.from(files)
-    .map((file) => `${file.name} (${Math.max(1, Math.round(file.size / 1024))} ko)`)
-    .join(" | ");
+function flattenOffers(result: AnalysisResult) {
+  return [result.retentionOffer, ...result.alternatives, result.waitOption];
 }
 
 export default function App() {
-  const [activeSector, setActiveSector] = useState<SectorKey>("electricity");
-  const [query, setQuery] = useState("");
-  const [uploadedSummary, setUploadedSummary] = useState(
-    "Aucun document importe pour l'instant.",
-  );
+  const [workflowStatus, setWorkflowStatus] = useState<WorkflowStatus>("idle");
+  const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
+  const [selectedOfferId, setSelectedOfferId] = useState<string>("");
+  const [highlightedSeriesId, setHighlightedSeriesId] = useState<string>("free");
   const [mandateEnabled, setMandateEnabled] = useState(false);
+  const [runtimeAudit, setRuntimeAudit] = useState<AuditEntry[]>([]);
+  const [actionPlan, setActionPlan] = useState<ActionItem[]>([]);
+  const [executionMessage, setExecutionMessage] = useState(
+    "Charge une facture pour ouvrir un dossier operable.",
+  );
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const deferredQuery = useDeferredValue(query);
-  const activeData = sectors.find((sector) => sector.key === activeSector) ?? sectors[0];
+  const availableOffers = analysis ? flattenOffers(analysis) : [];
+  const selectedOffer =
+    availableOffers.find((offer) => offer.id === selectedOfferId) ?? null;
 
-  const normalizedQuery = deferredQuery.trim().toLowerCase();
-  const filteredSectors = normalizedQuery
-    ? sectors.filter((sector) => {
-        return (
-          sector.label.toLowerCase().includes(normalizedQuery) ||
-          sector.summary.toLowerCase().includes(normalizedQuery) ||
-          sector.kicker.toLowerCase().includes(normalizedQuery)
+  async function handleFileUpload(file: File) {
+    setErrorMessage("");
+    setWorkflowStatus("analyzing");
+    setExecutionMessage("Lecture du PDF et normalisation du contrat...");
+    setRuntimeAudit([]);
+    setAnalysis(null);
+
+    try {
+      await delay(180);
+      const extraction = await extractPdfText(file);
+      await delay(120);
+      const result = analyzeContractText(file.name, extraction.text, extraction.pageCount);
+
+      startTransition(() => {
+        setAnalysis(result);
+        setActionPlan(result.actionPlan);
+        setRuntimeAudit(result.auditTrail);
+        setSelectedOfferId(result.bestActionId);
+        setHighlightedSeriesId(result.observatory[0]?.id ?? "free");
+        setWorkflowStatus("ready");
+        setExecutionMessage(
+          "Dossier pret: contrat compris, marche compare, retention preparee.",
         );
-      })
-    : sectors;
+      });
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Le document n'a pas pu etre analyse.";
+      setWorkflowStatus("error");
+      setErrorMessage(message);
+      setExecutionMessage("Le flow est bloque tant que le PDF n'est pas interprete.");
+    }
+  }
+
+  function handleApprovePlan() {
+    if (!analysis || !selectedOffer) {
+      return;
+    }
+
+    if (!mandateEnabled) {
+      setErrorMessage("Active d'abord le mandat pour passer du conseil a l'action.");
+      return;
+    }
+
+    setErrorMessage("");
+    setWorkflowStatus("approved");
+    setExecutionMessage(
+      `Plan approuve: ${selectedOffer.verdict.toLowerCase()} avec ${selectedOffer.provider}.`,
+    );
+    setRuntimeAudit((entries) => [
+      buildRuntimeAuditEntry(
+        "Plan approuve",
+        `${selectedOffer.provider} - ${selectedOffer.offer} retenu comme prochaine action.`,
+      ),
+      ...entries,
+    ]);
+  }
+
+  async function handleExecutePlan() {
+    if (!analysis || !selectedOffer || workflowStatus !== "approved") {
+      return;
+    }
+
+    setWorkflowStatus("executing");
+    setExecutionMessage("Execution du plan en cours...");
+    await delay(350);
+    setActionPlan((steps) =>
+      steps.map((step, index) => (index === 0 ? { ...step, status: "done" } : step)),
+    );
+    setRuntimeAudit((entries) => [
+      buildRuntimeAuditEntry("Mandat confirme", "Le dossier est autorise pour action assistee."),
+      ...entries,
+    ]);
+    await delay(350);
+    setActionPlan((steps) =>
+      steps.map((step, index) =>
+        index <= 2 ? { ...step, status: "done" } : step,
+      ),
+    );
+    setRuntimeAudit((entries) => [
+      buildRuntimeAuditEntry(
+        "Script de negociation produit",
+        "Argumentaire retention pre-rempli avec le delta prix concurrent.",
+      ),
+      ...entries,
+    ]);
+    await delay(350);
+    setActionPlan((steps) => steps.map((step) => ({ ...step, status: "done" })));
+    setWorkflowStatus("completed");
+    setExecutionMessage(
+      "Flow boucle: dossier qualifie, plan approuve, execution prete avec preuves et checklist.",
+    );
+    setRuntimeAudit((entries) => [
+      buildRuntimeAuditEntry(
+        "Execution bouclee",
+        `Preuve locale creee: DOSSIER-${analysis.contract.invoiceNumber}-RETENTION.`,
+      ),
+      ...entries,
+    ]);
+  }
+
+  const progressSteps = [
+    { label: "Import", done: workflowStatus !== "idle" && workflowStatus !== "error" },
+    {
+      label: "Extraction",
+      done:
+        workflowStatus === "ready" ||
+        workflowStatus === "approved" ||
+        workflowStatus === "executing" ||
+        workflowStatus === "completed",
+    },
+    {
+      label: "Comparaison",
+      done:
+        workflowStatus === "ready" ||
+        workflowStatus === "approved" ||
+        workflowStatus === "executing" ||
+        workflowStatus === "completed",
+    },
+    {
+      label: "Approbation",
+      done:
+        workflowStatus === "approved" ||
+        workflowStatus === "executing" ||
+        workflowStatus === "completed",
+    },
+    { label: "Execution", done: workflowStatus === "completed" },
+  ];
 
   return (
     <div className="page-shell">
-      <div className="background-blur background-blur-left" />
-      <div className="background-blur background-blur-right" />
+      <div className="ambient ambient-left" />
+      <div className="ambient ambient-right" />
+
       <header className="hero">
-        <div className="hero-copy">
+        <section className="hero-copy glass-panel">
           <p className="eyebrow">Renego Commodites FR</p>
-          <h1>On importe le contrat, on mesure le marche, on pousse la meilleure action.</h1>
+          <h1>Le dossier est maintenant operable sur une vraie facture Freebox.</h1>
           <p className="hero-text">
-            Prototype front pour un agent de renegociation de contrats francais.
-            Le coeur du flow est deja cadre: import, mandat, equivalence, retention,
-            switch et preuve.
+            Upload PDF, extraction locale, equivalence marche, retention, centre
+            d'action, audit trail et observatoire prix. Le flow est calibre pour une
+            facture Freebox native comme celle fournie.
           </p>
           <div className="hero-actions">
-            <a className="button button-primary" href="#workspace">
-              Voir le prototype
-            </a>
-            <a className="button button-secondary" href="#tests">
-              Process de test
-            </a>
-          </div>
-        </div>
-        <div className="hero-panel">
-          <p className="panel-title">Ce front repond a ta question</p>
-          <ul className="signal-list">
-            <li>Oui, un front existe maintenant.</li>
-            <li>Il montre les 5 verticales et leur niveau de maturite.</li>
-            <li>Il expose une recommendation lisible, pas un comparateur brut.</li>
-          </ul>
-          <div className="metric-grid">
-            {metrics.map((metric) => (
-              <article key={metric.label} className="metric-card">
-                <span>{metric.label}</span>
-                <strong>{metric.value}</strong>
-              </article>
-            ))}
-          </div>
-        </div>
-      </header>
-
-      <main id="workspace" className="content-grid">
-        <section className="panel panel-large">
-          <div className="panel-heading">
-            <div>
-              <p className="eyebrow">Pilotage dossier</p>
-              <h2>Simuler un dossier utilisateur</h2>
-            </div>
-            <span className="badge">{activeData.confidence}</span>
-          </div>
-
-          <div className="control-bar">
-            <label className="search-box">
-              <span>Filtrer les verticales</span>
-              <input
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="energie, mobile, assurance..."
-              />
-            </label>
-            <label className="upload-box">
-              <span>Importer un contrat</span>
+            <label className="button button-primary uploader">
               <input
                 type="file"
-                accept=".pdf,.png,.jpg,.jpeg,.eml"
-                multiple
+                accept=".pdf"
                 onChange={(event) => {
-                  startTransition(() => {
-                    setUploadedSummary(formatUploadedFiles(event.target.files));
-                  });
+                  const file = event.target.files?.[0];
+                  if (file) {
+                    void handleFileUpload(file);
+                  }
                 }}
               />
+              Importer une facture PDF
+            </label>
+            <a className="button button-secondary" href="#observatoire">
+              Voir l'evolution des prix
+            </a>
+          </div>
+        </section>
+
+        <aside className="hero-panel glass-panel">
+          <p className="eyebrow">Etat du flow</p>
+          <h2>{executionMessage}</h2>
+          <div className="progress-rail">
+            {progressSteps.map((step) => (
+              <div key={step.label} className={step.done ? "progress-step is-done" : "progress-step"}>
+                <span className="progress-dot" />
+                <strong>{step.label}</strong>
+              </div>
+            ))}
+          </div>
+          <div className="hero-signals">
+            <article>
+              <span>PDF pris en charge</span>
+              <strong>Facture Freebox native</strong>
+            </article>
+            <article>
+              <span>Action cible</span>
+              <strong>{analysis ? analysis.retentionOffer.verdict : "En attente d'import"}</strong>
+            </article>
+            <article>
+              <span>Observatoire prix</span>
+              <strong>Courbe 14 jours</strong>
+            </article>
+          </div>
+        </aside>
+      </header>
+
+      <main className="content-grid">
+        <section className="workspace glass-panel">
+          <div className="section-head">
+            <div>
+              <p className="eyebrow">Dossier</p>
+              <h2>Import, lecture facture, puis recommandation actionnable</h2>
+            </div>
+            <label className="mandate-toggle">
+              <input
+                type="checkbox"
+                checked={mandateEnabled}
+                onChange={() => setMandateEnabled((value) => !value)}
+              />
+              <span>{mandateEnabled ? "Mandat actif" : "Analyse seule"}</span>
             </label>
           </div>
 
-          <div className="sector-tabs" role="tablist" aria-label="Secteurs">
-            {filteredSectors.map((sector) => (
-              <button
-                key={sector.key}
-                className={sector.key === activeSector ? "tab is-active" : "tab"}
-                type="button"
-                onClick={() => {
-                  startTransition(() => {
-                    setActiveSector(sector.key);
-                  });
-                }}
-              >
-                <span>{sector.label}</span>
-                <small>{sector.kicker}</small>
-              </button>
-            ))}
-          </div>
-
-          <div className="sector-summary">
-            <article className="card current-contract">
-              <p className="eyebrow">Contrat actuel</p>
-              <h3>
-                {activeData.currentContract.provider} · {activeData.currentContract.offer}
-              </h3>
-              <p>{activeData.summary}</p>
-              <dl className="data-grid">
-                <div>
-                  <dt>Prix actuel</dt>
-                  <dd>{activeData.currentContract.monthlyPrice}</dd>
-                </div>
-                <div>
-                  <dt>Engagement</dt>
-                  <dd>{activeData.currentContract.commitment}</dd>
-                </div>
-                <div>
-                  <dt>Source</dt>
-                  <dd>{activeData.currentContract.extractedFrom}</dd>
-                </div>
-              </dl>
-              <p className="upload-summary">{uploadedSummary}</p>
-            </article>
-
-            <article className="card mandate-card">
-              <p className="eyebrow">Mandat d'action</p>
-              <h3>Pouvoir limite et explicite</h3>
+          {!analysis ? (
+            <div className="empty-state">
+              <h3>Le flow complet demarre a l'import d'une facture.</h3>
               <p>
-                Le produit reste en analyse seule tant que l'utilisateur n'active pas
-                le mandat pour la negociation ou le switch.
+                Ce MVP detecte deja Freebox, extrait les champs critiques et construit
+                un plan retention vs switch.
               </p>
-              <label className="toggle">
-                <input
-                  type="checkbox"
-                  checked={mandateEnabled}
-                  onChange={() => setMandateEnabled((value) => !value)}
-                />
-                <span>{mandateEnabled ? "Mandat active pour actions assistees" : "Analyse seule"}</span>
-              </label>
-              <div className="retention-box">
-                <strong>Retention chez {activeData.retentionOffer.provider}</strong>
-                <span>{activeData.retentionOffer.delta}</span>
-                <p>{activeData.retentionOffer.detail}</p>
-              </div>
-            </article>
-          </div>
-        </section>
-
-        <section className="panel">
-          <div className="panel-heading">
-            <div>
-              <p className="eyebrow">Recommandations</p>
-              <h2>Trois sorties maximum, jamais plus</h2>
+              <ul className="signal-list">
+                <li>n de facture, date, montant TTC, offre, email, adresse, identifiant.</li>
+                <li>Positionnement marche sur la verticale box internet.</li>
+                <li>Trois sorties: renegocier, changer maintenant, attendre.</li>
+              </ul>
             </div>
-          </div>
-          <div className="recommendation-list">
-            {activeData.recommendations.map((recommendation) => (
-              <article key={`${recommendation.provider}-${recommendation.offer}`} className="recommendation-card">
-                <div className="recommendation-topline">
-                  <span className="provider-pill">{recommendation.provider}</span>
-                  <strong>{recommendation.annualGain}</strong>
+          ) : (
+            <div className="workspace-grid">
+              <article className="card contract-card">
+                <p className="eyebrow">Contrat reconnu</p>
+                <h3>{analysis.contract.offerName}</h3>
+                <p>{analysis.sectorSummary}</p>
+                <dl className="detail-grid">
+                  <div>
+                    <dt>Abonne</dt>
+                    <dd>{analysis.contract.subscriberName}</dd>
+                  </div>
+                  <div>
+                    <dt>Facture</dt>
+                    <dd>{analysis.contract.invoiceNumber}</dd>
+                  </div>
+                  <div>
+                    <dt>Total TTC</dt>
+                    <dd>{analysis.contract.totalLabel}</dd>
+                  </div>
+                  <div>
+                    <dt>Date facture</dt>
+                    <dd>{analysis.contract.issueDate}</dd>
+                  </div>
+                  <div>
+                    <dt>Prelevement</dt>
+                    <dd>{analysis.contract.dueDate}</dd>
+                  </div>
+                  <div>
+                    <dt>Confiance</dt>
+                    <dd>{Math.round(analysis.contract.extractionConfidence * 100)}%</dd>
+                  </div>
+                  <div>
+                    <dt>Adresse</dt>
+                    <dd>{analysis.contract.installAddress}</dd>
+                  </div>
+                  <div>
+                    <dt>Email</dt>
+                    <dd>{analysis.contract.subscriberEmail}</dd>
+                  </div>
+                  <div>
+                    <dt>Identifiant</dt>
+                    <dd>{analysis.contract.accountId}</dd>
+                  </div>
+                </dl>
+              </article>
+
+              <article className="card line-items-card">
+                <p className="eyebrow">Lecture facture</p>
+                <h3>Postes retenus dans le calcul</h3>
+                <div className="line-item-list">
+                  {analysis.contract.lineItems.map((item) => (
+                    <div key={`${item.label}-${item.amountLabel}`} className="line-item-row">
+                      <span>{item.label}</span>
+                      <strong className={item.tone === "positive" ? "tone-positive" : ""}>
+                        {item.amountLabel}
+                      </strong>
+                    </div>
+                  ))}
                 </div>
-                <h3>{recommendation.offer}</h3>
-                <p>{recommendation.quality}</p>
-                <ul className="signal-list compact">
-                  <li>{recommendation.tradeoff}</li>
-                  <li>{recommendation.recommendation}</li>
-                </ul>
+                <div className="reading-note">
+                  <strong>Source</strong>
+                  <span>{analysis.contract.parsedFrom}</span>
+                </div>
               </article>
-            ))}
-          </div>
+            </div>
+          )}
+
+          {errorMessage ? <p className="error-banner">{errorMessage}</p> : null}
         </section>
 
-        <section className="panel">
-          <div className="panel-heading">
+        <section className="recommendations glass-panel">
+          <div className="section-head">
             <div>
-              <p className="eyebrow">Observatoire live</p>
-              <h2>Evolution des prix et promos</h2>
+              <p className="eyebrow">Decision</p>
+              <h2>Trois sorties, pas un catalogue illisible</h2>
             </div>
           </div>
-          <div className="table-shell">
-            <table>
-              <thead>
-                <tr>
-                  <th>Signal</th>
-                  <th>Aujourd'hui</th>
-                  <th>7 jours</th>
-                  <th>30 jours</th>
-                </tr>
-              </thead>
-              <tbody>
-                {activeData.observatory.map((entry) => (
-                  <tr key={entry.label}>
-                    <td>{entry.label}</td>
-                    <td>{entry.current}</td>
-                    <td>{entry.weekly}</td>
-                    <td>{entry.monthly}</td>
-                  </tr>
+
+          {analysis ? (
+            <>
+              <p className="market-summary">{analysis.marketSummary}</p>
+              <div className="offer-grid">
+                {availableOffers.map((offer) => (
+                  <button
+                    key={offer.id}
+                    type="button"
+                    className={offer.id === selectedOfferId ? "offer-card is-selected" : "offer-card"}
+                    onClick={() => setSelectedOfferId(offer.id)}
+                  >
+                    <div className="offer-head">
+                      <span className="provider-chip">{offer.provider}</span>
+                      <span className="verdict-pill">{offer.verdict}</span>
+                    </div>
+                    <h3>{offer.offer}</h3>
+                    <p>{offer.priceLabel}</p>
+                    <dl className="offer-metrics">
+                      <div>
+                        <dt>Gain</dt>
+                        <dd>{formatSaving(offer.annualSavingEur)}</dd>
+                      </div>
+                      <div>
+                        <dt>Fit</dt>
+                        <dd>{formatScore(offer.fitScore)}</dd>
+                      </div>
+                      <div>
+                        <dt>Risque</dt>
+                        <dd>{offer.riskLabel}</dd>
+                      </div>
+                    </dl>
+                  </button>
                 ))}
-              </tbody>
-            </table>
-          </div>
+              </div>
+
+              {selectedOffer ? (
+                <article className="selected-offer-panel">
+                  <div>
+                    <p className="eyebrow">Action retenue</p>
+                    <h3>
+                      {selectedOffer.provider} - {selectedOffer.offer}
+                    </h3>
+                    <p>
+                      Cout annualise estime: {formatMoney(selectedOffer.annualCostEur)}.
+                      Gain annuel: {formatSaving(selectedOffer.annualSavingEur)}.
+                    </p>
+                  </div>
+                  <ul className="signal-list">
+                    {selectedOffer.notes.map((note) => (
+                      <li key={note}>{note}</li>
+                    ))}
+                  </ul>
+                </article>
+              ) : null}
+            </>
+          ) : (
+            <p className="placeholder-copy">
+              Les cartes de decision s'activent des qu'une facture compatible est analysee.
+            </p>
+          )}
         </section>
 
-        <section className="panel">
-          <div className="panel-heading">
+        <section id="observatoire" className="observatory glass-panel">
+          <div className="section-head">
             <div>
-              <p className="eyebrow">Flow agentique</p>
-              <h2>Simple, mais journalise</h2>
+              <p className="eyebrow">Observatoire prix</p>
+              <h2>Oui, il y a maintenant une vraie page stylisee d'evolution des prix</h2>
             </div>
           </div>
-          <ol className="step-list">
-            {flowSteps.map((step) => (
-              <li key={step}>{step}</li>
-            ))}
-          </ol>
+
+          {analysis ? (
+            <>
+              <PriceTrendChart
+                series={analysis.observatory}
+                highlightedId={highlightedSeriesId}
+                onHighlight={setHighlightedSeriesId}
+              />
+              <div className="observatory-metrics">
+                {analysis.observatory.map((series) => (
+                  <article key={series.id} className="mini-stat">
+                    <span>{series.label}</span>
+                    <strong>{series.currentPrice.toFixed(2)} EUR</strong>
+                    <small>
+                      30 jours: {series.delta30d > 0 ? "+" : ""}
+                      {series.delta30d.toFixed(0)} EUR
+                    </small>
+                  </article>
+                ))}
+              </div>
+            </>
+          ) : (
+            <p className="placeholder-copy">
+              L'observatoire se centre automatiquement sur la verticale du document importe.
+            </p>
+          )}
         </section>
 
-        <section id="tests" className="panel panel-large">
-          <div className="panel-heading">
+        <section className="action-center glass-panel">
+          <div className="section-head">
             <div>
-              <p className="eyebrow">Test process</p>
-              <h2>Ce qu'il faut verifier avant d'aller plus loin</h2>
+              <p className="eyebrow">Execution</p>
+              <h2>Mandat, approbation, puis centre d'action</h2>
             </div>
           </div>
-          <div className="test-grid">
-            {testCases.map((testCase) => (
-              <article key={testCase.title} className="test-card">
-                <h3>{testCase.title}</h3>
-                <p>{testCase.detail}</p>
-              </article>
-            ))}
+
+          {analysis ? (
+            <>
+              <div className="cta-row">
+                <button type="button" className="button button-primary" onClick={handleApprovePlan}>
+                  Approuver la meilleure action
+                </button>
+                <button
+                  type="button"
+                  className="button button-secondary"
+                  onClick={() => {
+                    void handleExecutePlan();
+                  }}
+                  disabled={workflowStatus !== "approved"}
+                >
+                  Executer le plan
+                </button>
+              </div>
+              <div className="action-list">
+                {actionPlan.map((step) => (
+                  <article key={step.title} className={step.status === "done" ? "action-step is-done" : "action-step"}>
+                    <span className="status-dot" />
+                    <div>
+                      <h3>{step.title}</h3>
+                      <p>{step.detail}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </>
+          ) : (
+            <p className="placeholder-copy">
+              Le centre d'action s'ouvre une fois le contrat compris.
+            </p>
+          )}
+        </section>
+
+        <section className="audit-panel glass-panel">
+          <div className="section-head">
+            <div>
+              <p className="eyebrow">Audit trail</p>
+              <h2>Chaque etape laisse une preuve horodatee</h2>
+            </div>
           </div>
+          {runtimeAudit.length > 0 ? (
+            <div className="audit-list">
+              {runtimeAudit.map((entry) => (
+                <article key={`${entry.timestampLabel}-${entry.title}`} className="audit-entry">
+                  <span>{entry.timestampLabel}</span>
+                  <div>
+                    <h3>{entry.title}</h3>
+                    <p>{entry.detail}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <p className="placeholder-copy">
+              L'historique se remplit a mesure que le flow avance.
+            </p>
+          )}
         </section>
       </main>
     </div>

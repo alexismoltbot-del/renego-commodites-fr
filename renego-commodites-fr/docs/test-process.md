@@ -10,6 +10,39 @@ npm run dev
 
 Le front tourne ensuite sur `http://127.0.0.1:4173`.
 
+## Test facture Free fourni
+
+### 1. Test de parsing CLI
+
+```bash
+cd /Users/alexis/Documents/Playground/renego-commodites-fr
+npm run test:invoice -- "/Users/alexis/Downloads/Facture Free 2026-03.pdf"
+```
+
+Attendus:
+
+- facture `1452905043`;
+- offre `Abonnement Freebox Revolution avec TV by CANAL`;
+- montant `39,99 EUR`;
+- adresse `132 AVENUE ACHILLE PERETTI, 92200 NEUILLY SUR SEINE`;
+- recommandation prioritaire `Garder et renegocier`.
+
+### 2. Test E2E navigateur
+
+```bash
+cd /Users/alexis/Documents/Playground/renego-commodites-fr
+RENEGO_TEST_PDF="/Users/alexis/Downloads/Facture Free 2026-03.pdf" npm run test:e2e
+```
+
+Ce test couvre:
+
+- upload du PDF;
+- affichage du dossier extrait;
+- activation du mandat;
+- approbation du plan;
+- execution du flow;
+- apparition de la preuve finale `DOSSIER-1452905043-RETENTION`.
+
 ## Tests manuels MVP
 
 ### 1. Smoke test

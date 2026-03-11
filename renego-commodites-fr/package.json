@@ -6,11 +6,16 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.node.json --noEmit && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:invoice": "tsx scripts/testInvoice.ts",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
+    "@playwright/test": "^1.58.2",
+    "pdfjs-dist": "^5.5.207",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "tsx": "^4.21.0"
   },
   "devDependencies": {
     "@types/react": "^19.1.13",

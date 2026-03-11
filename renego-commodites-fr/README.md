@@ -21,6 +21,14 @@ Hypothèses réglementaires et sources vérifiées le 11 mars 2026 dans [`docs/s
 
 Le dossier contient maintenant un prototype front en React + Vite.
 
+Le front sait maintenant:
+
+- importer une facture Freebox PDF native;
+- extraire localement les champs critiques;
+- construire un dossier de retention vs switch;
+- afficher un observatoire prix stylise sur la verticale box internet;
+- executer un flow UX complet avec mandat, approbation et audit trail local.
+
 Lancement:
 
 ```bash
@@ -33,7 +41,14 @@ URL locale:
 
 - `http://127.0.0.1:4173`
 
-Ce front n'appelle pas encore de backend. Il simule le produit avec des donnees representant les principales verticales et les garde-fous du service.
+Commandes de test:
+
+```bash
+npm run test:invoice -- "/Users/alexis/Downloads/Facture Free 2026-03.pdf"
+RENEGO_TEST_PDF="/Users/alexis/Downloads/Facture Free 2026-03.pdf" npm run test:e2e
+```
+
+Le parseur PDF et le centre d'action fonctionnent localement. Les actions operateur restent simulees dans ce MVP.
 
 ## Tranchages de départ
 
