@@ -13,8 +13,27 @@ Hypothèses réglementaires et sources vérifiées le 11 mars 2026 dans [`docs/s
 - [`docs/regulatory-notes.md`](./docs/regulatory-notes.md): contraintes France et implications produit.
 - [`docs/data-sources.md`](./docs/data-sources.md): sources de données et stratégie de veille tarifaire.
 - [`docs/roadmap.md`](./docs/roadmap.md): plan d'exécution en phases.
+- [`docs/test-process.md`](./docs/test-process.md): lancement local et recette manuelle.
 - [`docs/sources.md`](./docs/sources.md): sources officielles utilisées.
 - [`schema.sql`](./schema.sql): premier modèle de données PostgreSQL.
+
+## Front local
+
+Le dossier contient maintenant un prototype front en React + Vite.
+
+Lancement:
+
+```bash
+cd /Users/alexis/Documents/Playground/renego-commodites-fr
+npm install
+npm run dev
+```
+
+URL locale:
+
+- `http://127.0.0.1:4173`
+
+Ce front n'appelle pas encore de backend. Il simule le produit avec des donnees representant les principales verticales et les garde-fous du service.
 
 ## Tranchages de départ
 
