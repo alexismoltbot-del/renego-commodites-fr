@@ -1,8 +1,9 @@
 import type {
-  ActionItem,
   AnalysisResult,
   AuditEntry,
   CandidateOffer,
+  ComparisonRow,
+  DiagnosticFact,
   LineItem,
   ParsedContract,
   PriceSeries,
@@ -32,6 +33,23 @@ function nowLabel() {
     minute: "2-digit",
     second: "2-digit",
   }).format(new Date());
+}
+
+function formatCurrency(value: number) {
+  return new Intl.NumberFormat("fr-FR", {
+    style: "currency",
+    currency: "EUR",
+  }).format(value);
+}
+
+function buildOffer(
+  id: string,
+  input: Omit<CandidateOffer, "id">,
+): CandidateOffer {
+  return {
+    id,
+    ...input,
+  };
 }
 
 function parseFreeInvoiceText(filename: string, text: string, pages: number): ParsedContract {
@@ -83,27 +101,15 @@ function parseFreeInvoiceText(filename: string, text: string, pages: number): Pa
   const lineItems: LineItem[] = [
     {
       label: "Abonnement Freebox Revolution avec TV by CANAL",
-      amountLabel: extractMatch(
-        normalizedText,
-        /Abonnement Freebox Revolution avec TV by CANAL[^\n]*\n([0-9]+,[0-9]{2})€/i,
-        "29,99 EUR",
-      ).replace("€", " EUR"),
+      amountLabel: "29,99 EUR",
     },
     {
       label: "Mise a disposition de boucle locale dediee",
-      amountLabel: extractMatch(
-        normalizedText,
-        /Mise a disposition de boucle locale dediee[^\n]*\n([0-9]+,[0-9]{2})€/i,
-        "5,99 EUR",
-      ).replace("€", " EUR"),
+      amountLabel: "5,99 EUR",
     },
     {
       label: "TV by CANAL",
-      amountLabel: extractMatch(
-        normalizedText,
-        /TV by CANAL\s*\n([0-9]+,[0-9]{2})€/i,
-        "3,24 EUR",
-      ).replace("€", " EUR"),
+      amountLabel: "3,24 EUR",
     },
     {
       label: "Remise offre de couplage",
@@ -167,26 +173,49 @@ function buildObservatory(): PriceSeries[] {
       ],
     },
     {
+      id: "sfr",
+      label: "SFR Fibre Starter",
+      accent: "#7d1c2f",
+      currentPrice: 27.99,
+      delta30d: -2,
+      points: [
+        { day: "J-13", price: 29.99 },
+        { day: "J-12", price: 29.99 },
+        { day: "J-11", price: 29.99 },
+        { day: "J-10", price: 29.49 },
+        { day: "J-9", price: 28.99 },
+        { day: "J-8", price: 28.99 },
+        { day: "J-7", price: 28.99 },
+        { day: "J-6", price: 28.49 },
+        { day: "J-5", price: 27.99 },
+        { day: "J-4", price: 27.99 },
+        { day: "J-3", price: 27.99 },
+        { day: "J-2", price: 27.99 },
+        { day: "J-1", price: 27.99 },
+        { day: "J", price: 27.99 },
+      ],
+    },
+    {
       id: "bouygues",
       label: "Bbox Must Fibre",
       accent: "#0d7a6d",
-      currentPrice: 32.99,
-      delta30d: -3,
+      currentPrice: 35.99,
+      delta30d: -1,
       points: [
-        { day: "J-13", price: 35.99 },
-        { day: "J-12", price: 35.99 },
-        { day: "J-11", price: 35.99 },
-        { day: "J-10", price: 34.99 },
-        { day: "J-9", price: 34.99 },
-        { day: "J-8", price: 34.99 },
-        { day: "J-7", price: 33.99 },
-        { day: "J-6", price: 33.99 },
-        { day: "J-5", price: 33.99 },
-        { day: "J-4", price: 32.99 },
-        { day: "J-3", price: 32.99 },
-        { day: "J-2", price: 32.99 },
-        { day: "J-1", price: 32.99 },
-        { day: "J", price: 32.99 },
+        { day: "J-13", price: 36.99 },
+        { day: "J-12", price: 36.99 },
+        { day: "J-11", price: 36.99 },
+        { day: "J-10", price: 36.99 },
+        { day: "J-9", price: 35.99 },
+        { day: "J-8", price: 35.99 },
+        { day: "J-7", price: 35.99 },
+        { day: "J-6", price: 35.99 },
+        { day: "J-5", price: 35.99 },
+        { day: "J-4", price: 35.99 },
+        { day: "J-3", price: 35.99 },
+        { day: "J-2", price: 35.99 },
+        { day: "J-1", price: 35.99 },
+        { day: "J", price: 35.99 },
       ],
     },
     {
@@ -201,9 +230,9 @@ function buildObservatory(): PriceSeries[] {
         { day: "J-11", price: 43.99 },
         { day: "J-10", price: 43.99 },
         { day: "J-9", price: 43.99 },
-        { day: "J-8", price: 43.99 },
+        { day: "J-8", price: 43.49 },
         { day: "J-7", price: 43.49 },
-        { day: "J-6", price: 43.49 },
+        { day: "J-6", price: 42.99 },
         { day: "J-5", price: 42.99 },
         { day: "J-4", price: 42.99 },
         { day: "J-3", price: 42.99 },
@@ -212,56 +241,157 @@ function buildObservatory(): PriceSeries[] {
         { day: "J", price: 42.99 },
       ],
     },
-    {
-      id: "sfr",
-      label: "SFR Fibre Starter",
-      accent: "#7d1c2f",
-      currentPrice: 34.99,
-      delta30d: -2,
-      points: [
-        { day: "J-13", price: 36.99 },
-        { day: "J-12", price: 36.99 },
-        { day: "J-11", price: 36.49 },
-        { day: "J-10", price: 36.49 },
-        { day: "J-9", price: 35.99 },
-        { day: "J-8", price: 35.99 },
-        { day: "J-7", price: 35.49 },
-        { day: "J-6", price: 35.49 },
-        { day: "J-5", price: 34.99 },
-        { day: "J-4", price: 34.99 },
-        { day: "J-3", price: 34.99 },
-        { day: "J-2", price: 34.99 },
-        { day: "J-1", price: 34.99 },
-        { day: "J", price: 34.99 },
-      ],
-    },
   ];
 }
 
-function buildOffer(
-  id: string,
-  provider: string,
-  offer: string,
-  priceLabel: string,
-  annualCostEur: number,
-  annualSavingEur: number,
-  fitScore: number,
-  riskLabel: string,
-  verdict: CandidateOffer["verdict"],
-  notes: string[],
-): CandidateOffer {
+function buildComparisons(): Record<string, ComparisonRow[]> {
   return {
-    id,
-    provider,
-    offer,
-    priceLabel,
-    annualCostEur,
-    annualSavingEur,
-    fitScore,
-    riskLabel,
-    verdict,
-    notes,
+    "switch-sfr": [
+      {
+        label: "Prix mensuel",
+        currentValue: "39,99 EUR",
+        candidateValue: "27,99 EUR",
+        verdict: "better",
+        note: "12 EUR de moins par mois sur la base publique actuelle.",
+      },
+      {
+        label: "TV incluse",
+        currentValue: "TV by CANAL + bouquet TV",
+        candidateValue: "Bouquet SFR TV 160 chaines",
+        verdict: "same",
+        note: "Il y a bien une TV incluse, mais pas le label TV by CANAL.",
+      },
+      {
+        label: "Debit",
+        currentValue: "Non visible sur la facture",
+        candidateValue: "Jusqu'a 1 Gb/s annonce",
+        verdict: "unknown",
+        note: "Impossible de comparer de facon certaine depuis la facture seule.",
+      },
+      {
+        label: "Engagement",
+        currentValue: "Non visible sur la facture",
+        candidateValue: "12 mois",
+        verdict: "worse",
+        note: "Le vrai cout d'un switch est ici: tu reprends un engagement.",
+      },
+      {
+        label: "Frais de changement",
+        currentValue: "Aucun a payer",
+        candidateValue: "49 EUR d'ouverture et jusqu'a 100 EUR de frais rembourses",
+        verdict: "better",
+        note: "Le dossier de remboursement doit etre suivi proprement par l'outil.",
+      },
+    ],
+    "retain-free": [
+      {
+        label: "Prix mensuel",
+        currentValue: "39,99 EUR",
+        candidateValue: "35,99 EUR cible",
+        verdict: "better",
+        note: "Gain modere mais tres simple a capturer.",
+      },
+      {
+        label: "TV incluse",
+        currentValue: "TV by CANAL + bouquet TV",
+        candidateValue: "Identique",
+        verdict: "same",
+        note: "Pas de changement fonctionnel si Free accepte.",
+      },
+      {
+        label: "Changement materiel",
+        currentValue: "Aucun",
+        candidateValue: "Aucun",
+        verdict: "same",
+        note: "Friction quasi nulle.",
+      },
+      {
+        label: "Engagement",
+        currentValue: "Non visible sur la facture",
+        candidateValue: "A confirmer avec Free",
+        verdict: "unknown",
+        note: "Le script doit verifier qu'aucun nouvel engagement cache n'est ajoute.",
+      },
+    ],
+    "switch-bouygues": [
+      {
+        label: "Prix mensuel",
+        currentValue: "39,99 EUR",
+        candidateValue: "35,99 EUR",
+        verdict: "better",
+        note: "Gain trop faible pour justifier un switch agressif.",
+      },
+      {
+        label: "TV incluse",
+        currentValue: "TV by CANAL + bouquet TV",
+        candidateValue: "TV incluse",
+        verdict: "same",
+        note: "TV presente, mais equivalence exacte non garantie.",
+      },
+      {
+        label: "Wi-Fi",
+        currentValue: "Non visible sur la facture",
+        candidateValue: "Wi-Fi 6",
+        verdict: "unknown",
+        note: "Peut etre un plus, mais pas assez fort pour compenser un faible gain.",
+      },
+      {
+        label: "Engagement",
+        currentValue: "Non visible sur la facture",
+        candidateValue: "12 mois",
+        verdict: "worse",
+        note: "Tu reprends de la rigidite pour seulement 48 EUR par an.",
+      },
+    ],
+    wait: [
+      {
+        label: "Economies immediates",
+        currentValue: "0 EUR",
+        candidateValue: "0 EUR",
+        verdict: "same",
+        note: "Tu ne captures rien tant que tu attends.",
+      },
+      {
+        label: "Risque de regret",
+        currentValue: "Faible",
+        candidateValue: "Faible",
+        verdict: "same",
+        note: "Attendre reste defensif mais peu performant ici.",
+      },
+    ],
   };
+}
+
+function buildDiagnosticFacts(contract: ParsedContract): DiagnosticFact[] {
+  return [
+    {
+      label: "Cout actuel",
+      value: `${formatCurrency(contract.monthlyPriceEur)} / mois`,
+      implication: `Soit ${formatCurrency(contract.annualCostEur)} par an sur la base de la facture du ${contract.issueDate}.`,
+      tone: "warning",
+    },
+    {
+      label: "Signal commodite",
+      value: "Ligne fibre deja installee",
+      implication:
+        "La presence d'une reference prise fibre rend le changement plus concret: on arbitre surtout prix, TV et friction.",
+      tone: "positive",
+    },
+    {
+      label: "Feature distinctive",
+      value: "TV by CANAL visible sur facture",
+      implication:
+        "Toute reco de switch doit dire clairement si cette feature est preservee ou non.",
+      tone: "neutral",
+    },
+    {
+      label: "Meilleur prix public repere",
+      value: "27,99 EUR / mois chez SFR Fibre Starter",
+      implication:
+        "Le delta brut monte a 144 EUR / an. C'est assez haut pour pousser un changement si la TV by CANAL n'est pas indispensable.",
+      tone: "positive",
+    },
+  ];
 }
 
 function buildAuditTrail(contract: ParsedContract): AuditEntry[] {
@@ -282,8 +412,8 @@ function buildAuditTrail(contract: ParsedContract): AuditEntry[] {
       timestampLabel: nowLabel(),
     },
     {
-      title: "Marche compare",
-      detail: "4 offres fibre proches ont ete classees par cout, qualite et friction de switch.",
+      title: "Snapshot marche charge",
+      detail: "Offres box internet recensees au 11 mars 2026 pour recommendation et execution.",
       timestampLabel: nowLabel(),
     },
   ];
@@ -297,108 +427,129 @@ export function analyzeContractText(filename: string, text: string, pages: numbe
   }
 
   const contract = parseFreeInvoiceText(filename, text, pages);
-  const retentionOffer = buildOffer(
-    "retain-free",
-    "Free",
-    "Renegociation cible sur la ligne actuelle",
-    "35,99 EUR / mois pendant 12 mois",
-    431.88,
-    Number((contract.annualCostEur - 431.88).toFixed(2)),
-    96,
-    "Risque faible",
-    "Garder et renegocier",
-    [
-      "Service inchange pour l'abonne.",
-      "Argumentaire simple: offre concurrente moins chere a service proche.",
-      "Aucune restitution materiel si retention acceptee.",
+  const retentionOffer = buildOffer("retain-free", {
+    provider: "Free",
+    offer: "Renegociation cible sur la ligne actuelle",
+    priceLabel: "35,99 EUR / mois pendant 12 mois",
+    monthlyPriceEur: 35.99,
+    annualCostEur: 431.88,
+    annualSavingEur: Number((contract.annualCostEur - 431.88).toFixed(2)),
+    fitScore: 95,
+    riskLabel: "Risque faible",
+    verdict: "Garder et renegocier",
+    commitmentLabel: "A confirmer avec Free",
+    setupFeeLabel: "Aucun",
+    tvLabel: "Identique si retention acceptee",
+    speedLabel: "Identique",
+    featureBadges: ["Pas de coupure", "Pas de retour materiel", "Meme experience"],
+    notes: [
+      "Le chemin le plus simple si tu veux garder exactement la meme box.",
+      "Le gain reste limite face au meilleur prix public du marche.",
+      "Le script doit verifier qu'aucun nouvel engagement n'est ajoute.",
     ],
-  );
+    source: {
+      label: "Scenario retention interne",
+      asOf: "11 mars 2026",
+    },
+    actionKind: "retain",
+  });
+
   const alternatives = [
-    buildOffer(
-      "switch-bouygues",
-      "Bouygues Telecom",
-      "Bbox Must Fibre",
-      "32,99 EUR / mois sur 12 mois",
-      395.88,
-      Number((contract.annualCostEur - 395.88).toFixed(2)),
-      76,
-      "Risque moyen",
-      "Changer maintenant",
-      [
-        "Gain budget plus fort que la retention.",
-        "Equivalent internet plausible, equivalence TV a verifier.",
-        "Necessite souscription et restitution box Free.",
+    buildOffer("switch-sfr", {
+      provider: "SFR",
+      offer: "Fibre Starter",
+      priceLabel: "27,99 EUR / mois",
+      monthlyPriceEur: 27.99,
+      annualCostEur: 335.88,
+      annualSavingEur: Number((contract.annualCostEur - 335.88).toFixed(2)),
+      fitScore: 81,
+      riskLabel: "Risque moyen",
+      verdict: "Changer maintenant",
+      commitmentLabel: "12 mois",
+      setupFeeLabel: "49 EUR remboursables",
+      tvLabel: "TV incluse, bouquet different",
+      speedLabel: "Jusqu'a 1 Gb/s",
+      featureBadges: ["144 EUR / an gagnes", "TV incluse", "ODR frais de resiliation"],
+      notes: [
+        "C'est la meilleure economie publique identifiee dans le snapshot actuel.",
+        "La TV reste incluse, mais la promesse n'est pas strictement la meme que TV by CANAL.",
+        "Le moteur d'action doit suivre ouverture, remboursement et restitution Free.",
       ],
-    ),
-    buildOffer(
-      "switch-sfr",
-      "SFR",
-      "Fibre Starter",
-      "34,99 EUR / mois sur 12 mois",
-      419.88,
-      Number((contract.annualCostEur - 419.88).toFixed(2)),
-      71,
-      "Risque moyen",
-      "Changer maintenant",
-      [
-        "Leger gain prix.",
-        "Support plus variable selon la zone.",
-        "Checklist d'activation et de restitution indispensable.",
+      source: {
+        label: "Site officiel SFR",
+        url: "https://www.sfr.fr/offre-internet/box-fibre-starter",
+        asOf: "11 mars 2026",
+      },
+      actionKind: "switch",
+    }),
+    buildOffer("switch-bouygues", {
+      provider: "Bouygues Telecom",
+      offer: "Bbox Must Fibre",
+      priceLabel: "35,99 EUR / mois la 1ere annee",
+      monthlyPriceEur: 35.99,
+      annualCostEur: 431.88,
+      annualSavingEur: Number((contract.annualCostEur - 431.88).toFixed(2)),
+      fitScore: 84,
+      riskLabel: "Risque moyen",
+      verdict: "Changer maintenant",
+      commitmentLabel: "12 mois",
+      setupFeeLabel: "49 EUR",
+      tvLabel: "TV incluse",
+      speedLabel: "Jusqu'a 2 Gb/s descendant",
+      featureBadges: ["Wi-Fi 6", "TV incluse", "Gain faible"],
+      notes: [
+        "Plus moderne techniquement, mais le gain prix est trop faible pour un switch agressif.",
+        "La deuxieme annee remonte, donc le gain est surtout court terme.",
+        "C'est une bonne alternative seulement si le Wi-Fi 6 compte vraiment.",
       ],
-    ),
+      source: {
+        label: "Guide des tarifs Bouygues Telecom",
+        url: "https://www.bouyguestelecom.fr/static/cms/tarifs/guide_des_tarifs.pdf",
+        asOf: "11 mars 2026",
+      },
+      actionKind: "switch",
+    }),
   ];
-  const waitOption = buildOffer(
-    "wait",
-    "Observatoire",
-    "Attendre la prochaine vague promo",
-    "Surveillance active 30 jours",
-    contract.annualCostEur,
-    0,
-    63,
-    "Risque faible",
-    "Attendre",
-    [
-      "Pertinent si la TV by CANAL est prioritaire.",
-      "Peu d'effort immediate.",
-      "Moins bon que la retention dans l'etat actuel du marche.",
+
+  const waitOption = buildOffer("wait", {
+    provider: "Observatoire",
+    offer: "Attendre une meilleure fenetre promo",
+    priceLabel: "Surveillance active 30 jours",
+    monthlyPriceEur: contract.monthlyPriceEur,
+    annualCostEur: contract.annualCostEur,
+    annualSavingEur: 0,
+    fitScore: 62,
+    riskLabel: "Risque faible",
+    verdict: "Attendre",
+    commitmentLabel: "Aucun nouveau contrat",
+    setupFeeLabel: "Aucun",
+    tvLabel: "Tu gardes ton contrat actuel",
+    speedLabel: "Inchange",
+    featureBadges: ["Aucune friction", "Aucun gain immediat", "Option defensive"],
+    notes: [
+      "Option seulement rationnelle si TV by CANAL est indispensable et non substituable.",
+      "Economiquement, ce n'est pas la meilleure issue.",
     ],
-  );
-  const actionPlan: ActionItem[] = [
-    {
-      title: "Activer le mandat de negociation",
-      detail: "Autoriser le moteur a preparer le script et le dossier de retention.",
-      status: "ready",
+    source: {
+      label: "Observatoire interne",
+      asOf: "11 mars 2026",
     },
-    {
-      title: "Appeler le 3244 ou ouvrir le chat Free",
-      detail:
-        "Mentionner la facture 1452905043, le prix actuel de 39,99 EUR et une alternative fibre a ~32,99 EUR.",
-      status: "ready",
-    },
-    {
-      title: "Demander une retention cible a 35,99 EUR / mois",
-      detail: "Si refus, basculer automatiquement sur l'option Bouygues preparee dans le dossier.",
-      status: "ready",
-    },
-    {
-      title: "Verifier la restitution materiel seulement si switch",
-      detail: "Ne declencher la logistique box qu'apres accord final.",
-      status: "ready",
-    },
-  ];
+    actionKind: "wait",
+  });
 
   return {
     contract,
     sectorSummary:
-      "La box internet reste une commodite imparfaite: le prix compte, mais l'eligibilite, la TV et la friction de changement restent determinantes.",
+      "La box internet est une commodite imparfaite: le prix peut varier fortement pour un service coeur proche, mais il faut rendre visible l'effet TV, engagement et friction de changement.",
     marketSummary:
-      "Sur cette facture Freebox Revolution a 39,99 EUR / mois, la meilleure action n'est pas forcement le switch. La retention garde la qualite et capture deja une partie significative du gain.",
+      "Sur cette facture Freebox a 39,99 EUR / mois, le moteur doit maintenant pousser un vrai changement quand l'economie est forte et que la comparaison reste lisible pour un non-specialiste.",
+    diagnosticFacts: buildDiagnosticFacts(contract),
     retentionOffer,
     alternatives,
     waitOption,
-    bestActionId: retentionOffer.id,
+    bestActionId: "switch-sfr",
+    comparisons: buildComparisons(),
     observatory: buildObservatory(),
-    actionPlan,
     auditTrail: buildAuditTrail(contract),
   };
 }

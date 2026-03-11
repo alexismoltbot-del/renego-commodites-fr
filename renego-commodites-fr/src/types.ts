@@ -42,23 +42,63 @@ export type ParsedContract = {
   lineItems: LineItem[];
 };
 
+export type OfferSource = {
+  label: string;
+  url?: string;
+  asOf: string;
+};
+
 export type CandidateOffer = {
   id: string;
   provider: string;
   offer: string;
   priceLabel: string;
+  monthlyPriceEur: number;
   annualCostEur: number;
   annualSavingEur: number;
   fitScore: number;
   riskLabel: string;
   verdict: "Garder et renegocier" | "Changer maintenant" | "Attendre";
+  commitmentLabel: string;
+  setupFeeLabel: string;
+  tvLabel: string;
+  speedLabel: string;
+  featureBadges: string[];
   notes: string[];
+  source: OfferSource;
+  actionKind: "retain" | "switch" | "wait";
 };
 
-export type ActionItem = {
+export type DiagnosticFact = {
+  label: string;
+  value: string;
+  implication: string;
+  tone: "positive" | "neutral" | "warning";
+};
+
+export type ComparisonRow = {
+  label: string;
+  currentValue: string;
+  candidateValue: string;
+  verdict: "better" | "same" | "worse" | "unknown";
+  note: string;
+};
+
+export type ActionTask = {
+  id: string;
   title: string;
   detail: string;
-  status: "ready" | "done";
+  owner: "outil" | "utilisateur" | "operateur";
+  channel: string;
+  proof: string;
+  automation: "auto" | "assistee" | "manuelle";
+  status: "ready" | "waiting_user" | "waiting_provider" | "done";
+};
+
+export type ActionSection = {
+  title: string;
+  summary: string;
+  steps: ActionTask[];
 };
 
 export type AuditEntry = {
@@ -81,15 +121,45 @@ export type PriceSeries = {
   points: PricePoint[];
 };
 
+export type DecisionDirection = "change_now" | "renegotiate_now" | "wait_watch";
+
+export type DecisionMemo = {
+  engineMode: "heuristic" | "gpt-5.4" | "claude-opus-4-1";
+  modelLabel: string;
+  generatedAt: string;
+  direction: DecisionDirection;
+  headline: string;
+  recommendationLabel: string;
+  urgencyLabel: string;
+  confidenceLabel: string;
+  explanationForUser: string;
+  whyThisChoice: string[];
+  pushReason?: string;
+  selectedOfferId: string;
+  selectedComparison: ComparisonRow[];
+  gainSummary: {
+    currentAnnualCostLabel: string;
+    selectedAnnualCostLabel: string;
+    annualSavingLabel: string;
+    savingPercentLabel: string;
+    firstYearDeltaLabel: string;
+    pushChange: boolean;
+  };
+  executionSections: ActionSection[];
+  nextBestAlternativeId?: string;
+};
+
 export type AnalysisResult = {
   contract: ParsedContract;
   sectorSummary: string;
   marketSummary: string;
+  diagnosticFacts: DiagnosticFact[];
   retentionOffer: CandidateOffer;
   alternatives: CandidateOffer[];
   waitOption: CandidateOffer;
   bestActionId: string;
+  comparisons: Record<string, ComparisonRow[]>;
   observatory: PriceSeries[];
-  actionPlan: ActionItem[];
   auditTrail: AuditEntry[];
+  decisionMemo?: DecisionMemo;
 };

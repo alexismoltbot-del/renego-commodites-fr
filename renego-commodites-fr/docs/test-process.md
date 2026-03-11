@@ -8,7 +8,7 @@ npm install
 npm run dev
 ```
 
-Le front tourne ensuite sur `http://127.0.0.1:4173`.
+Le front tourne ensuite sur `http://127.0.0.1:4173` et l'API locale sur `http://127.0.0.1:8787`.
 
 ## Test facture Free fourni
 
@@ -39,9 +39,16 @@ Ce test couvre:
 - upload du PDF;
 - affichage du dossier extrait;
 - activation du mandat;
-- approbation du plan;
-- execution du flow;
-- apparition de la preuve finale `DOSSIER-1452905043-RETENTION`.
+- approbation de la decision;
+- mise en place du flow;
+- verification du moteur d'action et de l'observatoire.
+
+### 3. QA complete
+
+```bash
+cd /Users/alexis/Documents/Playground/renego-commodites-fr
+npm run test:qa
+```
 
 ## Tests manuels MVP
 

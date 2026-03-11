@@ -1,12 +1,14 @@
 import { startTransition, useState } from "react";
 import { PriceTrendChart } from "./components/PriceTrendChart";
 import { analyzeContractText } from "./lib/contractAnalysis";
-import { formatMoney, formatSaving, formatScore } from "./lib/format";
+import { fetchDecisionMemo } from "./lib/api";
+import { formatSaving, formatScore } from "./lib/format";
 import { extractPdfText } from "./lib/pdf";
 import type {
-  ActionItem,
+  ActionSection,
   AnalysisResult,
   AuditEntry,
+  DecisionMemo,
   WorkflowStatus,
 } from "./types";
 
@@ -32,45 +34,82 @@ function flattenOffers(result: AnalysisResult) {
   return [result.retentionOffer, ...result.alternatives, result.waitOption];
 }
 
+function countSteps(sections: ActionSection[]) {
+  const allSteps = sections.flatMap((section) => section.steps);
+  const done = allSteps.filter((step) => step.status === "done").length;
+  return { done, total: allSteps.length };
+}
+
+function applyExecution(sections: ActionSection[]) {
+  return sections.map((section) => ({
+    ...section,
+    steps: section.steps.map((step) => {
+      if (step.owner === "outil" && step.status === "ready") {
+        return { ...step, status: "done" as const };
+      }
+
+      return step;
+    }),
+  }));
+}
+
 export default function App() {
   const [workflowStatus, setWorkflowStatus] = useState<WorkflowStatus>("idle");
   const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
-  const [selectedOfferId, setSelectedOfferId] = useState<string>("");
+  const [decisionMemo, setDecisionMemo] = useState<DecisionMemo | null>(null);
+  const [inspectedOfferId, setInspectedOfferId] = useState<string>("");
   const [highlightedSeriesId, setHighlightedSeriesId] = useState<string>("free");
   const [mandateEnabled, setMandateEnabled] = useState(false);
   const [runtimeAudit, setRuntimeAudit] = useState<AuditEntry[]>([]);
-  const [actionPlan, setActionPlan] = useState<ActionItem[]>([]);
+  const [executionSections, setExecutionSections] = useState<ActionSection[]>([]);
   const [executionMessage, setExecutionMessage] = useState(
-    "Charge une facture pour ouvrir un dossier operable.",
+    "Charge une facture pour obtenir un diagnostic et un plan d'execution.",
   );
   const [errorMessage, setErrorMessage] = useState("");
 
   const availableOffers = analysis ? flattenOffers(analysis) : [];
-  const selectedOffer =
-    availableOffers.find((offer) => offer.id === selectedOfferId) ?? null;
+  const recommendedOffer =
+    availableOffers.find((offer) => offer.id === decisionMemo?.selectedOfferId) ?? null;
+  const inspectedOffer =
+    availableOffers.find((offer) => offer.id === inspectedOfferId) ?? recommendedOffer;
+  const inspectedComparisonRows =
+    analysis && inspectedOffer ? analysis.comparisons[inspectedOffer.id] ?? [] : [];
+  const actionProgress = countSteps(executionSections);
 
   async function handleFileUpload(file: File) {
     setErrorMessage("");
     setWorkflowStatus("analyzing");
-    setExecutionMessage("Lecture du PDF et normalisation du contrat...");
+    setExecutionMessage("Lecture du PDF, diagnostic factuel et moteur de decision...");
     setRuntimeAudit([]);
     setAnalysis(null);
+    setDecisionMemo(null);
+    setExecutionSections([]);
 
     try {
-      await delay(180);
-      const extraction = await extractPdfText(file);
       await delay(120);
-      const result = analyzeContractText(file.name, extraction.text, extraction.pageCount);
+      const extraction = await extractPdfText(file);
+      const baseAnalysis = analyzeContractText(file.name, extraction.text, extraction.pageCount);
+      const memo = await fetchDecisionMemo(baseAnalysis);
 
       startTransition(() => {
-        setAnalysis(result);
-        setActionPlan(result.actionPlan);
-        setRuntimeAudit(result.auditTrail);
-        setSelectedOfferId(result.bestActionId);
-        setHighlightedSeriesId(result.observatory[0]?.id ?? "free");
+        const hydratedAnalysis = { ...baseAnalysis, decisionMemo: memo };
+        setAnalysis(hydratedAnalysis);
+        setDecisionMemo(memo);
+        setExecutionSections(memo.executionSections);
+        setInspectedOfferId(memo.selectedOfferId);
+        setHighlightedSeriesId(baseAnalysis.observatory[0]?.id ?? "free");
+        setRuntimeAudit([
+          buildRuntimeAuditEntry(
+            "Moteur de recommandation",
+            `Decision memo genere par ${memo.modelLabel}.`,
+          ),
+          ...baseAnalysis.auditTrail,
+        ]);
         setWorkflowStatus("ready");
         setExecutionMessage(
-          "Dossier pret: contrat compris, marche compare, retention preparee.",
+          memo.direction === "change_now"
+            ? "Diagnostic termine: le moteur recommande de changer maintenant."
+            : "Diagnostic termine: la meilleure action est prete.",
         );
       });
     } catch (error) {
@@ -83,67 +122,56 @@ export default function App() {
   }
 
   function handleApprovePlan() {
-    if (!analysis || !selectedOffer) {
+    if (!analysis || !decisionMemo || !recommendedOffer) {
       return;
     }
 
     if (!mandateEnabled) {
-      setErrorMessage("Active d'abord le mandat pour passer du conseil a l'action.");
+      setErrorMessage("Active d'abord le mandat pour passer du diagnostic a l'action.");
       return;
     }
 
     setErrorMessage("");
     setWorkflowStatus("approved");
     setExecutionMessage(
-      `Plan approuve: ${selectedOffer.verdict.toLowerCase()} avec ${selectedOffer.provider}.`,
+      `Plan approuve: ${decisionMemo.recommendationLabel.toLowerCase()} avec ${recommendedOffer.provider}.`,
     );
     setRuntimeAudit((entries) => [
       buildRuntimeAuditEntry(
         "Plan approuve",
-        `${selectedOffer.provider} - ${selectedOffer.offer} retenu comme prochaine action.`,
+        `${recommendedOffer.provider} - ${recommendedOffer.offer} retenu comme trajectoire principale.`,
       ),
       ...entries,
     ]);
   }
 
   async function handleExecutePlan() {
-    if (!analysis || !selectedOffer || workflowStatus !== "approved") {
+    if (!decisionMemo || workflowStatus !== "approved") {
       return;
     }
 
     setWorkflowStatus("executing");
-    setExecutionMessage("Execution du plan en cours...");
-    await delay(350);
-    setActionPlan((steps) =>
-      steps.map((step, index) => (index === 0 ? { ...step, status: "done" } : step)),
-    );
-    setRuntimeAudit((entries) => [
-      buildRuntimeAuditEntry("Mandat confirme", "Le dossier est autorise pour action assistee."),
-      ...entries,
-    ]);
-    await delay(350);
-    setActionPlan((steps) =>
-      steps.map((step, index) =>
-        index <= 2 ? { ...step, status: "done" } : step,
-      ),
-    );
+    setExecutionMessage("Mise en place de la decision et orchestration des etapes...");
+
+    await delay(250);
+    setExecutionSections((sections) => applyExecution(sections));
     setRuntimeAudit((entries) => [
       buildRuntimeAuditEntry(
-        "Script de negociation produit",
-        "Argumentaire retention pre-rempli avec le delta prix concurrent.",
+        "Automations outil lancees",
+        "Les taches internes prêtes ont ete executees ou pre-remplies.",
       ),
       ...entries,
     ]);
-    await delay(350);
-    setActionPlan((steps) => steps.map((step) => ({ ...step, status: "done" })));
+
+    await delay(250);
     setWorkflowStatus("completed");
     setExecutionMessage(
-      "Flow boucle: dossier qualifie, plan approuve, execution prete avec preuves et checklist.",
+      "Le moteur d'action est lance: les etapes outil sont en place, il reste seulement les validations utilisateur ou operateur.",
     );
     setRuntimeAudit((entries) => [
       buildRuntimeAuditEntry(
-        "Execution bouclee",
-        `Preuve locale creee: DOSSIER-${analysis.contract.invoiceNumber}-RETENTION.`,
+        "Mise en place bouclee",
+        `Execution structuree prete avec ${actionProgress.total} points de controle.`,
       ),
       ...entries,
     ]);
@@ -152,7 +180,7 @@ export default function App() {
   const progressSteps = [
     { label: "Import", done: workflowStatus !== "idle" && workflowStatus !== "error" },
     {
-      label: "Extraction",
+      label: "Diagnostic",
       done:
         workflowStatus === "ready" ||
         workflowStatus === "approved" ||
@@ -160,7 +188,7 @@ export default function App() {
         workflowStatus === "completed",
     },
     {
-      label: "Comparaison",
+      label: "Decision",
       done:
         workflowStatus === "ready" ||
         workflowStatus === "approved" ||
@@ -168,13 +196,16 @@ export default function App() {
         workflowStatus === "completed",
     },
     {
-      label: "Approbation",
+      label: "Validation",
       done:
         workflowStatus === "approved" ||
         workflowStatus === "executing" ||
         workflowStatus === "completed",
     },
-    { label: "Execution", done: workflowStatus === "completed" },
+    {
+      label: "Mise en place",
+      done: workflowStatus === "completed",
+    },
   ];
 
   return (
@@ -185,11 +216,11 @@ export default function App() {
       <header className="hero">
         <section className="hero-copy glass-panel">
           <p className="eyebrow">Renego Commodites FR</p>
-          <h1>Le dossier est maintenant operable sur une vraie facture Freebox.</h1>
+          <h1>Diagnostic clair, recommendation poussee, execution outillee.</h1>
           <p className="hero-text">
-            Upload PDF, extraction locale, equivalence marche, retention, centre
-            d'action, audit trail et observatoire prix. Le flow est calibre pour une
-            facture Freebox native comme celle fournie.
+            Le moteur lit la facture, calcule le vrai ecart de prix, compare les
+            features dans un langage simple, puis prepare la mise en place de la
+            decision. Si le gain est fort, il pousse explicitement le changement.
           </p>
           <div className="hero-actions">
             <label className="button button-primary uploader">
@@ -206,7 +237,7 @@ export default function App() {
               Importer une facture PDF
             </label>
             <a className="button button-secondary" href="#observatoire">
-              Voir l'evolution des prix
+              Voir l'observatoire prix
             </a>
           </div>
         </section>
@@ -224,16 +255,20 @@ export default function App() {
           </div>
           <div className="hero-signals">
             <article>
-              <span>PDF pris en charge</span>
-              <strong>Facture Freebox native</strong>
+              <span>Moteur courant</span>
+              <strong>{decisionMemo?.modelLabel ?? "En attente d'import"}</strong>
             </article>
             <article>
-              <span>Action cible</span>
-              <strong>{analysis ? analysis.retentionOffer.verdict : "En attente d'import"}</strong>
+              <span>Reco principale</span>
+              <strong>{decisionMemo?.recommendationLabel ?? "Aucune"}</strong>
             </article>
             <article>
-              <span>Observatoire prix</span>
-              <strong>Courbe 14 jours</strong>
+              <span>Action engine</span>
+              <strong>
+                {executionSections.length > 0
+                  ? `${actionProgress.done}/${actionProgress.total} etapes bouclees`
+                  : "En attente"}
+              </strong>
             </article>
           </div>
         </aside>
@@ -244,7 +279,7 @@ export default function App() {
           <div className="section-head">
             <div>
               <p className="eyebrow">Dossier</p>
-              <h2>Import, lecture facture, puis recommandation actionnable</h2>
+              <h2>Faits extraits de la facture et base objective du diagnostic</h2>
             </div>
             <label className="mandate-toggle">
               <input
@@ -258,15 +293,16 @@ export default function App() {
 
           {!analysis ? (
             <div className="empty-state">
-              <h3>Le flow complet demarre a l'import d'une facture.</h3>
+              <h3>Le moteur produit d'abord un constat factuel.</h3>
               <p>
-                Ce MVP detecte deja Freebox, extrait les champs critiques et construit
-                un plan retention vs switch.
+                Il ne classe pas seulement des prix: il montre les faits sortis du
+                PDF, l'ecart economique, les differences de features et la friction
+                d'execution.
               </p>
               <ul className="signal-list">
-                <li>n de facture, date, montant TTC, offre, email, adresse, identifiant.</li>
-                <li>Positionnement marche sur la verticale box internet.</li>
-                <li>Trois sorties: renegocier, changer maintenant, attendre.</li>
+                <li>Extraction contrat: montant, offre, email, adresse, identifiant.</li>
+                <li>Diagnostic: cout annuel, feature distinctive, delta marche.</li>
+                <li>Action engine: qui fait quoi, par quel canal, avec quelle preuve.</li>
               </ul>
             </div>
           ) : (
@@ -316,21 +352,25 @@ export default function App() {
               </article>
 
               <article className="card line-items-card">
-                <p className="eyebrow">Lecture facture</p>
-                <h3>Postes retenus dans le calcul</h3>
-                <div className="line-item-list">
-                  {analysis.contract.lineItems.map((item) => (
-                    <div key={`${item.label}-${item.amountLabel}`} className="line-item-row">
-                      <span>{item.label}</span>
-                      <strong className={item.tone === "positive" ? "tone-positive" : ""}>
-                        {item.amountLabel}
-                      </strong>
-                    </div>
+                <p className="eyebrow">Diagnostic factuel</p>
+                <h3>Ce que la facture dit vraiment</h3>
+                <div className="fact-list">
+                  {analysis.diagnosticFacts.map((fact) => (
+                    <article
+                      key={fact.label}
+                      className={
+                        fact.tone === "positive"
+                          ? "fact-card tone-positive"
+                          : fact.tone === "warning"
+                            ? "fact-card tone-warning"
+                            : "fact-card"
+                      }
+                    >
+                      <strong>{fact.label}</strong>
+                      <span>{fact.value}</span>
+                      <p>{fact.implication}</p>
+                    </article>
                   ))}
-                </div>
-                <div className="reading-note">
-                  <strong>Source</strong>
-                  <span>{analysis.contract.parsedFrom}</span>
                 </div>
               </article>
             </div>
@@ -339,24 +379,57 @@ export default function App() {
           {errorMessage ? <p className="error-banner">{errorMessage}</p> : null}
         </section>
 
-        <section className="recommendations glass-panel">
+        <section className="decision-panel glass-panel">
           <div className="section-head">
             <div>
-              <p className="eyebrow">Decision</p>
-              <h2>Trois sorties, pas un catalogue illisible</h2>
+              <p className="eyebrow">Recommendation</p>
+              <h2>Le moteur explique le choix en langage normal</h2>
             </div>
           </div>
 
-          {analysis ? (
+          {decisionMemo && recommendedOffer ? (
             <>
-              <p className="market-summary">{analysis.marketSummary}</p>
+              <article
+                className={
+                  decisionMemo.gainSummary.pushChange ? "decision-banner is-push" : "decision-banner"
+                }
+              >
+                <div>
+                  <p className="eyebrow">Verdict</p>
+                  <h3>{decisionMemo.headline}</h3>
+                  <p>{decisionMemo.explanationForUser}</p>
+                </div>
+                <div className="decision-kpis">
+                  <article>
+                    <span>Reco</span>
+                    <strong>{decisionMemo.recommendationLabel}</strong>
+                  </article>
+                  <article>
+                    <span>Gain annuel</span>
+                    <strong>{decisionMemo.gainSummary.annualSavingLabel}</strong>
+                  </article>
+                  <article>
+                    <span>Delta mensuel</span>
+                    <strong>{decisionMemo.gainSummary.firstYearDeltaLabel}</strong>
+                  </article>
+                  <article>
+                    <span>Modele</span>
+                    <strong>{decisionMemo.modelLabel}</strong>
+                  </article>
+                </div>
+              </article>
+
+              {decisionMemo.pushReason ? (
+                <p className="push-copy">{decisionMemo.pushReason}</p>
+              ) : null}
+
               <div className="offer-grid">
                 {availableOffers.map((offer) => (
                   <button
                     key={offer.id}
                     type="button"
-                    className={offer.id === selectedOfferId ? "offer-card is-selected" : "offer-card"}
-                    onClick={() => setSelectedOfferId(offer.id)}
+                    className={offer.id === inspectedOfferId ? "offer-card is-selected" : "offer-card"}
+                    onClick={() => setInspectedOfferId(offer.id)}
                   >
                     <div className="offer-head">
                       <span className="provider-chip">{offer.provider}</span>
@@ -378,33 +451,66 @@ export default function App() {
                         <dd>{offer.riskLabel}</dd>
                       </div>
                     </dl>
+                    <div className="badge-row">
+                      {offer.featureBadges.map((badge) => (
+                        <span key={badge} className="feature-badge">
+                          {badge}
+                        </span>
+                      ))}
+                    </div>
+                    <p className="offer-source">
+                      {offer.source.label} · {offer.source.asOf}
+                    </p>
                   </button>
                 ))}
               </div>
 
-              {selectedOffer ? (
-                <article className="selected-offer-panel">
-                  <div>
-                    <p className="eyebrow">Action retenue</p>
+              {inspectedOffer ? (
+                <article className="comparison-panel">
+                  <div className="comparison-copy">
+                    <p className="eyebrow">Pourquoi ce choix</p>
                     <h3>
-                      {selectedOffer.provider} - {selectedOffer.offer}
+                      {inspectedOffer.provider} - {inspectedOffer.offer}
                     </h3>
-                    <p>
-                      Cout annualise estime: {formatMoney(selectedOffer.annualCostEur)}.
-                      Gain annuel: {formatSaving(selectedOffer.annualSavingEur)}.
-                    </p>
+                    <ul className="signal-list">
+                      {(inspectedOffer.id === decisionMemo.selectedOfferId
+                        ? decisionMemo.whyThisChoice
+                        : inspectedOffer.notes
+                      ).map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
                   </div>
-                  <ul className="signal-list">
-                    {selectedOffer.notes.map((note) => (
-                      <li key={note}>{note}</li>
-                    ))}
-                  </ul>
+
+                  <div className="comparison-table-shell">
+                    <table className="comparison-table">
+                      <thead>
+                        <tr>
+                          <th>Point simple</th>
+                          <th>Ton contrat</th>
+                          <th>Option comparee</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {inspectedComparisonRows.map((row) => (
+                          <tr key={`${inspectedOffer.id}-${row.label}`}>
+                            <td>
+                              <strong>{row.label}</strong>
+                              <small>{row.note}</small>
+                            </td>
+                            <td>{row.currentValue}</td>
+                            <td className={`verdict-${row.verdict}`}>{row.candidateValue}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </article>
               ) : null}
             </>
           ) : (
             <p className="placeholder-copy">
-              Les cartes de decision s'activent des qu'une facture compatible est analysee.
+              La recommendation structuree apparait des que le moteur a termine son diagnostic.
             </p>
           )}
         </section>
@@ -413,7 +519,7 @@ export default function App() {
           <div className="section-head">
             <div>
               <p className="eyebrow">Observatoire prix</p>
-              <h2>Oui, il y a maintenant une vraie page stylisee d'evolution des prix</h2>
+              <h2>Evolution visuelle des prix pour ancrer la reco dans le marche</h2>
             </div>
           </div>
 
@@ -439,7 +545,7 @@ export default function App() {
             </>
           ) : (
             <p className="placeholder-copy">
-              L'observatoire se centre automatiquement sur la verticale du document importe.
+              L'observatoire vient appuyer le diagnostic une fois le dossier charge.
             </p>
           )}
         </section>
@@ -447,16 +553,16 @@ export default function App() {
         <section className="action-center glass-panel">
           <div className="section-head">
             <div>
-              <p className="eyebrow">Execution</p>
-              <h2>Mandat, approbation, puis centre d'action</h2>
+              <p className="eyebrow">Moteur d'action</p>
+              <h2>Le produit prepare la mise en place, pas seulement la recommandation</h2>
             </div>
           </div>
 
-          {analysis ? (
+          {decisionMemo ? (
             <>
               <div className="cta-row">
                 <button type="button" className="button button-primary" onClick={handleApprovePlan}>
-                  Approuver la meilleure action
+                  Approuver la decision
                 </button>
                 <button
                   type="button"
@@ -466,16 +572,53 @@ export default function App() {
                   }}
                   disabled={workflowStatus !== "approved"}
                 >
-                  Executer le plan
+                  Mettre en place la decision
                 </button>
               </div>
-              <div className="action-list">
-                {actionPlan.map((step) => (
-                  <article key={step.title} className={step.status === "done" ? "action-step is-done" : "action-step"}>
-                    <span className="status-dot" />
-                    <div>
-                      <h3>{step.title}</h3>
-                      <p>{step.detail}</p>
+
+              <div className="execution-summary">
+                <article>
+                  <span>Urgence</span>
+                  <strong>{decisionMemo.urgencyLabel}</strong>
+                </article>
+                <article>
+                  <span>Confiance</span>
+                  <strong>{decisionMemo.confidenceLabel}</strong>
+                </article>
+                <article>
+                  <span>Progression</span>
+                  <strong>
+                    {actionProgress.done}/{actionProgress.total}
+                  </strong>
+                </article>
+              </div>
+
+              <div className="section-stack">
+                {executionSections.map((section) => (
+                  <article key={section.title} className="execution-section">
+                    <div className="execution-section-head">
+                      <h3>{section.title}</h3>
+                      <p>{section.summary}</p>
+                    </div>
+                    <div className="action-list">
+                      {section.steps.map((step) => (
+                        <article
+                          key={step.id}
+                          className={step.status === "done" ? "action-step is-done" : "action-step"}
+                        >
+                          <span className="status-dot" />
+                          <div>
+                            <h3>{step.title}</h3>
+                            <p>{step.detail}</p>
+                            <div className="meta-row">
+                              <span>{step.owner}</span>
+                              <span>{step.channel}</span>
+                              <span>{step.automation}</span>
+                              <span>{step.proof}</span>
+                            </div>
+                          </div>
+                        </article>
+                      ))}
                     </div>
                   </article>
                 ))}
@@ -483,7 +626,7 @@ export default function App() {
             </>
           ) : (
             <p className="placeholder-copy">
-              Le centre d'action s'ouvre une fois le contrat compris.
+              Le moteur d'action se construit a partir de la decision recommandee.
             </p>
           )}
         </section>
@@ -492,7 +635,7 @@ export default function App() {
           <div className="section-head">
             <div>
               <p className="eyebrow">Audit trail</p>
-              <h2>Chaque etape laisse une preuve horodatee</h2>
+              <h2>Chaque etape laisse une trace horodatee</h2>
             </div>
           </div>
           {runtimeAudit.length > 0 ? (

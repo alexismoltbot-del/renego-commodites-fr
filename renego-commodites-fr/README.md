@@ -25,9 +25,11 @@ Le front sait maintenant:
 
 - importer une facture Freebox PDF native;
 - extraire localement les champs critiques;
-- construire un dossier de retention vs switch;
+- construire un diagnostic factuel;
+- appeler un moteur de decision structure pouvant utiliser `GPT-5.4` ou `Claude Opus 4.1` si des cles API sont presentes;
+- construire un dossier de retention vs switch avec comparaison simple des features;
 - afficher un observatoire prix stylise sur la verticale box internet;
-- executer un flow UX complet avec mandat, approbation et audit trail local.
+- executer un flow UX complet avec mandat, approbation, moteur d'action et audit trail local.
 
 Lancement:
 
@@ -46,9 +48,29 @@ Commandes de test:
 ```bash
 npm run test:invoice -- "/Users/alexis/Downloads/Facture Free 2026-03.pdf"
 RENEGO_TEST_PDF="/Users/alexis/Downloads/Facture Free 2026-03.pdf" npm run test:e2e
+npm run test:qa
 ```
 
-Le parseur PDF et le centre d'action fonctionnent localement. Les actions operateur restent simulees dans ce MVP.
+Le parseur PDF, le moteur de decision et le centre d'action fonctionnent localement. Les actions operateur restent simulees dans ce MVP, mais le plan de mise en place est structure.
+
+## Modele de recommandation
+
+Moteur primaire:
+
+- `GPT-5.4` via API OpenAI si `OPENAI_API_KEY` est presente.
+
+Fallback premium:
+
+- `Claude Opus 4.1` via API Anthropic si `ANTHROPIC_API_KEY` est presente.
+
+Fallback local:
+
+- heuristique factuelle locale si aucune cle n'est disponible.
+
+Notes:
+
+- `Opus 4.6` n'a pas ete retenu car je n'ai pas trouve de reference officielle correspondante au 11 mars 2026.
+- le backend local expose `GET /api/health` et `POST /api/recommendation`.
 
 ## Tranchages de départ
 

@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
 import { analyzeContractText } from "../src/lib/contractAnalysis";
+import { buildHeuristicDecisionMemo } from "../src/lib/recommendationEngine";
 
 type TextChunk = {
   str?: string;
@@ -56,6 +57,7 @@ async function main() {
   const absolutePath = path.resolve(filePath);
   const extraction = await extractPdfText(absolutePath);
   const result = analyzeContractText(path.basename(absolutePath), extraction.text, extraction.pageCount);
+  const memo = buildHeuristicDecisionMemo(result);
 
   console.log("=== DOSSIER ===");
   console.log({
@@ -74,14 +76,18 @@ async function main() {
 
   console.log("=== RECOMMANDATION ===");
   console.log({
-    bestActionId: result.bestActionId,
-    retention: result.retentionOffer,
-    alternatives: result.alternatives,
-    wait: result.waitOption,
+    selectedOfferId: memo.selectedOfferId,
+    label: memo.recommendationLabel,
+    headline: memo.headline,
+    explanationForUser: memo.explanationForUser,
+    gainSummary: memo.gainSummary,
   });
 
-  console.log("=== ACTION PLAN ===");
-  console.log(result.actionPlan);
+  console.log("=== COMPARAISON SIMPLE ===");
+  console.log(memo.selectedComparison);
+
+  console.log("=== ACTION ENGINE ===");
+  console.log(memo.executionSections);
 }
 
 void main();

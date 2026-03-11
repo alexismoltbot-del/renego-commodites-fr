@@ -9,7 +9,7 @@ test("analyse une facture Free et boucle le flow", async ({ page }) => {
 
   await expect(
     page.getByRole("heading", {
-      name: "Le dossier est maintenant operable sur une vraie facture Freebox.",
+      name: "Diagnostic clair, recommendation poussee, execution outillee.",
     }),
   ).toBeVisible();
 
@@ -22,12 +22,16 @@ test("analyse une facture Free et boucle le flow", async ({ page }) => {
     page.getByText("132 AVENUE ACHILLE PERETTI, 92200 NEUILLY SUR SEINE").first(),
   ).toBeVisible();
   await expect(page.getByText("39,99 EUR").first()).toBeVisible();
+  await expect(page.getByText("Le gain est assez fort pour pousser un changement maintenant vers SFR.")).toBeVisible();
+  await expect(page.getByText("144 EUR / an").first()).toBeVisible();
+  await expect(page.getByText("Site officiel SFR")).toBeVisible();
 
   await page.locator(".mandate-toggle input").check();
-  await page.getByRole("button", { name: "Approuver la meilleure action" }).click();
-  await page.getByRole("button", { name: "Executer le plan" }).click();
+  await page.getByRole("button", { name: "Approuver la decision" }).click();
+  await page.getByRole("button", { name: "Mettre en place la decision" }).click();
 
-  await expect(page.getByText("Preuve locale creee: DOSSIER-1452905043-RETENTION.")).toBeVisible();
-  await expect(page.getByText("Execution bouclee")).toBeVisible();
-  await expect(page.getByText("Oui, il y a maintenant une vraie page stylisee d'evolution des prix")).toBeVisible();
+  await expect(page.getByText("Le moteur d'action est lance")).toBeVisible();
+  await expect(page.getByText("Automations outil lancees")).toBeVisible();
+  await expect(page.getByText("Mise en place bouclee")).toBeVisible();
+  await expect(page.getByText("Evolution visuelle des prix pour ancrer la reco dans le marche")).toBeVisible();
 });
