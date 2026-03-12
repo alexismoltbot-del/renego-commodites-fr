@@ -14,6 +14,7 @@ Before doing anything else:
 2. Read `USER.md` — this is who you're helping
 3. Read `memory/YYYY-MM-DD.md` (today + yesterday) for recent context
 4. **If in MAIN SESSION** (direct chat with your human): Also read `MEMORY.md`
+5. If you are about to write a handoff, report, summary, or public copy: read `ANTI_AI_STYLE.md`
 
 Don't ask permission. Just do it.
 
@@ -116,6 +117,12 @@ Reactions are lightweight social signals. Humans use them constantly — they sa
 ## Tools
 
 Skills provide your tools. When you need one, check its `SKILL.md`. Keep local notes (camera names, SSH details, voice preferences) in `TOOLS.md`.
+
+## Shared Writing Contract
+
+`ANTI_AI_STYLE.md` is the shared writing filter for this workspace.
+
+Use it whenever you produce prose another human will read or act on.
 
 **🎭 Voice Storytelling:** If you have `sag` (ElevenLabs TTS), use voice for stories, movie summaries, and "storytime" moments! Way more engaging than walls of text. Surprise people with funny voices.
 
