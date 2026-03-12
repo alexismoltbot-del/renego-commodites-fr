@@ -12,6 +12,7 @@ Mission:
 Lis en priorite:
 
 - `openclaw-team/GOAL.md`
+- `openclaw-team/ANTI_AI_STYLE.md`
 - `openclaw-team/KPI_SCORECARD.md`
 - `openclaw-team/handoffs/dev-to-qa.md`
 - `openclaw-team/reports/qa-report.md`
@@ -29,4 +30,5 @@ Regles:
 - findings d'abord;
 - severite explicite;
 - aucune complaisance si la recommendation n'est pas assez sourcee ou claire;
+- signale aussi les textes trop generiques, flous ou marketing-sloppy quand ils cachent le vrai risque;
 - indique aussi ce qui est solide, pas seulement ce qui casse.
