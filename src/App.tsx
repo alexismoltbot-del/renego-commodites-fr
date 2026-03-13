@@ -1,10 +1,15 @@
 import { startTransition, useState } from "react";
+import isabellePortrait from "./assets/story-isabelle.svg";
+import marcPortrait from "./assets/story-marc.svg";
+import sarahPortrait from "./assets/story-sarah.svg";
 import { PriceTrendChart } from "./components/PriceTrendChart";
+import { InstantPriceCheck } from "./components/InstantPriceCheck";
 import { analyzeContractText } from "./lib/contractAnalysis";
 import { fetchDecisionMemo } from "./lib/api";
 import { formatMoney, formatSaving, formatScore } from "./lib/format";
 import { extractPdfText } from "./lib/pdf";
 import { buildOfferLensInsights } from "./lib/recommendationEngine";
+import { buildObservatorySeries, MARKET_SNAPSHOT_AS_OF } from "./lib/boxMarketSnapshot";
 import type {
   ActionSection,
   AnalysisResult,
@@ -73,6 +78,41 @@ function applyExecution(sections: ActionSection[]) {
   }));
 }
 
+const PUBLIC_OBSERVATORY = buildObservatorySeries();
+
+const ILLUSTRATIVE_STORIES = [
+  {
+    id: "isabelle",
+    name: "Isabelle",
+    context: "Orange depuis 20 ans",
+    quote:
+      "Je payais 49 EUR depuis des annees chez Orange sans y penser. Maintenant, je paie 19 EUR. Je vais economiser 3 600 EUR sur les 10 prochaines annees.",
+    takeaway: "Cas illustratif - economie forte apres un changement de contrat trop longtemps oublie.",
+    metric: "3 600 EUR economises sur 10 ans",
+    portrait: isabellePortrait,
+  },
+  {
+    id: "marc",
+    name: "Marc",
+    context: "Famille de 4, Freebox",
+    quote:
+      "Je pensais que changer allait etre penible. ReneGo a fait le tri, m'a explique le compromis prix-features, puis j'ai juste eu l'offre finale a signer.",
+    takeaway: "Cas illustratif - delegation simple avec un mandat et une offre finale claire.",
+    metric: "107 EUR gagnes sur 24 mois sans perdre la TV",
+    portrait: marcPortrait,
+  },
+  {
+    id: "sarah",
+    name: "Sarah",
+    context: "Contrat recent, gain limite",
+    quote:
+      "Le plus rassurant, c'est qu'on m'a dit de ne pas changer. Le gain etait trop faible pour justifier la paperasse.",
+    takeaway: "Cas illustratif - si le changement ne vaut pas l'effort, ReneGo le dit.",
+    metric: "Recommandation: ne pas bouger",
+    portrait: sarahPortrait,
+  },
+] as const;
+
 export default function App() {
   const [workflowStatus, setWorkflowStatus] = useState<WorkflowStatus>("idle");
   const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
@@ -83,11 +123,12 @@ export default function App() {
   const [runtimeAudit, setRuntimeAudit] = useState<AuditEntry[]>([]);
   const [executionSections, setExecutionSections] = useState<ActionSection[]>([]);
   const [executionMessage, setExecutionMessage] = useState(
-    "Charge une facture pour obtenir un diagnostic et un plan d'execution.",
+    "Chargez une facture pour obtenir un diagnostic, une recommandation transparente et un plan de renegociation.",
   );
   const [errorMessage, setErrorMessage] = useState("");
 
   const availableOffers = analysis ? flattenOffers(analysis) : [];
+  const observatorySeries = analysis?.observatory ?? PUBLIC_OBSERVATORY;
   const lensInsights = analysis ? buildOfferLensInsights(analysis) : null;
   const recommendedOffer =
     availableOffers.find((offer) => offer.id === decisionMemo?.selectedOfferId) ?? null;
@@ -152,7 +193,7 @@ export default function App() {
     }
 
     if (!mandateEnabled) {
-      setErrorMessage("Active d'abord le mandat pour passer du diagnostic a l'action.");
+      setErrorMessage("Activez d'abord le mandat pour passer du diagnostic a l'action.");
       return;
     }
 
@@ -240,13 +281,13 @@ export default function App() {
 
       <header className="hero">
         <section className="hero-copy glass-panel">
-          <p className="eyebrow">Renego Commodites FR</p>
-          <h1>Diagnostic clair, recommendation poussee, execution outillee.</h1>
+          <p className="eyebrow">Renego Commodites FR · <span className="beta-badge">Beta</span></p>
+          <h1>Diagnostic factuel, recommandation sourcee, execution guidee.</h1>
           <p className="hero-text">
-            Le moteur lit la facture, calcule le vrai ecart de prix, compare les
-            features dans un langage simple, puis separe le meilleur `prix pur`
-            du meilleur `prix/features` avant de preparer la mise en place de la
-            decision.
+            Importez votre facture. ReneGo montre pourquoi une offre est
+            recommandee, ou pourquoi il vaut mieux ne rien faire. Si vous nous
+            donnez mandat, nous portons la renegociation pour vous, vous recevez
+            l'offre finale, puis vous decidez. 100% gratuit, sans commission.
           </p>
           <div className="hero-actions">
             <label className="button button-primary uploader">
@@ -263,7 +304,7 @@ export default function App() {
               Importer une facture PDF
             </label>
             <a className="button button-secondary" href="#observatoire">
-              Voir l'observatoire prix
+              Voir l'evolution des offres
             </a>
           </div>
         </section>
@@ -300,6 +341,26 @@ export default function App() {
         </aside>
       </header>
 
+
+      <InstantPriceCheck />
+
+      <section className="trust-bar">
+        <div className="trust-bar-inner">
+          <div className="trust-item">
+            <span className="trust-icon">💸</span>
+            <span>100% gratuit. Aucune commission, aucune retro-commission operateur.</span>
+          </div>
+          <div className="trust-item">
+            <span className="trust-icon">🔍</span>
+            <span>Le moteur explique pourquoi une offre est recommandee, avec des sources et une date de releve.</span>
+          </div>
+          <div className="trust-item">
+            <span className="trust-icon">⚖️</span>
+            <span>Si le changement ne vaut pas l'effort, on vous le dit aussi.</span>
+          </div>
+        </div>
+      </section>
+
       <main className="content-grid">
         <section className="workspace glass-panel">
           <div className="section-head">
@@ -313,7 +374,7 @@ export default function App() {
                 checked={mandateEnabled}
                 onChange={() => setMandateEnabled((value) => !value)}
               />
-              <span>{mandateEnabled ? "Mandat actif" : "Analyse seule"}</span>
+              <span>{mandateEnabled ? "Mandat signe" : "Diagnostic seul"}</span>
             </label>
           </div>
 
@@ -323,7 +384,7 @@ export default function App() {
               <p>
                 Il ne classe pas seulement des prix: il montre les faits sortis du
                 PDF, l'ecart economique, les differences de features et la friction
-                d'execution.
+                d'execution. Et si le gain ne justifie pas l'effort, il le dit.
               </p>
               <ul className="signal-list">
                 <li>Extraction contrat: montant, offre, email, adresse, identifiant.</li>
@@ -462,10 +523,10 @@ export default function App() {
                           priceChampionOffer.totalCost24mEur ?? priceChampionOffer.annualCostEur * 2,
                         )} sur 24 mois
                       </p>
-                      <small>
-                        Le moins cher sur 24 mois. Ideal si tu arbitres la box comme une
-                        commodite pure.
-                      </small>
+      <small>
+        Le moins cher sur 24 mois. Ideal si vous arbitrez la box comme une
+        commodite pure.
+      </small>
                     </article>
                   ) : null}
 
@@ -595,51 +656,88 @@ export default function App() {
         <section id="observatoire" className="observatory glass-panel">
           <div className="section-head">
             <div>
-              <p className="eyebrow">Observatoire prix</p>
-              <h2>Evolution visuelle des prix pour ancrer la reco dans le marche</h2>
+              <p className="eyebrow">Observatoire prix · Donnees manuelles</p>
+              <h2>Evolution des offres des principaux operateurs</h2>
             </div>
           </div>
+          <p className="observatory-intro">
+            ReneGo suit les prix publics des principaux operateurs pour montrer les
+            promos, les remontes post-promo et les ecarts qui comptent vraiment.
+            Cette page de preuve est visible avant meme d'importer une facture.
+          </p>
+          <PriceTrendChart
+            series={observatorySeries}
+            highlightedId={highlightedSeriesId}
+            onHighlight={setHighlightedSeriesId}
+          />
+          <div className="observatory-metrics">
+            {observatorySeries.map((series) => (
+              <article key={series.id} className="mini-stat">
+                <span>{series.label}</span>
+                <strong>{series.currentPrice.toFixed(2)} EUR</strong>
+                <small>
+                  30 jours: {series.delta30d > 0 ? "+" : ""}
+                  {series.delta30d.toFixed(0)} EUR
+                </small>
+              </article>
+            ))}
+          </div>
+          <p className="observatory-disclaimer">
+            Prix releves manuellement sur les sites officiels des operateurs le {MARKET_SNAPSHOT_AS_OF}.
+            Ce n'est pas un flux en temps reel, mais un observatoire transparent de ce que nous utilisons
+            pour recommander, ou pour vous dire de ne pas bouger.
+          </p>
+        </section>
 
-          {analysis ? (
-            <>
-              <PriceTrendChart
-                series={analysis.observatory}
-                highlightedId={highlightedSeriesId}
-                onHighlight={setHighlightedSeriesId}
-              />
-              <div className="observatory-metrics">
-                {analysis.observatory.map((series) => (
-                  <article key={series.id} className="mini-stat">
-                    <span>{series.label}</span>
-                    <strong>{series.currentPrice.toFixed(2)} EUR</strong>
-                    <small>
-                      30 jours: {series.delta30d > 0 ? "+" : ""}
-                      {series.delta30d.toFixed(0)} EUR
-                    </small>
-                  </article>
-                ))}
-              </div>
-            </>
-          ) : (
-            <p className="placeholder-copy">
-              L'observatoire vient appuyer le diagnostic une fois le dossier charge.
-            </p>
-          )}
+        <section className="stories-panel glass-panel">
+          <div className="section-head">
+            <div>
+              <p className="eyebrow">Exemples clients illustratifs</p>
+              <h2>Des cas concrets pour comprendre la promesse sans jargon</h2>
+            </div>
+          </div>
+          <p className="stories-disclaimer">
+            Ces portraits sont illustratifs tant que les premiers clients n'ont pas
+            valide la publication de vrais temoignages.
+          </p>
+          <div className="stories-grid">
+            {ILLUSTRATIVE_STORIES.map((story) => (
+              <article key={story.id} className="story-card">
+                <img
+                  className="story-portrait"
+                  src={story.portrait}
+                  alt={`Portrait illustratif de ${story.name}`}
+                />
+                <div className="story-copy">
+                  <p className="eyebrow">{story.name}</p>
+                  <h3>{story.context}</h3>
+                  <p className="story-quote">"{story.quote}"</p>
+                  <strong>{story.metric}</strong>
+                  <p>{story.takeaway}</p>
+                </div>
+              </article>
+            ))}
+          </div>
         </section>
 
         <section className="action-center glass-panel">
           <div className="section-head">
             <div>
-              <p className="eyebrow">Moteur d'action</p>
+              <p className="eyebrow">Moteur d'action · Guide pas-a-pas</p>
               <h2>Le produit prepare la mise en place, pas seulement la recommandation</h2>
             </div>
           </div>
 
           {decisionMemo ? (
             <>
+              <p className="action-disclaimer">
+                Avec mandat, ReneGo prepare la renegociation, porte les demarches
+                utiles et revient avec une offre finale. Rien n'est souscrit sans
+                votre validation explicite.
+              </p>
               <div className="cta-row">
                 <button type="button" className="button button-primary" onClick={handleApprovePlan}>
-                  Approuver la decision
+                  Donner mandat a ReneGo
                 </button>
                 <button
                   type="button"
@@ -649,7 +747,7 @@ export default function App() {
                   }}
                   disabled={workflowStatus !== "approved"}
                 >
-                  Mettre en place la decision
+                  Lancer la renegociation
                 </button>
               </div>
 
@@ -734,6 +832,20 @@ export default function App() {
           )}
         </section>
       </main>
+
+      <footer className="product-footer">
+        <p>
+          <strong>Renego Commodites FR</strong> · Beta · Les prix et offres affiches sont
+          releves sur les sites publics des operateurs a la date indiquee. Ils peuvent
+          avoir change depuis. Service opere, gratuit et sans commission. Ce produit
+          ne constitue pas un conseil financier ni juridique. Aucune garantie de
+          resultat. Seuls les sites officiels des operateurs font foi pour la
+          souscription finale.
+        </p>
+        <p>
+          Factures Freebox uniquement · Box internet France uniquement · Version beta a usage demonstratif.
+        </p>
+      </footer>
     </div>
   );
 }

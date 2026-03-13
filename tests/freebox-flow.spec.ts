@@ -9,7 +9,7 @@ test("analyse une facture Free et boucle le flow", async ({ page }) => {
 
   await expect(
     page.getByRole("heading", {
-      name: "Diagnostic clair, recommendation poussee, execution outillee.",
+      name: "Diagnostic factuel, recommandation sourcee, execution guidee.",
     }),
   ).toBeVisible();
 

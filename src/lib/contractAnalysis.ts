@@ -630,7 +630,6 @@ export function analyzeContractText(filename: string, text: string, pages: numbe
     retentionOffer,
     alternatives,
     waitOption,
-    bestActionId: "switch-sfr",
     comparisons,
     observatory: buildObservatorySeries(),
     auditTrail: buildAuditTrail(contract),

@@ -1,0 +1,30 @@
+client_slug: ""
+site_url: ""
+status: scoped
+owner: pm
+objective: ""
+target_platforms:
+  - chatgpt
+  - perplexity
+  - gemini
+  - copilot
+priority_urls:
+  - ""
+out_of_scope:
+  - bulk content generation
+  - public publishing without approval
+deliverables:
+  - research-pack.md
+  - entity-pack.md
+  - page-briefs.md
+  - llms.txt
+  - tech-tickets.md
+  - qa-report.md
+  - final-pack.md
+approval_gates_open:
+  - ""
+definition_of_done:
+  - all critical claims have source and date
+  - qa_p0_open = 0
+  - human approvals captured
+deadline: ""

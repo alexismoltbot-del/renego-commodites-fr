@@ -1,41 +1,55 @@
 # Session Plan
 
-Cadence cible pour cet apres-midi:
+Cadence cible du sprint 72h:
 
-## 14:30 - 14:50
+## Boucle 24/7
 
-- `PM`: gel du scope, criteria d'acceptation, backlog du jour.
-- `Research-US`: demarre le scan des comparables US.
+Il n'y a plus de coupure de nuit. L'equipe tourne en vagues de 4 heures pour
+garder de la coherence entre les roles et laisser le temps aux handoffs de se
+materialiser.
 
-## 14:50 - 15:30
+### Vague A - Sources et recherche
 
-- `PM`: consolide benchmark FR + attendus de qualite.
-- `Research-US`: livre un handoff structure au PM.
+- `00:20 / 04:20 / 08:20 / 12:20 / 16:20 / 20:20` -> `Offers-FR`
+- `00:35 / 04:35 / 08:35 / 12:35 / 16:35 / 20:35` -> `Research-US`
+- objectif:
+  - verifier les offres FR et l'hygiene des sources;
+  - ajouter une lecon US best-in-class qui change le produit ou le message.
 
-## 15:30 - 17:15
+### Vague B - Orchestration PM
 
-- `Dev`: implemente sur le flow existant.
+- `01:05 / 05:05 / 09:05 / 13:05 / 17:05 / 21:05` -> `PM`
+- objectif:
+  - lire les sorties de recherche et data;
+  - reprioriser;
+  - ecrire les handoffs;
+  - ouvrir une approval seulement si une vraie decision humaine bloque.
+
+### Vague C - Construction produit
+
+- `02:05 / 06:05 / 10:05 / 14:05 / 18:05 / 22:05` -> `Dev`
 - priorites:
-  - recommendation plus traçable;
-  - comparaison plus lisible entre contrat actuel et offre cible;
-  - exploitation claire du mode premium quand il est actif;
-  - plan d'action plus credible.
+  - confiance produit;
+  - preuve et sources;
+  - claims launch-safe;
+  - polish du flow critique.
 
-## 17:15 - 18:00
+### Vague D - Gate et GTM
 
-- `QA`: teste le flow complet et redige un rapport avec severites.
+- `03:20 / 07:20 / 11:20 / 15:20 / 19:20 / 23:20` -> `QA`
+- `03:40 / 07:40 / 11:40 / 15:40 / 19:40 / 23:40` -> `Growth`
+- objectif:
+  - `QA` ferme ou remonte les risques du cycle;
+  - `Growth` convertit le produit et la recherche en positionnement, landing et
+    plan de lancement.
 
-## 18:00 - 18:40
-
-- `Dev`: corrige les points critiques remontes par QA.
-- `PM`: coupe le scope si necessaire et prepare la synthese.
-
-## 18:40 - 19:00
-
-- `PM`: remplit la scorecard finale et formule la recommandation produit.
-
-Mode de travail:
+## Rythme attendu
 
 - chaque agent fait un pas concret et ecrit ses sorties dans ce dossier;
-- un handoff doit toujours etre actionnable;
-- si un humain doit trancher, l'agent l'ecrit dans `APPROVALS.md`.
+- chaque handoff doit etre actionnable sans interpretation libre;
+- la nuit sert a produire, polisher et preparer le cycle suivant, pas a broder;
+- si un humain doit trancher, l'agent l'ecrit dans `APPROVALS.md`;
+- le ping WhatsApp du PM est horaire et ne part que si un vrai blocage demande
+  ton arbitrage;
+- si rien d'utile n'est faisable, l'agent documente explicitement le blocage ou
+  repond `HEARTBEAT_OK`.
