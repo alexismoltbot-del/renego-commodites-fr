@@ -70,23 +70,19 @@ Verdict: **GO — launch with caveats (98/100)**
 - GROWTH-06 feedback form V0: ⏳ Growth 15:40 wave (handoff sent)
 - GROWTH-07 playbook prep: ⏳ Growth 15:40 wave (if time, Week 1 asset)
 - Screenshot/GIF: ⏳ Growth 15:40 wave (handoff sent)
-- URL publique: ❌ **A confirmer — deadline 14 mars 18:00 CET**
+- URL publique: ✅ **https://renego-commodites-fr.vercel.app** (Vercel prod live, HTTP 200 verifie)
 - Posts Reddit/Twitter: ❌ Prevus Day 3 matin
 - Demo video: ❌ Repoussee post-launch (APPR-04)
 
 ## Blocages
 
-| # | Blocage | Owner | Severite | ETA resolution |
-|---|---------|-------|----------|----------------|
-| 1 | **URL publique** | Alexis | Critique | **14 mars 18:00 CET** — si non resolu, recommandation = reporter lundi 16 |
-
-**Aucune autre decision humaine en attente.**
+Aucun blocage critique ouvert.
 
 ## Risques residuels
 
 | # | Risque | Sev | Mitigation |
 |---|--------|-----|------------|
-| 1 | URL deploiement inconnue | Critique | Escalation humaine 14 mars 18:00. Fallback: Vercel/Netlify/GH Pages (30 min). |
+| 1 | Domaine custom non branche | Faible | L'URL Vercel publique suffit pour la beta. Le domaine custom est post-launch. |
 | 2 | Prix marche changent avant le 15 | Moyenne | Re-check URLs matin du 15 (Offers-FR 08:20 wave). |
 | 3 | Footer pas revu par juriste | Basse | Langage conservatif, disclaimer complet. |
 | 4 | LLM non teste | Basse | Heuristique suffit pour beta. |
@@ -106,7 +102,7 @@ Day 2 suite (13-14 mars):
   19:20 — QA: re-test post DEV-11
   21:05 — PM: pre-go/no-go prep
 
-  ** 14 mars 18:00 — URL DEPLOIEMENT: DEADLINE ESCALATION **
+  URL publique confirmee: https://renego-commodites-fr.vercel.app
 
 Day 3 (15 mars):
   08:20 — Offers-FR: run final prix (confirmation launch-day)
@@ -136,11 +132,10 @@ Day 3 (15 mars):
 
 Produit, data, dev et QA sont au plafond (90/90). V6 copy est launch-safe et
 re-validee. Le pipeline Day 2 aprem est clair: DEV-11 (dev) + GROWTH-06/
-screenshots (growth) en parallele. Le seul vrai blocage reste l'URL publique —
-deadline d'escalation fixee au 14 mars 18:00 CET.
+screenshots (growth) en parallele. L'URL publique est maintenant confirmee.
 
-Les 2 points restants sont purement Growth (URL + visuels marketing). Si l'URL
-est confirmee samedi et les screenshots livres, on atteint 100/100 pour le
+Les 2 points restants sont maintenant purement Growth (visuels marketing +
+diagnostic card). Si les screenshots sont livres, on atteint 100/100 pour le
 verdict Day 3.
 
 Prochaine PM gate: 17:05 CET (Day 2 soir triage).

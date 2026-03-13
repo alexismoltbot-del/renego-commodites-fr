@@ -11,7 +11,7 @@ Previous: V5 2026-03-13 07:40 CET
 
 Widget shipped and QA-verified. Regression passed. Bouygues discrepancy resolved
 (doc error — code was always right). QA at 98/100. Growth files updated to V6
-with widget-first messaging. **One hard blocker remains: URL publique.**
+with widget-first messaging. **URL publique maintenant live sur Vercel.**
 Two open items for Day 2 afternoon: DEV-11 diagnostic card + GROWTH-06 feedback
 form. Zero open data questions.
 
@@ -79,15 +79,14 @@ form. Zero open data questions.
 | Tout chiffre B&YOU | Pas dans le panel |
 | « Partagez votre diagnostic » | DEV-11 pas encore shipped |
 
-## Hard blocker — URL publique
+## URL publique — RESOLU
 
-Unchanged since V5. Le plan de lancement repose sur une URL partageable. Sans
-URL, les posts Reddit/Twitter/widget pointent nulle part.
+L'URL publique est live :
 
-→ **Action Alexis :** confirmer le domaine et le déploiement le 14 mars.
-Fallback : Vercel, Netlify, GitHub Pages (30 min).
+- `https://renego-commodites-fr.vercel.app`
 
-**Si URL non résolue le 14 soir → recommandation Growth = reporter à lundi 16.**
+Deploiement Vercel en production, HTTP 200 verifie. Ce point ne bloque plus le
+launch. Le domaine custom peut attendre post-launch.
 
 ## Resolved since V5 (3 items closed)
 
@@ -160,7 +159,7 @@ Three specific impacts:
 | 3 | GROWTH-06 Google Form V0 | Growth | 20 min | Data flywheel start |
 | 4 | Reddit posts final drafts | Growth | 1h | Launch day ready |
 | 5 | Offers-FR spot-check | Offers-FR | 1h | Data confidence |
-| 6 | **URL publique** | Alexis | — | **CRITICAL** |
+| 6 | **URL publique** | Alexis | — | **RESOLVED** |
 
 ## Recommandation Growth — verdict launch
 
@@ -171,7 +170,7 @@ Three specific impacts:
 | QA regression | ✅ QA-03 passée, zero regression |
 | Code = copy = marché | ✅ 98/100 (all 6 offers confirmed) |
 | Widget live | ✅ DEV-10 shipped + QA verified |
-| URL publique confirmée | ❌ En attente |
+| URL publique confirmée | ✅ Live |
 | URLs sources re-vérifiées le 15 matin | ⏳ Planifié |
 
 **If URL confirmed → recommandation Growth = LAUNCH** le 15 mars, beta publique,

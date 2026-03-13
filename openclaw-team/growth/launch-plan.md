@@ -3,7 +3,7 @@
 Date: 2026-03-13 (V6 — Day 2 midday cycle)
 Agent: renego-growth
 Target: 15 mars 2026 (dimanche)
-Status: V6 — widget live, regression passed, QA 98/100, one blocker (URL)
+Status: V6.1 — widget live, regression passed, QA 98/100, URL publique confirmee
 Previous: V5 2026-03-13 07:40 CET
 
 ---
@@ -37,15 +37,12 @@ Mettre ReneGo devant ses **100 premiers vrais utilisateurs** pour valider :
 
 Beta publique prudente : chercher du signal, pas du volume.
 
-## Hard blocker
+## URL publique
 
-| # | Blocker | Owner | Status | ETA |
-|---|---------|-------|--------|-----|
-| 1 | **URL publique** — pas de domaine/hébergement confirmé | Alexis | 🔴 Bloquant | Day 2 soir au plus tard |
-
-**Si l'URL n'est pas résolue le 14 mars soir : recommandation Growth = reporter
-le lancement.** Fallback viable : Vercel, Netlify, ou GitHub Pages — déployable
-en 30 min.
+- **URL live:** `https://renego-commodites-fr.vercel.app`
+- **Statut:** ✅ resolu le 13 mars 2026
+- **Infra:** deploiement Vercel en production, HTTP 200 verifie
+- **Note:** le domaine custom peut attendre. Ce n'est plus un launch blocker.
 
 ### Résolu depuis V5
 
@@ -142,7 +139,7 @@ est à 22,99 € fixe. Vous négociez en position de force. »
 | Launch plan V6 | ✅ | Growth | — |
 | Code ↔ copy alignment | ✅ QA 98/100 | QA | — |
 | Demo video storyboard (draft) | ✅ Draft | Growth | — |
-| **URL publique** | ❌ Bloquant | Alexis | **14 mars soir** |
+| **URL publique** | ✅ Live | Alexis | `renego-commodites-fr.vercel.app` |
 | DEV-11 Diagnostic card | ⏳ In progress | Dev | 14 mars |
 | Screenshot/GIF du flow | ❌ À faire | Growth/Dev | 14 mars soir |
 | GROWTH-06 Feedback form V0 | ❌ À faire | Growth | 14 mars |
@@ -220,7 +217,7 @@ pourrait amplifier cet angle en semaine 1 si la traction initiale le justifie.
 | Prix benchmark périmés le jour J | Moy | Élevé | Vérifier les 4 URLs le matin du 15. Date de relevé visible partout. |
 | Reddit modère le post (auto-promo) | Moy | Moyen | Rédiger comme partage communautaire + données observatoire. Backup : commentaire dans un thread existant « quelle box choisir ». |
 | Personne n'uploade sa facture | Moy | Élevé | Widget comme entry point à friction réduite. Diagnostic card partageable (DEV-11). Mode « essayer avec l'exemple Freebox ». Saisie manuelle. |
-| URL publique non prête | Moy | Critique | Fallback : Vercel / Netlify / GitHub Pages (30 min). |
+| Domaine custom non pret | Faible | Faible | L'URL Vercel publique suffit pour la beta. |
 | Bug en prod jour J | Faible | Élevé | Dev dispo dimanche. QA-03 regression passée. Screenshot fallback si déploiement casse. |
 | Opérateur mécontent | Très faible | Faible | Données publiques, sources citées. Aucune diffamation. |
 | Question juridique | Faible | Moyen | Disclaimer clair. Beta. Pas de conseil financier. Mandat explicite. |
@@ -238,7 +235,7 @@ DEV-10 done. QA-03 done. The remaining Day 2 work:
 | 3 | **GROWTH-06 Google Form** « Qu'a proposé votre opérateur ? » | Growth | 20 min | ❌ |
 | 4 | **Reddit posts final drafts** (widget-first messaging) | Growth | 1h | ⏳ |
 | 5 | **Offers-FR spot-check** SFR/Bouygues service profiles | Offers-FR | 1h | ⏳ |
-| 6 | **URL publique escalation** | Alexis | CRITICAL | ❌ |
+| 6 | **URL publique confirmee** | Alexis | RESOLVED | ✅ |
 
 ### DEV-11 Diagnostic Card — why it matters for launch
 
@@ -253,7 +250,7 @@ result. That's organic amplification from day 1 of launch.
 
 ## Checklist veille du lancement (14 mars soir)
 
-- [ ] **URL publique confirmée et accessible**
+- [x] **URL publique confirmée et accessible** — `https://renego-commodites-fr.vercel.app`
 - [ ] Vérifier les 4 URLs sources — 200 OK et prix inchangés
 - [ ] Déployer la version finale
 - [ ] Smoke test : widget + upload PDF Freebox → Red = reco, −369 €, trade-off TV
