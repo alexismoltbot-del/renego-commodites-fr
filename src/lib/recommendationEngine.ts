@@ -113,7 +113,7 @@ function selectOffer(analysis: AnalysisResult) {
   if (
     switchChampion &&
     switchChampion.annualSavingEur >= 120 &&
-    switchChampion.fitScore >= 65
+    switchChampion.fitScore >= 64
   ) {
     return switchChampion;
   }
@@ -416,7 +416,9 @@ export function buildHeuristicDecisionMemo(analysis: AnalysisResult): DecisionMe
     direction,
     headline:
       direction === "change_now"
-        ? `Le meilleur compromis prix/features pousse maintenant vers ${selectedOffer.provider}.`
+        ? selectedOffer.decoderIncluded === false
+          ? `${selectedOffer.provider} est le meilleur prix du marche, mais sans decodeur TV : un compromis a peser.`
+          : `Le meilleur compromis prix/features pousse maintenant vers ${selectedOffer.provider}.`
         : direction === "renegotiate_now"
           ? "La renegociation immediate reste le meilleur ratio qualite / effort."
           : "Attendre reste possible, mais ce n'est pas le choix economique optimal.",
@@ -436,7 +438,9 @@ export function buildHeuristicDecisionMemo(analysis: AnalysisResult): DecisionMe
       direction === "change_now" ? "Confiance moyenne a elevee" : "Confiance elevee",
     explanationForUser:
       direction === "change_now"
-        ? `Le moteur separe maintenant le prix pur du rapport prix/features. En prix pur, ${priceChampion?.provider ?? selectedOffer.provider} gagne. Mais ${selectedOffer.provider} conserve un meilleur equilibre entre economie, TV et debit, avec ${Math.round(selectedOffer.annualSavingEur)} EUR d'economie annuelle.`
+        ? selectedOffer.decoderIncluded === false
+          ? `${selectedOffer.provider} propose le prix le plus bas du marche, prix fixe, sans engagement. Attention : cette offre ne comprend ni decodeur TV ni bouquet TV inclus. Si la TV de la Freebox est importante, c'est un compromis a considerer. Economie estimee : ${Math.round(selectedOffer.annualSavingEur)} EUR / an.`
+          : `Le moteur separe maintenant le prix pur du rapport prix/features. En prix pur, ${priceChampion?.provider ?? selectedOffer.provider} gagne. Mais ${selectedOffer.provider} conserve un meilleur equilibre entre economie, TV et debit, avec ${Math.round(selectedOffer.annualSavingEur)} EUR d'economie annuelle.`
         : `Le gain existe, mais la friction d'un switch n'est pas justifiee. La bonne decision est de comprimer le prix chez l'operateur actuel.`,
     whyThisChoice: buildWhyBullets(analysis, selectedOffer, selectedComparison),
     pushReason:

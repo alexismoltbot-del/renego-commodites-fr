@@ -1,0 +1,171 @@
+import { useState } from "react";
+import { PUBLIC_BOX_OFFERS } from "../lib/boxMarketSnapshot";
+
+const RED_OFFER = PUBLIC_BOX_OFFERS.find((o) => o.id === "switch-red")!;
+const RED_MONTHLY = RED_OFFER.pricing.standardMonthlyPriceEur;
+
+type CheckResult =
+  | { kind: "overpaying"; delta: number; savings24m: number; operator: string }
+  | { kind: "best-price" }
+  | { kind: "already-red" }
+  | { kind: "promo-expired"; delta: number; savings24m: number; operator: string };
+
+const OPERATORS = [
+  { value: "", label: "Votre opérateur" },
+  { value: "Orange", label: "Orange" },
+  { value: "Free", label: "Free" },
+  { value: "SFR", label: "SFR" },
+  { value: "Bouygues", label: "Bouygues Telecom" },
+  { value: "Red by SFR", label: "Red by SFR" },
+] as const;
+
+function checkPrice(operator: string, price: number): CheckResult {
+  if (operator === "Red by SFR" && price <= RED_MONTHLY + 1) {
+    return { kind: "already-red" };
+  }
+
+  if (price <= RED_MONTHLY) {
+    return { kind: "best-price" };
+  }
+
+  const delta = Math.round((price - RED_MONTHLY) * 100) / 100;
+  const savings24m = Math.round(delta * 24 * 100) / 100;
+
+  if (operator === "Free" && price > 40) {
+    return { kind: "promo-expired", delta, savings24m, operator };
+  }
+
+  return { kind: "overpaying", delta, savings24m, operator };
+}
+
+export function InstantPriceCheck() {
+  const [operator, setOperator] = useState("");
+  const [priceInput, setPriceInput] = useState("");
+  const [result, setResult] = useState<CheckResult | null>(null);
+  const [showResult, setShowResult] = useState(false);
+
+  function handleCheck() {
+    const price = parseFloat(priceInput.replace(",", "."));
+
+    if (!operator || isNaN(price) || price < 0 || price > 200) {
+      return;
+    }
+
+    const r = checkPrice(operator, price);
+    setResult(r);
+    setShowResult(true);
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent) {
+    if (e.key === "Enter") {
+      handleCheck();
+    }
+  }
+
+  const canCheck = operator !== "" && priceInput !== "";
+
+  return (
+    <section className="price-check glass-panel">
+      <div className="price-check-inner">
+        <div className="price-check-header">
+          <p className="eyebrow">Vérification instantanée</p>
+          <h2>Payez-vous trop cher votre box internet ?</h2>
+          <p className="price-check-subtitle">Vérifiez en 10 secondes. Aucune donnée personnelle collectée.</p>
+        </div>
+
+        <div className="price-check-form">
+          <div className="price-check-field">
+            <label htmlFor="pc-operator">Opérateur</label>
+            <select
+              id="pc-operator"
+              value={operator}
+              onChange={(e) => {
+                setOperator(e.target.value);
+                setShowResult(false);
+              }}
+            >
+              {OPERATORS.map((op) => (
+                <option key={op.value} value={op.value} disabled={op.value === ""}>
+                  {op.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="price-check-field">
+            <label htmlFor="pc-price">Prix mensuel</label>
+            <div className="price-input-wrap">
+              <input
+                id="pc-price"
+                type="text"
+                inputMode="decimal"
+                placeholder="39,99"
+                value={priceInput}
+                onChange={(e) => {
+                  setPriceInput(e.target.value);
+                  setShowResult(false);
+                }}
+                onKeyDown={handleKeyDown}
+              />
+              <span className="price-suffix">€/mois</span>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            className="button button-primary price-check-btn"
+            onClick={handleCheck}
+            disabled={!canCheck}
+          >
+            Vérifier →
+          </button>
+        </div>
+
+        {showResult && result && (
+          <div className={`price-check-result ${result.kind === "overpaying" || result.kind === "promo-expired" ? "result-saving" : "result-good"}`}>
+            {result.kind === "overpaying" && (
+              <>
+                <p className="result-headline">
+                  Vous payez <strong>{result.delta.toFixed(0)} €/mois de plus</strong> que
+                  Red by SFR ({RED_MONTHLY.toFixed(2)} €/mois).
+                </p>
+                <p className="result-detail">
+                  Sur 24 mois : <strong>{result.savings24m.toFixed(0)} € d'économies potentielles</strong>.
+                </p>
+              </>
+            )}
+            {result.kind === "promo-expired" && (
+              <>
+                <p className="result-headline">
+                  Vous payez <strong>{result.delta.toFixed(0)} €/mois de plus</strong> que
+                  Red by SFR ({RED_MONTHLY.toFixed(2)} €/mois).
+                </p>
+                <p className="result-hint">
+                  💡 Votre promo Free a probablement expiré.
+                </p>
+                <p className="result-detail">
+                  Sur 24 mois : <strong>{result.savings24m.toFixed(0)} € d'économies potentielles</strong>.
+                </p>
+              </>
+            )}
+            {result.kind === "best-price" && (
+              <p className="result-headline result-positive">
+                ✓ Vous avez déjà le meilleur prix du marché. Pas de raison de changer.
+              </p>
+            )}
+            {result.kind === "already-red" && (
+              <p className="result-headline result-positive">
+                ✓ Votre offre Red est la plus compétitive du panel. Bien joué.
+              </p>
+            )}
+            {(result.kind === "overpaying" || result.kind === "promo-expired") && (
+              <p className="result-cta">
+                Importez votre facture pour le diagnostic complet — gratuit et sans engagement.
+              </p>
+            )}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}

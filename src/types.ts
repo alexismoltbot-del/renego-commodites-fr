@@ -169,7 +169,6 @@ export type AnalysisResult = {
   retentionOffer: CandidateOffer;
   alternatives: CandidateOffer[];
   waitOption: CandidateOffer;
-  bestActionId: string;
   comparisons: Record<string, ComparisonRow[]>;
   observatory: PriceSeries[];
   auditTrail: AuditEntry[];

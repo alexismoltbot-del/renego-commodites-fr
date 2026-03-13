@@ -1,99 +1,225 @@
 # Backlog
 
-Session: 2026-03-12 — scope gele a 14:45, priorities affinées a 15:29
+Sprint: 2026-03-12 -> 2026-03-15
+Mission: lancement public prudent sur la wedge `box internet France`
+Rebase: 2026-03-12 21:05 CET (PM night triage)
 
-## Done
+## Done (Day 0 — 12 mars)
 
 - [x] SETUP-01 Creer l'espace de travail `openclaw-team`
-- [x] SETUP-02 Definir les roles PM / Research-US / Dev / QA
-- [x] PM-01 Geler le scope et ecrire les criteria d'acceptation du jour
-- [x] RES-01 Identifier les comparables US et leur feature set
-  - **Livre a:** 15:25
-  - **Resultat:** 4 services US couverts en profondeur (Rocket Money, Billshark, Hiatus, Trim) + 4 secondaires (Kudos, BillFixers, Cushion, Pine AI). Marche $1.2B, CAGR 15%. Whitespace FR confirme. Handoff `research-to-pm.md` livre.
-- [x] PM-02-SYNTHESIS Convertir la recherche US en priorities produit
-  - **Livre a:** 15:29
-  - **Resultat:** handoff pm-to-dev.md v2 ecrit, backlog re-priorise, 4 offres specifiees avec prix/sources/comparisons
+- [x] SETUP-02 Definir les roles initiaux PM / Research-US / Dev / QA
+- [x] RES-01 Livrer la recherche US et les lecons actionnables
+- [x] PM-01 Consolider benchmark FR initial (6 offres, cout 24 mois)
+- [x] DEV-01 Passer de 2 a 4 alternatives visibles
+- [x] DEV-02 Afficher sources, dates et prix apres promo
+- [x] DEV-03 Ajouter cout 24 mois et plan d'action plus credible
+- [x] QA-01 Qualifier la demo et produire un rapport severise (GO WITH CAVEATS)
+- [x] PM-02 Rebaser le backlog sur un lancement public en 72h
 
-## In Progress
+## En cours — must-ship pour Day 1 (13 mars)
 
-- [ ] PM-02 Consolider un benchmark FR de 4 a 6 offres box officielles
-  - **AC:** au moins 4 offres fibre grand public (Orange, SFR, Bouygues, Free) avec prix TTC, engagement, TV, debit, source URL, date de releve
-  - **AC:** format tabulaire ou JSON exploitable par le dev
-  - **AC:** les offres Red by SFR / Sosh / B&You a considerer en plus des marques principales
-  - **Status:** donnees integrees dans pm-to-dev.md v2 avec les 4 offres (SFR Starter, Bouygues Must, Orange Livebox, Red by SFR). Le dev a les prix, URLs et specs.
-  - **Due:** 15:30 ✅ (materiel livre dans le handoff dev)
+### Bloc A: Rendre la demo presentable (matin Dev)
 
-## Ready — Dev Sprint (15:30–17:15)
+- [x] DEV-04 Fermer les 2 blockers QA ✅ (QA confirme — 4/4 URLs 200 OK, observatoire coherent)
+  - Owner: `renego-dev`
+  - Priority: **P0**
+  - AC:
+    - FIX-01: aucun lien cliquable ne mene a une erreur (option A = desactiver, option B = trouver les vraies URLs)
+    - FIX-02: observatoire Orange corrige ou retire
+  - Source: `handoffs/pm-to-dev-fixes.md`
 
-Priorite stricte: executer de haut en bas, couper par le bas si le temps manque.
+### Bloc A-bis: Fixes nuit 13 mars (02:05 wave)
 
-### P0
+- [x] BUG-13-FIX Baisser le seuil fitScore de 65 a 64 ✅ (02:05 CET)
+  - Owner: `renego-dev`
+  - Priority: **P0** (decision PM 01:05)
+  - AC: Red by SFR devient la reco principale. Le texte de reco mentionne le trade-off TV/decodeur.
+  - Source: `handoffs/pm-to-dev-night2.md`
 
-- [ ] DEV-01 Ajouter Orange Livebox Fibre + Red by SFR THE BOX dans `contractAnalysis.ts`
-  - **AC:** 4 alternatives visibles (SFR Starter + Bouygues + Orange + Red by SFR)
-  - **AC:** chaque offre a `source.url` valide et `source.asOf` du 12 mars 2026
-  - **AC:** `comparisons` rempli pour chaque nouvelle offre (incl. ligne "Prix apres promo")
-  - **AC:** `buildObservatory()` inclut Red by SFR
-  - **AC:** `buildDiagnosticFacts()` met a jour le meilleur prix repere (24,99 EUR Red by SFR)
-  - **AC:** `npm run build` passe sans erreur
-  - **AC:** scoring engine rank Red by SFR pres du top (verifier `scoreOffer()`)
-  - **Spec complete:** voir `handoffs/pm-to-dev.md` section DEV-01
+- [x] BUG-14 Corriger Orange introMonths (6 → 12) ✅ (02:05 CET)
+  - Owner: `renego-dev`
+  - Priority: **P0** (promu par Offers-FR 00:20, valide PM 01:05)
+  - AC: `introMonths` passe a 12, `featureBadges` et `notes` adaptes, cout 24 mois recalcule (864,76 EUR)
+  - Source: `handoffs/pm-to-dev-night2.md`
 
-- [ ] DEV-02 Rendre les sources visibles + eliminer "Non visible sur la facture"
-  - **AC:** zero "Non visible sur la facture" dans les comparisons — remplace par spec publique Freebox Revolution
-  - **AC:** source URL cliquable dans le front (App.tsx, lien `<a>` sur `source.url`)
-  - **AC:** toutes les dates `asOf` mises a jour a "12 mars 2026"
-  - **Spec complete:** voir `handoffs/pm-to-dev.md` section DEV-02
+### Bloc B: Solidifier les donnees (matin Offers-FR)
 
-### P1
+- [x] DATA-01 Peupler la veille FR avec URLs verifiees ✅ (20:24 CET)
+  - Owner: `renego-offers-fr`
+  - Priority: **P0**
+  - Result: `market/fr-offers-watch.md` peuplee, URLs code toutes 200 OK, Red by SFR P0 remonte
 
-- [ ] DEV-03 Ajouter "Prix apres promo" + cout sur 24 mois
-  - **AC:** ligne "Prix apres promo (annee 2)" dans les comparisons SFR, Bouygues, Orange
-  - **AC:** Red by SFR montre explicitement "prix fixe" / "identique"
-  - **AC:** au moins un endroit dans l'UI montre un cout total sur 24 mois
-  - **Spec complete:** voir `handoffs/pm-to-dev.md` section DEV-03
+### Bloc C: Formaliser la confiance (aprem QA + PM)
 
-- [ ] DEV-05 Clarifier le plan d'action post-decision
-  - **AC:** chaque etape montre clairement si c'est l'outil ou l'utilisateur qui agit
-  - **AC:** un resume financier apparait dans le plan d'action
-  - **Spec complete:** voir `handoffs/pm-to-dev.md` section DEV-05
+- [ ] QA-02 Transformer le rapport QA en gate de lancement
+  - Owner: `renego-qa`
+  - Priority: **P1**
+  - AC: zero P0 ouvert, mitige chaque P1 accepte, checklist de gate dans `reports/qa-launch-gate.md`
+  - Depends on: DEV-04 (les fixes doivent etre verifies)
 
-### P2 (conditionnel — APPR-01)
+- [x] PRODUCT-01 Rendre la recommendation launch-safe ✅ (PM validated 05:05 CET — 13 claims verified, exclusions confirmed)
+  - Owner: `renego-pm`
+  - Priority: **P1**
+  - AC: claims defensibles, trade-offs visibles, langage prudent, pas de sur-promesse
 
-- [ ] DEV-04 Tester le mode premium (LLM) en condition reelle
-  - **AC:** lancer le flow avec au moins une cle API active
-  - **AC:** verifier que le DecisionMemo est coherent avec les memes offres
-  - **AC:** si les deux cles sont absentes, le fallback heuristique fonctionne (regression zero)
-  - **Bloque par:** APPR-01 (cle API necessaire avant 16:30)
+## Ready — Day 2 (14 mars)
 
-## Ready — QA (17:15–18:00)
+### Bloc D: Trust-first product polish (matin Dev)
 
-- [ ] QA-01 Executer le flow de bout en bout avec le cas Freebox
-  - **AC:** `npm run build` passe sans erreur
-  - **AC:** `npm run test:e2e` passe avec la facture Freebox reelle
-  - **AC:** le flow UI fonctionne de l'import a la recommendation
-  - **AC:** tester avec et sans cle API
-  - **AC:** verifier que les 4 alternatives s'affichent avec sources et prix
+- [x] DEV-05 Rendre le flow plus "trust-first" ✅ (DEV-05 already shipped: beta badge, disclaimers, footer legal, trust bar)
 
-- [ ] QA-02 Rediger un rapport avec severites et risque demo
-  - **AC:** chaque bug a une severite (P0 bloquant / P1 majeur / P2 mineur / P3 cosmetique)
-  - **AC:** verdict clair: demo-ready ou pas, et pourquoi
-  - **AC:** rapport ecrit dans `openclaw-team/reports/qa-report.md`
+### Bloc D-bis: Conversion + viral (Day 2 Dev)
 
-## Ready — PM Final (18:40–19:00)
+- [ ] DEV-10 Instant Price Check widget sur la landing page
+  - Owner: `renego-dev`
+  - Priority: **P1**
+  - AC:
+    - widget 2 champs (operateur dropdown + prix/mois) au-dessus du fold
+    - resultat inline: "Vous payez X EUR/mois de plus que Red (22,99 EUR). Sur 24 mois: Y EUR."
+    - 100% client-side, zero PII, donnees de boxMarketSnapshot.ts
+    - edge cases: prix <= 22,99 → "meilleur prix", Free > 40 → "promo expiree"
+  - Effort: 2-4h
+  - Source: `handoffs/pm-to-dev-day2.md`, US research finding #9
 
-- [ ] PM-03 Remplir la scorecard finale
-  - **Due:** 18:40
+- [ ] DEV-11 Shareable Diagnostic Card apres chaque analyse
+  - Owner: `renego-dev`
+  - Priority: **P1**
+  - AC:
+    - carte branded post-analyse: prix actuel, meilleur prix, economies 24m, URL CTA
+    - deux tailles: 1080x1920 (WhatsApp/Stories) + 1080x1080 (feed/tweet)
+    - HTML canvas → image, 100% client-side, zero PII
+    - bouton "Partager mon diagnostic" → Web Share API (fallback: download)
+    - operateur visible sur la carte (pas PII, rend la carte plus specifique)
+  - Effort: 2-4h (partage le travail visuel avec DEV-10)
+  - Source: `handoffs/pm-to-dev-day2.md`, US research finding #11
 
-## Deferred (hors scope aujourd'hui)
+### Bloc E: Go-to-market (aprem Growth + PM)
 
-- [ ] Ajouter mobile
-- [ ] Ajouter energie
-- [ ] Ajouter assurance
-- [ ] Eligibilite par adresse (API)
-- [ ] Marketing et sales
-- [ ] OAuth fournisseurs
-- [ ] Negociation vocale automatique
-- [ ] Free subscription tracker (hook d'acquisition US) — a etudier pour V2
-- [ ] B2B / marque blanche API — architecture a preparer pour V2+
-- [ ] Integration Plaid/Bridge/Powens pour open banking — V3
+- [x] GROWTH-01 Ecrire le positionnement public et la landing V1 ✅ (livree 36h en avance — 12 mars soir)
+  - Result: `growth/positioning.md`, `growth/landing-copy.md` V2 ecrits, launch-safe, claims verifiables
+
+- [x] GROWTH-02 Preparer le plan de lancement J+3 ✅ (livree 36h en avance — 12 mars soir)
+  - Result: `growth/launch-plan.md` V2 ecrit, canaux organiques, metriques J+7, risques mitiges
+
+### Bloc F: Regression + data verification (Day 2 QA)
+
+- [ ] QA-03 Ajouter une mini regression suite launch
+  - Owner: `renego-qa`
+  - AC: build + flow critique + assertions de scoring minimum + 24m costs verifies dans l'UI
+  - Source: `handoffs/pm-to-qa-day2.md`
+
+- [ ] BUG-16 Verifier ecart ranking Bouygues/SFR dans l'UI (P2)
+  - Owner: `renego-qa`
+  - Priority: **P2**
+  - AC: confirmer que l'UI affiche SFR Starter = 852,76 EUR et Bouygues = 996,76 EUR
+  - Source: `handoffs/pm-to-qa-day2.md`
+
+### Bloc G: Growth Day 2
+
+- [ ] GROWTH-06 Google Form "Qu'a propose votre operateur ?" (V0 feedback loop)
+  - Owner: `renego-growth`
+  - Priority: **P2**
+  - AC: Google Form lie depuis l'ecran post-action, zero dev, 20 min setup
+  - Source: US research finding #10
+
+- [ ] GROWTH-07 Playbook de negociation — PREP CONTENT ONLY
+  - Owner: `renego-growth`
+  - Priority: **P2**
+  - AC: fichier `growth/negotiation-playbook-content.md` avec scripts par operateur, numeros de retention, articles de loi, guide contre-offre. PAS d'integration code — prep content pour DEV-12 Week 1.
+  - Source: US research finding #12
+  - Note: coupable si temps manque apres GROWTH-06 + screenshots
+
+- [ ] Screenshots/GIF du flow (Red comme reco primaire)
+  - Owner: `renego-growth`
+  - Priority: **P2**
+  - AC: 3-4 screenshots + 1 GIF optionnel dans `growth/assets/`
+
+## Ready — Day 3 (15 mars, launch day)
+
+- [ ] PM-03 Preparer le dossier go/no-go de lancement
+  - Owner: `renego-pm`
+  - AC: verdict, risques, mitigations, next steps dans `reports/go-no-go.md`
+
+- [ ] PM-04 Remplir le verdict final KPI Scorecard
+  - Owner: `renego-pm`
+  - AC: KPI_SCORECARD.md avec scores reels
+
+- [x] PM-05 Valider la Landing Copy et le message de lancement ✅ (PM validated 05:05 CET — V4 copy launch-safe, no changes)
+  - Owner: `renego-pm`
+  - AC: copy validee launch-safe, CTA approuve
+
+## Founder pass — 12 mars soir
+
+- [ ] GROWTH-03 Rewriter la landing sur une promesse operee, gratuite et sans commission
+  - Owner: `renego-growth`
+  - Priority: **P0**
+  - AC:
+    - retirer la promesse "tout reste sur votre machine";
+    - affirmer "100% gratuit, aucune commission";
+    - expliquer le mandat et la renegociation operee;
+    - expliciter que le moteur est transparent et sait dire "ne changez pas".
+
+- [ ] GROWTH-04 Ajouter des cas clients illustratifs visuels
+  - Owner: `renego-growth`
+  - Priority: **P1**
+  - AC:
+    - 3 histoires clients maximum;
+    - clairement etiquetees comme illustratives jusqu'a preuve client reelle;
+    - ton grand public, pas geek.
+
+- [ ] DEV-08 Rendre l'observatoire public sans import et le pousser comme page preuve
+  - Owner: `renego-dev`
+  - Priority: **P0**
+  - AC:
+    - section/page visible sans PDF;
+    - courbes des principaux operateurs;
+    - copy de contexte lisible grand public.
+
+- [ ] GROWTH-05 Storyboarder la video demo etape par etape
+  - Owner: `renego-growth`
+  - Priority: **P1**
+  - AC:
+    - script video stocke dans `growth/demo-video-script.md`;
+    - structure `Remotion` definie;
+    - prompts `Kling` prepares;
+    - claims et captures a utiliser listes.
+
+- [ ] DEV-09 Preparer l'integration Remotion pour la video demo
+  - Owner: `renego-dev`
+  - Priority: **P1**
+  - AC:
+    - pipeline local `Remotion` initialise ou planifie proprement;
+    - point de montage identifie dans le repo;
+    - dependances et risques documentes.
+
+- [ ] QA-05 Relecture launch-safe des nouvelles promesses publiques
+  - Owner: `renego-qa`
+  - Priority: **P1**
+  - AC:
+    - mandat / renegociation operee / gratuit / sans commission revus;
+    - aucun faux avis client presente comme reel;
+    - observatoire public relu.
+
+## Stretch / Week 1
+
+- [ ] DEV-12 Integrer le playbook de negociation dans le template Plan d'action
+  - Owner: `renego-dev`
+  - Priority: **P1** (Week 1)
+  - Depends on: GROWTH-07 content complete
+  - AC: template Plan d'action affiche un script par operateur, numeros, loi Chatel/Hamon, guide contre-offre
+  - Source: US research finding #12
+  - Effort: 30 min dev (content already prepped by Growth)
+
+- [ ] DEV-06 Ajouter un refresh manuel / quotidien du snapshot marche
+- [ ] DATA-02 Verifier les URLs officielles par operateur (si pas fait dans DATA-01)
+- [ ] DEV-07 Ajouter une couche de confiance sur la logique de scoring
+- [ ] QA-04 Ajouter des tests unitaires sur scoring et cout 24 mois
+
+## Coupe (post-launch)
+
+- Ajouter mobile / energie / assurance
+- Eligibilite par adresse (API)
+- OAuth fournisseurs
+- Execution operateur reelle
+- B2B / marque blanche
+- Test mode premium LLM (DEV-04 old — coupe faute d'API key)

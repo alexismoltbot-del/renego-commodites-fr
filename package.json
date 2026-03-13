@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "test:invoice": "tsx scripts/testInvoice.ts",
     "test:e2e": "playwright test",
-    "test:qa": "npm run test:invoice -- \"/Users/alexis/Downloads/Facture Free 2026-03.pdf\" && RENEGO_TEST_PDF=\"/Users/alexis/Downloads/Facture Free 2026-03.pdf\" npm run test:e2e"
+    "test:qa": "npm run test:invoice -- \"/Users/alexis/Downloads/Facture Free 2026-03.pdf\" && RENEGO_TEST_PDF=\"/Users/alexis/Downloads/Facture Free 2026-03.pdf\" npm run test:e2e",
+    "test:unit": "tsx tests/scoring-unit.ts"
   },
   "dependencies": {
     "@playwright/test": "^1.58.2",

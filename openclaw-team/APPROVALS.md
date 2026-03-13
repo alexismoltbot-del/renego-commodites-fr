@@ -11,16 +11,24 @@ Format:
 
 ## Open
 
-### APPR-01: Cles API pour le mode premium
+_Aucune approval en attente._
 
-- **pending:** Est-ce qu'une cle OpenAI ou Anthropic est disponible pour tester le mode premium (DEV-04) pendant la session?
-- **impact:** Non bloquant. Le fallback heuristique est demo-ready. Mais le KPI "delta qualitatif heuristique vs premium" restera `N/A` dans la scorecard si on ne teste pas.
-- **options:**
-  1. Fournir au moins une cle API avant 16:30 → on teste le premium
-  2. Ne pas fournir → on coupe DEV-04 et la demo tourne en mode heuristique uniquement
-- **owner:** humain (Alexis)
+
 
 ## Resolved
+
+### APPR-04: Cle API Kling pour la video demo
+
+- **decision:** Option 3 — video repoussee apres le 15 mars. Le launch package
+  utilise des screenshots + GIF du flow (Red comme reco primaire). Le storyboard
+  Growth est pret pour quand/si la cle est fournie. Pas de blocage sur le launch.
+- **resolved_at:** 2026-03-13 09:05 CET (PM triage Day 1)
+
+
+### APPR-01: Cles API pour le mode premium
+
+- **decision:** Aucune cle fournie avant 16:30. DEV-04 coupe. La demo tourne en mode heuristique uniquement. KPI "delta heuristique vs premium" = N/A.
+- **resolved_at:** 2026-03-12 17:20 CET (timeout implicite)
 
 ### APPR-02: Prix publics passes en variables de snapshot
 

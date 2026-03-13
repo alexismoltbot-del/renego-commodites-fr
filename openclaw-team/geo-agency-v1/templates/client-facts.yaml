@@ -1,0 +1,26 @@
+client_name: ""
+domain: ""
+market: ""
+language: ""
+main_offer: ""
+brand_entities:
+  legal_name: ""
+  public_name: ""
+  founder_or_spokesperson: ""
+  headquarters: ""
+  launch_year: ""
+official_sources:
+  website: ""
+  about_page: ""
+  contact_page: ""
+  docs_page: ""
+  linkedin: ""
+  youtube: ""
+approved_claims:
+  - ""
+disallowed_claims:
+  - ""
+same_as:
+  - ""
+notes:
+  - "Only verified facts go here."

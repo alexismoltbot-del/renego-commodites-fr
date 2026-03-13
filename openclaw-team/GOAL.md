@@ -1,27 +1,32 @@
 # Goal
 
-Session date: 2026-03-12
+Sprint dates: 2026-03-12 -> 2026-03-15
 
-Mission du jour:
+Mission du sprint:
 
-- prouver qu'une petite equipe d'agents peut produire une demo premium et credible sur `renego-commodites-fr`;
-- se concentrer uniquement sur `box internet France`;
-- partir de l'existant du repo, pas d'une re-ecriture complete.
+- transformer la demo ReneGo en proposition publique credible;
+- garder une wedge unique: `box internet France`;
+- partir de l'existant du repo, pas d'une re-ecriture complete;
+- approcher un niveau de confiance et de lisibilite comparable aux meilleurs
+  acteurs US, sans sur-promesse.
 
-Livrables minimum a 19:00:
+Livrables minimum avant lancement public du 15 mars 2026:
 
-- benchmark box internet FR source;
-- recherche US sur comparables type Rocket Money / Billshark / Hiatus / Trim;
-- recommendation produit plus traçable et plus convaincante dans le flow existant;
-- rapport QA exploitable;
-- scorecard finale avec jugement net `go`, `go with caveats` ou `no-go`.
+- benchmark box internet FR tenu a jour avec sources officielles valides;
+- recherche US exploitee dans les decisions produit et GTM;
+- flow produit plus source, plus clair, plus defensible, avec claims launch-safe;
+- QA de lancement avec zero P0 ouvert et un plan de mitigation pour chaque P1;
+- copy de landing, positionnement, CTA et checklist de lancement;
+- recommandation finale `launch`, `launch with caveats` ou `no launch`.
 
 In scope:
 
-- facture Freebox reelle;
+- facture Freebox reelle comme cas principal;
 - offres box FR officielles;
-- comparaison heuristique vs mode premium si disponible;
-- amelioration du flow de recommendation et de la preuve utilisateur.
+- amelioration du flow de recommendation, de la preuve utilisateur et de la
+  confiance;
+- preparation d'un lancement public prudent;
+- copy et assets de lancement minimum.
 
 Out of scope:
 
@@ -29,11 +34,12 @@ Out of scope:
 - execution operateur reelle;
 - OAuth fournisseurs;
 - expansion Europe;
-- automatisation marketing complete.
+- "autopilot" legalement engageant au nom de l'utilisateur.
 
 Definition of done:
 
-- le flow tourne localement;
-- la recommendation cite clairement prix, trade-offs, preuve et prochaine action;
-- le benchmark est a jour et source;
-- QA peut expliquer en quoi la demo est ou n'est pas montrable.
+- le flow tourne localement et passe les checks critiques;
+- chaque recommendation cite prix, trade-offs, preuve, date et prochaine action;
+- le benchmark officiel est a jour et les liens publics utiles ne cassent pas;
+- le lancement public dispose d'une copy claire, d'une checklist et d'un verdict
+  QA net.

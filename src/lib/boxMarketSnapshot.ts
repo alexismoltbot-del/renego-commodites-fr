@@ -47,7 +47,7 @@ export type RetentionSnapshot = {
   source: OfferSource;
 };
 
-export const MARKET_SNAPSHOT_AS_OF = "12 mars 2026";
+export const MARKET_SNAPSHOT_AS_OF = "13 mars 2026";
 
 export const FREEBOX_REFERENCE_SERVICE: BoxServiceProfile = {
   tvLabel: "TV by CANAL + bouquet TV",
@@ -119,7 +119,7 @@ export const PUBLIC_BOX_OFFERS: PublicBoxOfferSnapshot[] = [
     ],
     source: {
       label: "Site officiel SFR",
-      url: "https://www.sfr.fr/offre-internet/box-fibre-starter",
+      url: "https://www.sfr.fr/offre-internet",
       asOf: MARKET_SNAPSHOT_AS_OF,
     },
     observatoryPoints: [
@@ -159,7 +159,7 @@ export const PUBLIC_BOX_OFFERS: PublicBoxOfferSnapshot[] = [
     ],
     source: {
       label: "Guide des tarifs Bouygues Telecom",
-      url: "https://www.bouyguestelecom.fr/static/cms/tarifs/guide_des_tarifs.pdf",
+      url: "https://www.bouyguestelecom.fr/offres-internet",
       asOf: MARKET_SNAPSHOT_AS_OF,
     },
     observatoryPoints: [
@@ -173,38 +173,38 @@ export const PUBLIC_BOX_OFFERS: PublicBoxOfferSnapshot[] = [
     offer: "Livebox Fibre",
     accent: "#f4a300",
     pricing: {
-      introMonthlyPriceEur: 24.99,
-      introMonths: 6,
+      introMonthlyPriceEur: 29.99,
+      introMonths: 12,
       standardMonthlyPriceEur: 42.99,
       setupFeeEur: 49,
       priceLocked: false,
     },
     service: {
-      tvLabel: "TV 140 chaines incluses",
-      tvChannels: 140,
+      tvLabel: "TV 200 chaines incluses + Decodeur TV 6",
+      tvChannels: 200,
       includesCanal: false,
       decoderIncluded: true,
-      speedLabel: "Jusqu'a 500 Mb/s (Up 500 Mb/s)",
-      speedDownMbps: 500,
-      speedUpMbps: 500,
-      wifiGeneration: 6,
+      speedLabel: "Jusqu'a 2 Gb/s partages (Up 800 Mb/s)",
+      speedDownMbps: 2000,
+      speedUpMbps: 800,
+      wifiGeneration: 7,
     },
     commitmentMonths: 12,
     riskLabel: "Risque moyen",
-    featureBadges: ["Promo 6 mois", "TV incluse", "Reseau Orange"],
+    featureBadges: ["Promo 12 mois", "Wifi 7", "TV 200 ch.", "Reseau Orange"],
     notes: [
-      "L'accroche promo est forte mais elle s'eteint vite.",
-      "Le debit descendant est inferieur aux autres offres fibre du panel.",
-      "La marque rassure, mais la rentabilite degrade franchement apres six mois.",
+      "Le prix promo inclut la remise nouveau client (-8 EUR/mois) et l'ODR Bienvenue (-5 EUR/mois).",
+      "Debit desormais competitif (2 Gb/s partages) avec la nouvelle Livebox S Wifi 7.",
+      "La marque rassure, mais la rentabilite degrade franchement apres douze mois (42,99 EUR).",
     ],
     source: {
       label: "Site officiel Orange",
-      url: "https://boutique.orange.fr/internet/offres-702",
+      url: "https://boutique.orange.fr/internet/offres-fibre",
       asOf: MARKET_SNAPSHOT_AS_OF,
     },
     observatoryPoints: [
-      43.99, 43.99, 43.99, 43.99, 43.99, 43.49, 43.49, 42.99, 42.99, 42.99, 42.99, 42.99,
-      42.99, 42.99,
+      25.99, 25.99, 25.99, 25.49, 24.99, 24.99, 24.99, 24.99, 24.99, 24.99, 24.99, 24.99,
+      29.99, 29.99,
     ],
   },
   {
@@ -213,8 +213,8 @@ export const PUBLIC_BOX_OFFERS: PublicBoxOfferSnapshot[] = [
     offer: "THE BOX Fibre",
     accent: "#cc0000",
     pricing: {
-      standardMonthlyPriceEur: 24.99,
-      setupFeeEur: 49,
+      standardMonthlyPriceEur: 22.99,
+      setupFeeEur: 39,
       priceLocked: true,
     },
     service: {
@@ -222,9 +222,9 @@ export const PUBLIC_BOX_OFFERS: PublicBoxOfferSnapshot[] = [
       tvChannels: 35,
       includesCanal: false,
       decoderIncluded: false,
-      speedLabel: "Jusqu'a 500 Mb/s",
-      speedDownMbps: 500,
-      speedUpMbps: 500,
+      speedLabel: "Jusqu'a 1 Gb/s symmetrique",
+      speedDownMbps: 1000,
+      speedUpMbps: 1000,
       wifiGeneration: 5,
     },
     commitmentMonths: 0,
@@ -232,17 +232,17 @@ export const PUBLIC_BOX_OFFERS: PublicBoxOfferSnapshot[] = [
     featureBadges: ["Sans engagement", "Prix fixe"],
     notes: [
       "C'est le meilleur point d'entree prix du panel sur 24 mois.",
-      "Le trade-off est net: TV plus legere, pas de decodeur, debit plus bas.",
+      "Le trade-off est net: TV plus legere, pas de decodeur, mais debit desormais equivalent.",
       "Tres fort en mode commodite pure, moins fort si la TV compte vraiment.",
     ],
     source: {
       label: "Site officiel Red by SFR",
-      url: "https://www.red-by-sfr.fr/box-internet/",
+      url: "https://www.red-by-sfr.fr/offre-internet/",
       asOf: MARKET_SNAPSHOT_AS_OF,
     },
     observatoryPoints: [
       24.99, 24.99, 24.99, 24.99, 24.99, 24.99, 24.99, 24.99, 24.99, 24.99, 24.99, 24.99,
-      24.99, 24.99,
+      22.99, 22.99,
     ],
   },
 ];
