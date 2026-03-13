@@ -134,3 +134,10 @@
 - **Les histoires clients doivent rester illustratives tant qu'on n'a pas de vrais temoignages publiables.** Pas de faux avis déguisés en vrais retours.
 - **L'observatoire des offres devient un actif public.** Les courbes des principaux opérateurs doivent être visibles sans devoir uploader une facture.
 - **Une vidéo démo step-by-step devient un livrable du launch package.** Montage Remotion; plans generiques Kling seulement si la clé API est fournie.
+
+### Deploiement public Vercel (13 mars, 14:00)
+
+- **L'URL publique de beta est live:** `https://renego-commodites-fr.vercel.app`
+- **Le repo a ete pousse sur GitHub** sur la branche `codex/renego-openclaw-setup`.
+- **Le deploiement Vercel production est valide** (HTTP 200 verifie).
+- **Le blocage "URL publique" est leve.** Le domaine custom est repousse apres le launch beta.
