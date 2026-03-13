@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ReneGo - US Direct Benchmark</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Archivo:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root { --bg:#fff; --ink:#111; --muted:#5f6664; --line:#d9dfdb; --teal:#0a7c86; --lime:#d4ff54; --soft:#f4f8f5; }
+      *{box-sizing:border-box}
+      body{margin:0;font-family:"Manrope",sans-serif;background:var(--bg);color:var(--ink)}
+      main{max-width:1120px;margin:0 auto;padding:28px 20px 84px}
+      .nav,.hero,.stats,.how,.proof{display:grid;gap:18px}
+      .nav{grid-template-columns:1fr auto;align-items:center}
+      .pill{display:inline-flex;width:fit-content;padding:9px 14px;border-radius:999px;background:#eef5f3;color:var(--teal);font-weight:800;font-size:13px}
+      .hero{grid-template-columns:1.05fr .95fr;align-items:center;margin-top:22px}
+      .card{padding:24px;border:1px solid var(--line);border-radius:28px;background:var(--soft)}
+      h1{margin:0 0 16px;font-family:"Archivo",sans-serif;font-size:clamp(44px,8vw,78px);line-height:.92;letter-spacing:-.04em}
+      .lede{font-size:18px;line-height:1.7;color:var(--muted);max-width:620px}
+      .cta{display:inline-flex;margin-top:22px;padding:16px 22px;border-radius:14px;background:var(--lime);color:#111;font-weight:800;text-decoration:none}
+      .stats,.how,.proof{grid-template-columns:repeat(3,1fr);margin-top:22px}
+      .how{grid-template-columns:repeat(4,1fr)}
+      strong{display:block;margin-bottom:8px}
+      @media (max-width:900px){.hero,.stats,.how,.proof{grid-template-columns:1fr}}
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="nav">
+        <span class="pill">Variant E · US direct benchmark</span>
+        <a class="pill" href="./index.html">Retour au lab</a>
+      </div>
+
+      <section class="hero">
+        <article>
+          <h1>On renégocie vos box internet. Vous gardez juste le meilleur deal.</h1>
+          <p class="lede">
+            ReneGo compare le marche, parle avec votre operateur, puis vous
+            envoie l'offre finale. Gratuit. Sans commission. Et si le gain ne
+            vaut pas l'effort, on vous le dit.
+          </p>
+          <a class="cta" href="https://renego-commodites-fr.vercel.app">Tester ReneGo</a>
+        </article>
+        <aside class="card">
+          <strong>Exemple live</strong>
+          <div class="lede">Free 39,99 EUR → Red by SFR 22,99 EUR</div>
+          <div class="lede">369 EUR potentiellement economises sur 24 mois</div>
+          <div class="lede">Recommandation transparente + mandat clair</div>
+        </aside>
+      </section>
+
+      <section class="stats">
+        <article class="card"><strong>Zero commission</strong><span>Le client reste l'unique centre d'interet.</span></article>
+        <article class="card"><strong>Preuve publique</strong><span>Observatoire visible et offres datees.</span></article>
+        <article class="card"><strong>Service opéré</strong><span>Vous mandatez, ReneGo s'occupe des demarches.</span></article>
+      </section>
+
+      <section class="how">
+        <article class="card"><strong>1. Envoyez votre facture</strong><span>Ou votre prix actuel.</span></article>
+        <article class="card"><strong>2. On compare</strong><span>Prix, frais, engagement, debit, TV.</span></article>
+        <article class="card"><strong>3. On renégocie</strong><span>Avec votre operateur ou un concurrent.</span></article>
+        <article class="card"><strong>4. Vous signez</strong><span>Seulement si l'offre finale vous convient.</span></article>
+      </section>
+
+      <section class="proof">
+        <article class="card"><strong>Pourquoi ca ressemble a un gagnant US</strong><span>Promesse ultra simple, friction minimale, bloc de preuve immediat.</span></article>
+        <article class="card"><strong>Pourquoi c'est adapte a la France</strong><span>Langage plus prudent, mandat explicite, observatoire telecom FR.</span></article>
+        <article class="card"><strong>Ce qu'on a retire</strong><span>Aucun logo de presse, aucun rating invente, aucune retro-commission cachee.</span></article>
+      </section>
+    </main>
+  </body>
+</html>

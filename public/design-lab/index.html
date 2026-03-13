@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ReneGo Design Lab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Newsreader:opsz,wght@6..72,500;6..72,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #f5f0e8;
+        --card: rgba(255, 255, 255, 0.82);
+        --ink: #141312;
+        --muted: #655f57;
+        --line: rgba(20, 19, 18, 0.12);
+        --accent: #ee5c31;
+        --accent-2: #0a7c86;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: "Manrope", sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at top left, rgba(238, 92, 49, 0.15), transparent 28rem),
+          radial-gradient(circle at bottom right, rgba(10, 124, 134, 0.14), transparent 26rem),
+          var(--bg);
+      }
+      main {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 56px 24px 80px;
+      }
+      .eyebrow {
+        display: inline-flex;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: rgba(20, 19, 18, 0.06);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      h1 {
+        margin: 16px 0 12px;
+        font-family: "Newsreader", serif;
+        font-size: clamp(48px, 8vw, 84px);
+        line-height: 0.95;
+      }
+      .lede {
+        max-width: 720px;
+        font-size: 19px;
+        line-height: 1.6;
+        color: var(--muted);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 20px;
+        margin-top: 36px;
+      }
+      .card {
+        display: grid;
+        gap: 18px;
+        padding: 24px;
+        border: 1px solid var(--line);
+        border-radius: 30px;
+        background: var(--card);
+        backdrop-filter: blur(14px);
+        box-shadow: 0 28px 80px rgba(20, 19, 18, 0.08);
+      }
+      .card h2 {
+        margin: 0;
+        font-size: 24px;
+      }
+      .card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        width: fit-content;
+        padding: 7px 12px;
+        border-radius: 999px;
+        background: rgba(20, 19, 18, 0.06);
+        font-size: 13px;
+        font-weight: 700;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      .cta {
+        display: inline-flex;
+        width: fit-content;
+        margin-top: 6px;
+        padding: 13px 18px;
+        border-radius: 999px;
+        background: var(--ink);
+        color: #fff;
+        font-weight: 800;
+      }
+      .sources {
+        display: grid;
+        gap: 12px;
+        margin-top: 36px;
+        padding: 24px;
+        border-radius: 28px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.66);
+      }
+      .sources ul {
+        margin: 0;
+        padding-left: 18px;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      @media (max-width: 720px) {
+        main { padding: 28px 18px 60px; }
+        .card { border-radius: 24px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <span class="eyebrow">ReneGo Design Lab · 13 mars 2026</span>
+      <h1>Quatre fronts radicalement differents, un seul produit.</h1>
+      <p class="lede">
+        Ces variantes sont inspirees des meilleurs patterns US sur la renegociation
+        de bills, mais elles restent adaptees a ReneGo: plus de clarté, plus de
+        mandat, plus de preuve publique, moins de jargon.
+      </p>
+
+      <section class="grid">
+        <article class="card">
+          <span class="pill">OpenAI / command center</span>
+          <h2>Decision cockpit</h2>
+          <p>
+            Dense, premium, tres orientee diagnostic et action. Pour un produit
+            qui veut paraitre precis, net et "operator grade".
+          </p>
+          <a class="cta" href="./openai-command.html">Voir la variante</a>
+        </article>
+
+        <article class="card">
+          <span class="pill">Claude / concierge trust-first</span>
+          <h2>Editorial concierge</h2>
+          <p>
+            Plus humaine, plus calme, plus premium. Met la confiance, le mandat et
+            la lisibilite de la recommandation au centre.
+          </p>
+          <a class="cta" href="./claude-concierge.html">Voir la variante</a>
+        </article>
+
+        <article class="card">
+          <span class="pill">Google AI Studio / observatory</span>
+          <h2>Public proof lab</h2>
+          <p>
+            Hero analytique, observatoire visible, chips, datasets, explications.
+            La recommandation est prouvee au grand jour.
+          </p>
+          <a class="cta" href="./google-observatory.html">Voir la variante</a>
+        </article>
+
+        <article class="card">
+          <span class="pill">Lovable / warm consumer</span>
+          <h2>Consumer launch machine</h2>
+          <p>
+            Plus emotionnelle et plus immediate. CTA rapide, cas clients, douceur
+            visuelle et promesse tres simple.
+          </p>
+          <a class="cta" href="./lovable-concierge.html">Voir la variante</a>
+        </article>
+
+        <article class="card">
+          <span class="pill">US direct benchmark</span>
+          <h2>Closest to a US winner</h2>
+          <p>
+            Variante la plus proche d’un pattern US direct type Billshark /
+            Rocket Money, mais adaptée au marché français et plus défendable.
+          </p>
+          <a class="cta" href="./us-direct-benchmark.html">Voir la variante</a>
+        </article>
+      </section>
+
+      <section class="sources">
+        <div class="meta">
+          <span class="pill">Sources d'inspiration</span>
+          <span class="pill">Rocket Money</span>
+          <span class="pill">Billshark</span>
+          <span class="pill">Trim</span>
+          <span class="pill">Hiatus</span>
+        </div>
+        <ul>
+          <li>Outcome-first hero and recurring bills framing from Rocket Money.</li>
+          <li>Done-for-you negotiation promise and trust blocks from Billshark.</li>
+          <li>Lightweight savings assistant tone from Trim.</li>
+          <li>All-in-one recurring bills framing from Hiatus.</li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

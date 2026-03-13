@@ -1,0 +1,1198 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ReneGo — On s'occupe du sale boulot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ============================================================
+         ReneGo — Variant D · Lovable / Warm Consumer Conversion
+         Pattern: D2C emotional clarity + social proof density
+         Adapted: grand public FR, warm concierge, transparent mandate
+         ============================================================ */
+
+      :root {
+        --bg: #fffaf5;
+        --bg-warm: #fff5eb;
+        --card: #ffffff;
+        --card-warm: #fff9f2;
+        --ink: #1f1710;
+        --ink-soft: #3d3229;
+        --muted: #8c7e72;
+        --line: rgba(31, 23, 16, .09);
+        --line-strong: rgba(31, 23, 16, .16);
+        --coral: #f06449;
+        --coral-soft: rgba(240, 100, 73, .08);
+        --coral-glow: rgba(240, 100, 73, .14);
+        --peach: #ffb088;
+        --peach-soft: rgba(255, 176, 136, .15);
+        --plum: #3a2554;
+        --plum-soft: rgba(58, 37, 84, .06);
+        --green: #1a8a5c;
+        --green-soft: rgba(26, 138, 92, .09);
+        --green-bright: #22c55e;
+        --red-muted: #c4443a;
+        --red-soft: rgba(196, 68, 58, .08);
+        --gold: #d4a030;
+        --gold-soft: rgba(212, 160, 48, .10);
+        --radius: 24px;
+        --radius-md: 18px;
+        --radius-sm: 14px;
+        --radius-xs: 10px;
+      }
+
+      * { box-sizing: border-box; margin: 0; }
+      html { scroll-behavior: smooth; }
+
+      body {
+        font-family: "Sora", system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--ink);
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* --- ambient warmth --- */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background:
+          radial-gradient(ellipse 1100px 700px at 85% -5%, rgba(240,100,73,.10), transparent),
+          radial-gradient(ellipse 900px 600px at 5% 15%, rgba(255,176,136,.12), transparent),
+          radial-gradient(ellipse 600px 400px at 50% 100%, rgba(58,37,84,.04), transparent);
+        z-index: 0;
+      }
+
+      main {
+        position: relative;
+        z-index: 1;
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 24px 22px 96px;
+      }
+
+      /* --- type --- */
+      .serif { font-family: "Fraunces", Georgia, serif; }
+      .label {
+        font-family: "Sora", sans-serif;
+        text-transform: uppercase;
+        letter-spacing: .14em;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--coral);
+      }
+      .label-muted {
+        font-family: "Sora", sans-serif;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+        font-size: 10px;
+        font-weight: 600;
+        color: var(--muted);
+      }
+
+      /* --- topbar --- */
+      .topbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--line);
+      }
+      .chip {
+        padding: 8px 16px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all .2s;
+      }
+      .chip:hover { border-color: var(--coral); color: var(--coral); }
+      .chip-active {
+        border-color: var(--coral);
+        color: var(--coral);
+        background: var(--coral-soft);
+      }
+      .spacer { flex: 1; }
+
+      /* --- cards --- */
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 28px 26px;
+        position: relative;
+        overflow: hidden;
+      }
+      .card-lifted {
+        box-shadow:
+          0 1px 3px rgba(31,23,16,.03),
+          0 8px 24px rgba(31,23,16,.06),
+          0 28px 72px rgba(31,23,16,.08);
+      }
+      .card-warm { background: var(--card-warm); }
+      .card-coral-top::before {
+        content: "";
+        position: absolute;
+        top: -1px; left: 28px; right: 28px;
+        height: 3px;
+        background: linear-gradient(90deg, var(--coral), var(--peach));
+        border-radius: 0 0 4px 4px;
+      }
+
+      /* === HERO === */
+      .hero {
+        display: grid;
+        grid-template-columns: 1.12fr .88fr;
+        gap: 24px;
+        margin-top: 36px;
+        align-items: start;
+      }
+
+      .hero-left { display: flex; flex-direction: column; gap: 22px; }
+
+      .hero-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        border-radius: 999px;
+        background: var(--coral-soft);
+        color: var(--coral);
+        font-size: 13px;
+        font-weight: 700;
+        width: fit-content;
+      }
+      .hero-eyebrow .pulse-dot {
+        width: 8px; height: 8px;
+        border-radius: 50%;
+        background: var(--coral);
+        animation: pulse-dot 2.5s ease-in-out infinite;
+      }
+
+      h1 {
+        font-family: "Fraunces", Georgia, serif;
+        font-size: clamp(42px, 7vw, 78px);
+        line-height: .93;
+        letter-spacing: -.04em;
+        font-weight: 700;
+        color: var(--ink);
+      }
+      h1 em {
+        font-style: normal;
+        color: var(--coral);
+      }
+      h1 .underline-warm {
+        text-decoration: underline;
+        text-decoration-color: var(--peach);
+        text-underline-offset: 6px;
+        text-decoration-thickness: 4px;
+      }
+
+      .lede {
+        font-size: 17px;
+        line-height: 1.78;
+        color: var(--muted);
+        max-width: 560px;
+      }
+
+      .cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+
+      .cta-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 18px 30px;
+        border-radius: var(--radius-sm);
+        background: var(--plum);
+        color: #fff;
+        font-weight: 700;
+        font-size: 16px;
+        text-decoration: none;
+        transition: transform .15s, box-shadow .15s;
+        box-shadow: 0 6px 28px rgba(58,37,84,.20);
+      }
+      .cta-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 40px rgba(58,37,84,.28);
+      }
+      .cta-primary svg { width: 18px; height: 18px; }
+
+      .cta-secondary {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 16px 22px;
+        border-radius: var(--radius-sm);
+        border: 1.5px solid var(--line-strong);
+        color: var(--ink-soft);
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all .2s;
+      }
+      .cta-secondary:hover { border-color: var(--coral); color: var(--coral); }
+
+      /* --- hero right: savings preview --- */
+      .hero-right { display: flex; flex-direction: column; gap: 16px; }
+
+      .savings-card { padding: 30px 28px; }
+      .savings-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+      .savings-status {
+        padding: 5px 12px;
+        border-radius: 999px;
+        background: var(--green-soft);
+        color: var(--green);
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      .savings-big {
+        font-family: "Fraunces", Georgia, serif;
+        font-size: 56px;
+        font-weight: 800;
+        letter-spacing: -.03em;
+        line-height: 1;
+        color: var(--coral);
+      }
+      .savings-sub {
+        font-size: 14px;
+        color: var(--muted);
+        line-height: 1.6;
+        margin-top: 8px;
+      }
+
+      .price-compare {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 14px;
+      }
+      .price-box {
+        padding: 14px 16px;
+        background: var(--bg-warm);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-sm);
+      }
+      .price-box .label-muted { display: block; margin-bottom: 6px; }
+      .price-val { font-size: 22px; font-weight: 700; }
+      .price-val.old { color: var(--red-muted); text-decoration: line-through; text-decoration-color: rgba(196,68,58,.30); }
+      .price-val.new { color: var(--green); }
+
+      .confidence-row { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+      .confidence-track { flex: 1; height: 7px; border-radius: 999px; background: var(--bg-warm); overflow: hidden; }
+      .confidence-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--coral), var(--peach)); transition: width 1.4s cubic-bezier(.22,1,.36,1); }
+      .confidence-val { font-size: 14px; font-weight: 700; color: var(--coral); min-width: 38px; text-align: right; }
+
+      /* concierge status card */
+      .concierge-timeline { padding: 20px 22px; }
+      .timeline-steps { display: flex; flex-direction: column; }
+      .timeline-step {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 11px 0;
+        border-top: 1px solid var(--line);
+        font-size: 13px;
+      }
+      .timeline-step:first-child { border-top: none; }
+      .tl-dot {
+        width: 10px; height: 10px;
+        flex-shrink: 0;
+        border-radius: 50%;
+        margin-top: 4px;
+      }
+      .tl-dot.done { background: var(--green); }
+      .tl-dot.active { background: var(--coral); animation: pulse-dot 2s ease-in-out infinite; }
+      .tl-dot.pending { background: var(--line-strong); }
+      .tl-text strong { display: block; font-weight: 600; color: var(--ink-soft); margin-bottom: 1px; }
+      .tl-text span { color: var(--muted); font-size: 12px; }
+
+      /* === CONDITIONS CLAIRES === */
+      .conditions {
+        margin-top: 28px;
+        padding: 20px 28px;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--line);
+        background: linear-gradient(135deg, var(--coral-soft), var(--peach-soft), var(--plum-soft));
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px 36px;
+        align-items: center;
+      }
+      .cond-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--ink-soft);
+      }
+      .cond-check {
+        width: 22px; height: 22px;
+        border-radius: 50%;
+        background: var(--coral-glow);
+        color: var(--coral);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 800;
+        flex-shrink: 0;
+      }
+
+      /* === SOCIAL PROOF BANNER === */
+      .social-proof {
+        margin-top: 36px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+      }
+      .sp-card {
+        text-align: center;
+        padding: 28px 18px;
+      }
+      .sp-emoji {
+        font-size: 32px;
+        margin-bottom: 10px;
+        display: block;
+      }
+      .sp-val {
+        font-family: "Fraunces", Georgia, serif;
+        font-size: 30px;
+        font-weight: 700;
+        color: var(--coral);
+        margin-bottom: 4px;
+      }
+      .sp-desc {
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      /* === WARM PROMISE BAND === */
+      .promise-band {
+        margin-top: 40px;
+        padding: 40px 36px;
+        border-radius: var(--radius);
+        background: var(--plum);
+        color: #fff;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .promise-band::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(ellipse 500px 300px at 20% 80%, rgba(240,100,73,.20), transparent),
+          radial-gradient(ellipse 400px 250px at 80% 20%, rgba(255,176,136,.12), transparent);
+        pointer-events: none;
+      }
+      .promise-band h2 {
+        position: relative;
+        font-family: "Fraunces", Georgia, serif;
+        font-size: clamp(26px, 4.5vw, 42px);
+        font-weight: 700;
+        line-height: 1.15;
+        letter-spacing: -.02em;
+        margin-bottom: 12px;
+      }
+      .promise-band h2 em {
+        font-style: normal;
+        color: var(--peach);
+      }
+      .promise-band p {
+        position: relative;
+        font-size: 16px;
+        line-height: 1.7;
+        color: rgba(255,255,255,.60);
+        max-width: 620px;
+        margin: 0 auto;
+      }
+
+      /* === SECTION HEADINGS === */
+      .section-head {
+        display: flex;
+        align-items: baseline;
+        gap: 16px;
+        margin-top: 56px;
+        margin-bottom: 10px;
+      }
+      .section-head h2 {
+        font-family: "Fraunces", Georgia, serif;
+        font-size: 30px;
+        font-weight: 600;
+        letter-spacing: -.02em;
+      }
+      .section-head .rule { flex: 1; height: 1px; background: var(--line); }
+
+      /* === PROCESS STEPS === */
+      .process {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+        margin-top: 20px;
+      }
+      .process-line {
+        grid-column: 1 / -1;
+        height: 3px;
+        background: linear-gradient(90deg, var(--coral), var(--peach), var(--coral));
+        border-radius: 999px;
+        opacity: .30;
+        margin-bottom: -6px;
+      }
+      .step-card {
+        position: relative;
+        padding-top: 44px;
+      }
+      .step-icon {
+        position: absolute;
+        top: 24px;
+        right: 24px;
+        font-size: 24px;
+      }
+      .step-num {
+        position: absolute;
+        top: 28px;
+        left: 26px;
+        font-size: 11px;
+        font-weight: 800;
+        color: var(--coral);
+        opacity: .55;
+        letter-spacing: .06em;
+      }
+      .step-card h3 {
+        font-family: "Fraunces", Georgia, serif;
+        font-size: 17px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+      .step-card p {
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      /* === PROOF / COMPARISON === */
+      .proof {
+        display: grid;
+        grid-template-columns: 1.15fr .85fr;
+        gap: 16px;
+        margin-top: 20px;
+      }
+
+      .comp-table { width: 100%; border-collapse: collapse; }
+      .comp-table th {
+        text-align: left;
+        padding: 10px 14px;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+        color: var(--muted);
+        border-bottom: 1px solid var(--line-strong);
+        font-weight: 700;
+      }
+      .comp-table td {
+        padding: 13px 14px;
+        font-size: 14px;
+        border-bottom: 1px solid var(--line);
+        color: var(--ink-soft);
+      }
+      .comp-table tr:last-child td { border-bottom: none; }
+      .comp-table .best { color: var(--coral); font-weight: 700; }
+      .comp-table .reco-row { background: var(--coral-soft); }
+      .comp-table .reco-row td { color: var(--ink); font-weight: 600; }
+      .comp-table .savings-cell { color: var(--green); font-weight: 600; }
+      .comp-table .current-row td { color: var(--muted); }
+
+      .cost-bar-wrap { display: flex; align-items: center; gap: 8px; }
+      .cost-bar { flex: 1; height: 5px; border-radius: 999px; background: var(--bg-warm); }
+      .cost-bar span { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--coral), var(--peach)); }
+
+      /* trust checklist */
+      .trust-list { display: flex; flex-direction: column; }
+      .trust-item {
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+        padding: 15px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .trust-item:last-child { border-bottom: none; }
+      .trust-icon {
+        width: 34px; height: 34px;
+        flex-shrink: 0;
+        border-radius: var(--radius-xs);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 800;
+      }
+      .trust-icon.yes { background: var(--green-soft); color: var(--green); }
+      .trust-icon.no { background: var(--red-soft); color: var(--red-muted); }
+      .trust-item h4 {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 3px;
+      }
+      .trust-item p {
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 1.55;
+      }
+
+      /* === STORIES / TESTIMONIALS === */
+      .stories {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin-top: 20px;
+      }
+      .story {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .story-quote {
+        font-family: "Fraunces", Georgia, serif;
+        font-size: 20px;
+        line-height: 1.35;
+        font-weight: 500;
+        color: var(--ink);
+        flex: 1;
+      }
+      .story-quote::before {
+        content: "\ab\a0";
+        color: var(--coral);
+        font-size: 26px;
+      }
+      .story-quote::after {
+        content: "\a0\bb";
+        color: var(--coral);
+        font-size: 26px;
+      }
+      .story-meta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .story-avatar {
+        width: 40px; height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--coral-soft), var(--peach-soft));
+        border: 2px solid var(--peach);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--coral);
+      }
+      .story-name { font-size: 14px; font-weight: 600; }
+      .story-detail { font-size: 12px; color: var(--muted); }
+      .story-tag {
+        display: inline-flex;
+        width: fit-content;
+        padding: 5px 12px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 700;
+      }
+      .story-tag.saved { background: var(--green-soft); color: var(--green); }
+      .story-tag.kept { background: var(--gold-soft); color: var(--gold); }
+      .story-tag.switched { background: var(--coral-soft); color: var(--coral); }
+
+      /* === MANDATE === */
+      .mandate {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin-top: 20px;
+      }
+      .mandate-card { border-top: 3px solid var(--peach); }
+      .mandate-card h3 {
+        font-family: "Fraunces", Georgia, serif;
+        font-size: 17px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+      .mandate-card p {
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      /* === FAQ / OBJECTIONS === */
+      .faq {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-top: 20px;
+      }
+      .faq-item { padding: 24px; }
+      .faq-item h4 {
+        font-family: "Fraunces", Georgia, serif;
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: var(--ink);
+      }
+      .faq-item p {
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      /* === FINAL CTA === */
+      .final-cta {
+        margin-top: 64px;
+        text-align: center;
+        padding: 60px 32px;
+        border-radius: var(--radius);
+        background: var(--card);
+        border: 1px solid var(--line);
+        box-shadow: 0 24px 80px rgba(31,23,16,.08);
+        position: relative;
+        overflow: hidden;
+      }
+      .final-cta::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(ellipse 600px 300px at 30% 100%, var(--coral-soft), transparent),
+          radial-gradient(ellipse 500px 250px at 70% 0%, var(--peach-soft), transparent);
+        pointer-events: none;
+      }
+      .final-cta h2 {
+        position: relative;
+        font-family: "Fraunces", Georgia, serif;
+        font-size: clamp(28px, 5vw, 46px);
+        font-weight: 700;
+        letter-spacing: -.03em;
+        margin-bottom: 16px;
+        line-height: 1.1;
+      }
+      .final-cta h2 em {
+        font-style: normal;
+        color: var(--coral);
+      }
+      .final-cta p {
+        position: relative;
+        color: var(--muted);
+        font-size: 16px;
+        max-width: 560px;
+        margin: 0 auto 28px;
+        line-height: 1.7;
+      }
+      .final-cta .cta-primary { position: relative; }
+
+      .final-reassurance {
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 18px;
+        margin-top: 20px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .final-reassurance span { display: flex; align-items: center; gap: 5px; }
+      .final-reassurance .dot { color: var(--green); font-size: 14px; }
+
+      /* === FOOTER === */
+      .footer {
+        margin-top: 48px;
+        padding-top: 24px;
+        border-top: 1px solid var(--line);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px 28px;
+        justify-content: center;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      /* === ANIMATIONS === */
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      .anim { opacity: 0; animation: fadeUp .7s cubic-bezier(.22,1,.36,1) forwards; }
+      .anim-d1 { animation-delay: .08s; }
+      .anim-d2 { animation-delay: .16s; }
+      .anim-d3 { animation-delay: .24s; }
+      .anim-d4 { animation-delay: .32s; }
+      .anim-d5 { animation-delay: .40s; }
+      .anim-d6 { animation-delay: .48s; }
+      .anim-d7 { animation-delay: .56s; }
+
+      @keyframes pulse-dot {
+        0%, 100% { opacity: .5; transform: scale(1); }
+        50% { opacity: 1; transform: scale(1.3); }
+      }
+
+      @keyframes shimmer {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+      }
+
+      /* === RESPONSIVE === */
+      @media (max-width: 1024px) {
+        .hero { grid-template-columns: 1fr; }
+        .proof { grid-template-columns: 1fr; }
+        .mandate { grid-template-columns: 1fr; }
+        .social-proof { grid-template-columns: repeat(2, 1fr); }
+      }
+      @media (max-width: 768px) {
+        .process { grid-template-columns: 1fr 1fr; }
+        .stories { grid-template-columns: 1fr; }
+        .faq { grid-template-columns: 1fr; }
+        main { padding: 16px 16px 64px; }
+      }
+      @media (max-width: 520px) {
+        .process { grid-template-columns: 1fr; }
+        .social-proof { grid-template-columns: 1fr; }
+        .price-compare { grid-template-columns: 1fr; }
+        .conditions { flex-direction: column; gap: 10px; }
+        h1 { font-size: 38px; }
+        .savings-big { font-size: 44px; }
+        .final-reassurance { flex-direction: column; align-items: center; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+
+      <!-- TOPBAR -->
+      <nav class="topbar">
+        <span class="chip chip-active">Variant D · Warm Consumer</span>
+        <span class="chip">D2C Conversion + Concierge FR</span>
+        <span class="spacer"></span>
+        <a class="chip" href="./index.html">← Retour au lab</a>
+      </nav>
+
+      <!-- ========================================= -->
+      <!-- HERO                                      -->
+      <!-- ========================================= -->
+      <section class="hero">
+        <div class="hero-left anim">
+          <div class="hero-eyebrow">
+            <span class="pulse-dot"></span>
+            Concierge box internet · 100 % gratuit
+          </div>
+          <h1>Vous nous donnez<br>mandat. On fait<br><em>baisser la facture.</em></h1>
+          <p class="lede">
+            ReneGo trouve les meilleures offres, renégocie pour vous, puis vous
+            envoie l'offre finale à signer. C'est gratuit, sans commission et
+            transparent du début à la fin. Et si le changement ne vaut pas
+            l'effort&nbsp;? On vous le dit aussi.
+          </p>
+          <div class="cta-row">
+            <a class="cta-primary" href="https://renego-commodites-fr.vercel.app">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              Commencer — c'est gratuit
+            </a>
+            <a class="cta-secondary" href="#comment">Voir comment ça marche ↓</a>
+          </div>
+        </div>
+
+        <div class="hero-right anim anim-d2">
+          <!-- Savings preview card -->
+          <div class="card card-lifted card-coral-top savings-card">
+            <div class="savings-header">
+              <span class="label">Exemple de diagnostic</span>
+              <span class="savings-status">● Économie détectée</span>
+            </div>
+            <div class="savings-big">– 369 €</div>
+            <div class="savings-sub">
+              Économie potentielle sur 24 mois en passant de Free à Red by SFR.
+              L'offre est sourcée, datée et vérifiable.
+            </div>
+
+            <div class="price-compare">
+              <div class="price-box">
+                <span class="label-muted">Vous payez</span>
+                <div class="price-val old">39,99 €<small>/mois</small></div>
+              </div>
+              <div class="price-box">
+                <span class="label-muted">Offre recommandée</span>
+                <div class="price-val new">24,61 €<small>/mois</small></div>
+              </div>
+            </div>
+
+            <div style="margin-top:14px">
+              <span class="label-muted" style="display:block;margin-bottom:8px">Indice de confiance</span>
+              <div class="confidence-row">
+                <div class="confidence-track"><div class="confidence-fill" style="width:88%"></div></div>
+                <span class="confidence-val">88 %</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Concierge timeline -->
+          <div class="card concierge-timeline">
+            <span class="label" style="display:block;margin-bottom:10px">Votre concierge en action</span>
+            <div class="timeline-steps">
+              <div class="timeline-step">
+                <span class="tl-dot done"></span>
+                <div class="tl-text">
+                  <strong>Facture analysée</strong>
+                  <span>Free Révolution, engagement terminé, 39,99 €/mois</span>
+                </div>
+              </div>
+              <div class="timeline-step">
+                <span class="tl-dot done"></span>
+                <div class="tl-text">
+                  <strong>6 offres comparées</strong>
+                  <span>Marché scanné, 2 recommandations produites</span>
+                </div>
+              </div>
+              <div class="timeline-step">
+                <span class="tl-dot active"></span>
+                <div class="tl-text">
+                  <strong>Négociation en cours</strong>
+                  <span>Prise de contact opérateur pour rétention ou switch</span>
+                </div>
+              </div>
+              <div class="timeline-step">
+                <span class="tl-dot pending"></span>
+                <div class="tl-text">
+                  <strong>Offre finale à valider</strong>
+                  <span>Vous vérifiez et signez — si ça vaut le coup</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONDITIONS CLAIRES -->
+      <div class="conditions anim anim-d3">
+        <div class="cond-item"><div class="cond-check">✓</div> Diagnostic 100 % gratuit</div>
+        <div class="cond-item"><div class="cond-check">✓</div> Aucune commission sur vos économies</div>
+        <div class="cond-item"><div class="cond-check">✓</div> Aucune modification sans votre accord</div>
+        <div class="cond-item"><div class="cond-check">✓</div> Vous vérifiez l'offre avant de signer</div>
+      </div>
+
+      <!-- ========================================= -->
+      <!-- SOCIAL PROOF BANNER                       -->
+      <!-- ========================================= -->
+      <section class="social-proof anim anim-d4">
+        <article class="card sp-card">
+          <span class="sp-emoji">💰</span>
+          <div class="sp-val">204 €</div>
+          <div class="sp-desc">Économie moyenne<br>constatée par an</div>
+        </article>
+        <article class="card sp-card">
+          <span class="sp-emoji">📊</span>
+          <div class="sp-val">6</div>
+          <div class="sp-desc">Offres comparées<br>et datées à chaque diagnostic</div>
+        </article>
+        <article class="card sp-card">
+          <span class="sp-emoji">🔍</span>
+          <div class="sp-val">100 %</div>
+          <div class="sp-desc">Du raisonnement<br>visible et traçable</div>
+        </article>
+        <article class="card sp-card">
+          <span class="sp-emoji">🤝</span>
+          <div class="sp-val">0 €</div>
+          <div class="sp-desc">De commission.<br>Vos économies restent les vôtres</div>
+        </article>
+      </section>
+
+      <!-- ========================================= -->
+      <!-- WARM PROMISE BAND                         -->
+      <!-- ========================================= -->
+      <section class="promise-band anim anim-d5">
+        <h2>La promesse n'est pas<br><em>«&nbsp;on automatise tout&nbsp;».</em></h2>
+        <p>
+          La promesse, c'est «&nbsp;on fait le travail pénible, on explique le choix
+          et on vous dit aussi quand il vaut mieux ne rien changer&nbsp;».
+          Un concierge ne vend rien. Il analyse, négocie et vous laisse décider.
+        </p>
+      </section>
+
+      <!-- ========================================= -->
+      <!-- PROCESS STEPS                             -->
+      <!-- ========================================= -->
+      <div class="section-head" id="comment">
+        <span class="label">Processus</span>
+        <h2>4 étapes, zéro prise de tête</h2>
+        <div class="rule"></div>
+      </div>
+      <section class="process anim anim-d5">
+        <div class="process-line"></div>
+        <article class="card step-card">
+          <span class="step-num">01</span>
+          <span class="step-icon">📄</span>
+          <h3>Envoyez votre facture</h3>
+          <p>PDF, photo ou montant actuel. On lit tout&nbsp;: prix, engagement, frais cachés, services inclus. Rien ne sort de l'analyse sans votre feu vert.</p>
+        </article>
+        <article class="card step-card">
+          <span class="step-num">02</span>
+          <span class="step-icon">🔎</span>
+          <h3>On scanne le marché</h3>
+          <p>Observatoire public et snapshot daté. Chaque offre est sourcée, avec prix, débit, frais et horizon sur 24 mois. Pas de doigt mouillé.</p>
+        </article>
+        <article class="card step-card">
+          <span class="step-num">03</span>
+          <span class="step-icon">📞</span>
+          <h3>On renégocie pour vous</h3>
+          <p>Vous mandatez ReneGo, on s'occupe des démarches. Rétention avec votre opérateur ou switch vers une meilleure offre. Compte-rendu à chaque étape.</p>
+        </article>
+        <article class="card step-card">
+          <span class="step-num">04</span>
+          <span class="step-icon">✅</span>
+          <h3>Vous signez — ou pas</h3>
+          <p>L'offre finale est devant vous. Vous souscrivez uniquement si elle vous convient. Sinon, rien ne change. Puis on disparaît.</p>
+        </article>
+      </section>
+
+      <!-- ========================================= -->
+      <!-- PROOF / COMPARISON                        -->
+      <!-- ========================================= -->
+      <div class="section-head" id="preuves">
+        <span class="label">Preuves</span>
+        <h2>Pourquoi cette offre gagne</h2>
+        <div class="rule"></div>
+      </div>
+      <section class="proof">
+        <article class="card card-lifted">
+          <span class="label" style="display:block;margin-bottom:16px">Comparaison détaillée · horizon 24 mois</span>
+          <table class="comp-table">
+            <thead>
+              <tr>
+                <th>Opérateur</th>
+                <th>Coût total 24m</th>
+                <th>Coût relatif</th>
+                <th>vs. actuel</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="reco-row">
+                <td class="best">Red by SFR ★</td>
+                <td>590,76 €</td>
+                <td>
+                  <div class="cost-bar-wrap"><div class="cost-bar"><span style="width:64%"></span></div></div>
+                </td>
+                <td class="savings-cell">– 369 €</td>
+              </tr>
+              <tr>
+                <td>Bouygues B&amp;You</td>
+                <td>647,76 €</td>
+                <td>
+                  <div class="cost-bar-wrap"><div class="cost-bar"><span style="width:70%"></span></div></div>
+                </td>
+                <td class="savings-cell">– 312 €</td>
+              </tr>
+              <tr>
+                <td>SFR Fibre Starter</td>
+                <td>852,76 €</td>
+                <td>
+                  <div class="cost-bar-wrap"><div class="cost-bar"><span style="width:92%"></span></div></div>
+                </td>
+                <td class="savings-cell">– 107 €</td>
+              </tr>
+              <tr>
+                <td>Free (rétention)</td>
+                <td>911,76 €</td>
+                <td>
+                  <div class="cost-bar-wrap"><div class="cost-bar"><span style="width:99%"></span></div></div>
+                </td>
+                <td style="color:var(--muted)">– 48 €</td>
+              </tr>
+              <tr class="current-row">
+                <td>Votre offre actuelle</td>
+                <td>959,76 €</td>
+                <td>
+                  <div class="cost-bar-wrap"><div class="cost-bar"><span style="width:100%;background:rgba(196,68,58,.25)"></span></div></div>
+                </td>
+                <td>—</td>
+              </tr>
+            </tbody>
+          </table>
+        </article>
+
+        <article class="card card-lifted">
+          <span class="label" style="display:block;margin-bottom:14px">Nos engagements</span>
+          <div class="trust-list">
+            <div class="trust-item">
+              <div class="trust-icon yes">✓</div>
+              <div>
+                <h4>Observatoire public</h4>
+                <p>Les données marché sont consultables sans import ni inscription. Vérifiez vous-même.</p>
+              </div>
+            </div>
+            <div class="trust-item">
+              <div class="trust-icon yes">✓</div>
+              <div>
+                <h4>Raisonnement accessible</h4>
+                <p>Chaque recommandation explique pourquoi une offre gagne — en langage simple, pas en jargon.</p>
+              </div>
+            </div>
+            <div class="trust-item">
+              <div class="trust-icon yes">✓</div>
+              <div>
+                <h4>Mandat explicite et révocable</h4>
+                <p>Vous décidez quand ReneGo conseille et quand il agit. Aucune action sans votre feu vert.</p>
+              </div>
+            </div>
+            <div class="trust-item">
+              <div class="trust-icon yes">✓</div>
+              <div>
+                <h4>Vérification avant signature</h4>
+                <p>Vous voyez l'offre finale avant de souscrire. Pas de surprise, pas de petits caractères.</p>
+              </div>
+            </div>
+            <div class="trust-item">
+              <div class="trust-icon no">✗</div>
+              <div>
+                <h4>Commission cachée</h4>
+                <p>Zéro commission. Vos économies vous reviennent intégralement. C'est le deal.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- ========================================= -->
+      <!-- TESTIMONIALS                              -->
+      <!-- ========================================= -->
+      <div class="section-head">
+        <span class="label">Témoignages</span>
+        <h2>Ils l'ont fait. Voilà ce qu'ils en disent.</h2>
+        <div class="rule"></div>
+      </div>
+      <section class="stories">
+        <article class="card story">
+          <div class="story-quote">Je payais 49 € depuis des années sans m'en rendre compte. Maintenant je paie 19 €.</div>
+          <div><span class="story-tag saved">– 720 € sur 24 mois</span></div>
+          <div class="story-meta">
+            <div class="story-avatar">I</div>
+            <div>
+              <div class="story-name">Isabelle</div>
+              <div class="story-detail">Cas illustratif · L'angle mort classique rendu visible</div>
+            </div>
+          </div>
+        </article>
+        <article class="card story">
+          <div class="story-quote">J'ai surtout aimé ne pas avoir à me battre tout seul au téléphone.</div>
+          <div><span class="story-tag switched">Switch opérateur réussi</span></div>
+          <div class="story-meta">
+            <div class="story-avatar">M</div>
+            <div>
+              <div class="story-name">Marc</div>
+              <div class="story-detail">Cas illustratif · Le travail pénible disparu, la clarté conservée</div>
+            </div>
+          </div>
+        </article>
+        <article class="card story">
+          <div class="story-quote">Ils m'ont dit de ne pas changer. C'était exactement le bon conseil.</div>
+          <div><span class="story-tag kept">Recommandation : rester</span></div>
+          <div class="story-meta">
+            <div class="story-avatar">S</div>
+            <div>
+              <div class="story-name">Sarah</div>
+              <div class="story-detail">Cas illustratif · Gain trop faible pour justifier les démarches</div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- ========================================= -->
+      <!-- MANDATE                                   -->
+      <!-- ========================================= -->
+      <div class="section-head">
+        <span class="label">Mandat</span>
+        <h2>Votre contrôle, garanti</h2>
+        <div class="rule"></div>
+      </div>
+      <section class="mandate">
+        <article class="card mandate-card">
+          <h3>Aucune modification sans accord</h3>
+          <p>Votre contrat actuel ne change pas tant que vous n'avez pas explicitement validé la nouvelle offre. C'est un mandat, pas un blanc-seing.</p>
+        </article>
+        <article class="card mandate-card">
+          <h3>Recommandation ≠ vente</h3>
+          <p>Si le gain est trop faible ou les conditions moins bonnes, ReneGo recommande de ne pas bouger. Protéger le client, c'est aussi ça.</p>
+        </article>
+        <article class="card mandate-card">
+          <h3>Données utilisées, pas stockées</h3>
+          <p>Votre facture sert à l'analyse. Elle n'est ni revendue, ni conservée au-delà du diagnostic. Vous restez propriétaire.</p>
+        </article>
+      </section>
+
+      <!-- ========================================= -->
+      <!-- FAQ / OBJECTIONS                          -->
+      <!-- ========================================= -->
+      <div class="section-head">
+        <span class="label">Questions</span>
+        <h2>On répond avant que vous demandiez</h2>
+        <div class="rule"></div>
+      </div>
+      <section class="faq">
+        <article class="card faq-item">
+          <h4>C'est vraiment gratuit ?</h4>
+          <p>Oui. Pas de commission, pas de frais cachés, pas de rétro-commission opérateur. Le modèle est transparent — on ne gagne rien sur vos économies.</p>
+        </article>
+        <article class="card faq-item">
+          <h4>Est-ce que vous allez changer mon offre sans me prévenir ?</h4>
+          <p>Non. Vous recevez l'offre finale, vous la vérifiez et vous signez uniquement si elle vous convient. Aucune action sans votre accord explicite.</p>
+        </article>
+        <article class="card faq-item">
+          <h4>Et si le changement ne vaut pas le coup ?</h4>
+          <p>On vous le dit. Si le gain est trop faible ou les compromis trop forts, la recommandation sera de rester. On ne pousse pas un changement juste pour avoir l'air utile.</p>
+        </article>
+        <article class="card faq-item">
+          <h4>Qu'est-ce que vous faites de ma facture ?</h4>
+          <p>On la lit pour l'analyse. Elle n'est ni revendue, ni conservée au-delà du diagnostic. Vous restez propriétaire de vos données, toujours.</p>
+        </article>
+      </section>
+
+      <!-- ========================================= -->
+      <!-- FINAL CTA                                 -->
+      <!-- ========================================= -->
+      <section class="final-cta">
+        <h2>Arrêtez de surpayer<br>votre <em>box internet.</em></h2>
+        <p>
+          Le diagnostic est gratuit, le raisonnement est visible, aucune action
+          n'est prise sans votre accord et vos économies vous reviennent
+          intégralement. Il ne reste plus qu'à essayer.
+        </p>
+        <a class="cta-primary" href="https://renego-commodites-fr.vercel.app" style="margin:0 auto">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          Lancer mon diagnostic gratuit
+        </a>
+        <div class="final-reassurance">
+          <span><span class="dot">●</span> 100 % gratuit</span>
+          <span><span class="dot">●</span> Aucune commission</span>
+          <span><span class="dot">●</span> Aucune modification sans accord</span>
+          <span><span class="dot">●</span> Résultat en quelques minutes</span>
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer class="footer">
+        <span>Variant D · Lovable / Warm Consumer</span>
+        <span>Inspiré par D2C conversion + concierge patterns (US)</span>
+        <span>Adapté au marché français grand public</span>
+        <span>Prototype statique — Design Lab ReneGo</span>
+      </footer>
+
+    </main>
+  </body>
+</html>

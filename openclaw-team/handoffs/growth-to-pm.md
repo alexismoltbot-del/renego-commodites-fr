@@ -1,200 +1,184 @@
-# Growth → PM (V6)
+# Growth → PM (V8)
 
-Date: 2026-03-13 11:40 CET (Day 2 midday cycle)
+Date: 2026-03-13 19:40 CET (Day 2 evening cycle)
 Agent: renego-growth
-Sprint: GROWTH-01/02/03 V6 — widget shipped, regression passed, ranking confirmed
-Previous: V5 2026-03-13 07:40 CET
+Sprint: GROWTH V8 — screenshots captured, pénalité de fidélité briefed, social
+  meta verified (cycle 9), GROWTH-06 spec ready, 99/100
+Previous: V7 2026-03-13 15:40 CET
 
 ---
 
 ## TL;DR
 
-Widget shipped and QA-verified. Regression passed. Bouygues discrepancy resolved
-(doc error — code was always right). QA at 98/100. Growth files updated to V6
-with widget-first messaging. **URL publique maintenant live sur Vercel.**
-Two open items for Day 2 afternoon: DEV-11 diagnostic card + GROWTH-06 feedback
-form. Zero open data questions.
+Growth evening delivery: **screenshots captured** (the last item blocking
+100/100), **pénalité de fidélité brief written** (the single highest-leverage
+messaging addition), **GROWTH-06 form spec delivered**, and **V8 copy files
+bumped** with social norm layer. All four growth files updated. Social meta
+QA-verified (cycle 9). The product + growth package is complete for Sunday.
+**One PM decision needed: adopt V8 pénalité copy for launch, or keep V7 and
+defer to Week 1.**
+
+Growth recommendation unchanged: **LAUNCH on March 15.**
 
 ---
 
-## What changed since V5
+## What Growth delivered this wave
 
-- **DEV-10 Instant Price Check widget SHIPPED** (10:05 CET, QA verified 11:20).
-  5 edge cases verified, zero PII, data aligned with engine. This changes the
-  launch messaging fundamentally: the CTA is now « vérifiez en 10 secondes »
-  instead of « importez votre facture ». All Reddit/social drafts rewritten
-  around the widget as entry point.
-- **QA-03 Regression formelle PASSÉE** (11:20 CET). Zero regressions across
-  build (43 modules, 883ms), tests (55/55), URLs (4/4 200 OK), data, scoring,
-  and trust elements. First formal regression gate of the sprint.
-- **BUG-16 FERMÉ** (11:20 CET). The Bouygues/SFR 24m discrepancy from V5
-  (Bouygues at 804 vs 997) was a documentation error in earlier QA reports.
-  Code was always correct. SFR Starter = 852,76 € (#2). Bouygues = 996,76 €
-  (#6). No more open data questions.
-- **QA score: 98/100** (up from 97). QA gate maxed at 20/20.
-- **Erratum corrected.** Earlier QA cycles had the SFR/Bouygues formulas
-  inverted in documentation. Reports corrected. Code, copy, and market data
-  are now aligned across all 6 offers in the ranking.
+| # | Deliverable | Output file | Status |
+|---|-------------|-------------|--------|
+| 1 | **Screenshots (3 PNGs)** | `growth/assets/landing-desktop.png`, `growth/assets/landing-mobile.png`, `growth/assets/landing-full.png` | ✅ DONE |
+| 2 | **Pénalité de fidélité brief** | `growth/penalite-fidelite-brief.md` | ✅ DONE |
+| 3 | **GROWTH-06 form spec** | `growth/feedback-form-spec.md` | ✅ SPEC |
+| 4 | **Positioning V8** | `growth/positioning.md` | ✅ DONE |
+| 5 | **Landing copy V8** | `growth/landing-copy.md` | ✅ DONE |
+| 6 | **Launch plan V8** | `growth/launch-plan.md` | ✅ DONE |
+| 7 | **Growth-to-PM V8** | `handoffs/growth-to-pm.md` | ✅ This file |
 
-## Growth deliverables — all V6, all complete
+## What changed in V8 copy (vs V7 frozen baseline)
 
-| File | Version | Status |
-|------|---------|--------|
-| `growth/positioning.md` | V6 | ✅ Widget integrated, ranking confirmed |
-| `growth/landing-copy.md` | V6 | ✅ Widget section added, proof table confirmed |
-| `growth/launch-plan.md` | V6 | ✅ Widget-first messaging, Day 2 reshuffled |
-| `growth/demo-video-script.md` | Draft | ✅ Script done, production pending |
+### New: "Pénalité de fidélité" layer (Finding #13)
 
-## Claims — all launch-safe
+All claims sourced from ARCEP Telconomics 2025 and Ariase oct. 2024. Zero dev.
 
-| Claim | Source | QA (cycle 7) |
-|-------|--------|----|
-| Red by SFR 22,99 €/mois, prix fixe, 1 Gb/s sym | fr-offers-watch.md, live page | ✅ |
-| Red by SFR = reco primaire (fitScore 64) | BUG-13-FIX | ✅ |
-| Red trade-off TV (35 ch. app, pas de décodeur) | BUG-13-FIX | ✅ |
-| Red by SFR −369 € vs Freebox sur 24 mois | Calcul verified | ✅ |
-| SFR Starter 853 € / −107 € vs Free | Calcul verified, BUG-16 CLOSED | ✅ CONFIRMED |
-| Orange 29,99 € promo 12 mois | Live page 06:05 CET | ✅ |
-| Orange 42,99 € post-promo | Live page 06:05 CET, BUG-15 CLOSED | ✅ |
-| Orange 925 € / −35 € vs Freebox | Calcul verified | ✅ |
-| Bouygues Must 997 € / comparable vs Free | Calcul verified, BUG-16 CLOSED | ✅ CONFIRMED |
-| « Aucun équivalent français » | us-comparables.md §8 | ✅ |
-| 100% gratuit, aucune commission | Founder direction | ✅ |
-| Renégociation opérée sur mandat | Founder pass | ✅ |
-| Open source, code public | Repo | ✅ |
-| Observatoire public sans import | DEV-08 live | ✅ |
-| Widget: vérification instantanée 10 sec | DEV-10 SHIPPED + QA verified | ✅ NEW |
+| Surface | V7 (frozen) | V8 (proposed) |
+|---------|-------------|---------------|
+| Widget result | "17 €/mois de plus que Red" | + "Les nouveaux abonnés paient 28,59 €/mois. Vous payez 40% de plus." |
+| Landing page | No social norm section | + New "La pénalité de fidélité" section with ARCEP data |
+| CTA de fermeture | "Votre promo a expiré il y a combien de temps ?" | "Les nouveaux abonnés fibre paient 28,59 €/mois. Et vous ?" |
+| FAQ | No pénalité entry | + "C'est quoi la pénalité de fidélité ?" |
+| Positioning | 5 problems, 4 proofs | + Problem #6 (pénalité), + Proof #5 (social norm), + Why now #6 |
+| Reddit drafts | Widget + card hook | + Pénalité de fidélité as lead hook on all channels |
 
-## Claims excluded (not launch-safe)
+### Why this matters (the behavioral science case)
+
+Opower built a $532M company on one insight: telling people how they compare
+to their **peers** changes behavior more than showing them cheaper options.
+Validated across 60M+ customers by J-PAL randomized controlled trials.
+
+ReneGo V7 compares factures to **market offers** (rational, System 2).
+V8 adds comparison to **other people** (emotional, System 1). This is the
+difference between "here's a cheaper offer" and "you pay 40% more than
+someone who just arrived for the same service."
+
+The ARCEP/Ariase data makes this defensible: it's the French regulator's
+own numbers, not ReneGo's claims. Ofcom (UK) coined "loyalty penalty" and
+forced regulatory action. France (ARCEP) hasn't. ReneGo names the problem.
+
+## New claims — all verified
+
+| Claim | Source | Defensible? |
+|-------|--------|-------------|
+| Nouveaux abonnés fibre 28,59 €/mois en moyenne | Ariase oct. 2024 via connexionfrance.com | ✅ Published market data |
+| Prix catalogue −5,9% en 2024 | ARCEP Telconomics 2025 | ✅ Regulator data |
+| Facture moyenne +2,20 €/an | ARCEP Telconomics 2025 | ✅ Regulator data |
+| « Pénalité de fidélité » term | Ofcom 2018-2020 official publications | ✅ Established regulatory term |
+| 40% de plus (39,99 vs 28,59) | Arithmetic: (39,99-28,59)/28,59 = 39.9% ≈ 40% | ✅ Verifiable calculation |
+
+## Claims excluded (same as V7 + additional V8 guards)
 
 | Claim rejeté | Raison |
 |-------------|--------|
-| « Économisez X% » | Indéfendable en général |
-| « Prix en temps réel » | Snapshot daté |
-| « Garanti » | Pas de garantie de résultat |
-| « IA / intelligence artificielle » | Heuristique ≠ IA |
-| Tout testimonial non étiqueté illustratif | Zero vrais clients à date |
-| « On surveille votre promo » | Sentinel pas développé |
-| « On connaît les offres cachées » | Pas de données retention collectées |
-| Tout chiffre B&YOU | Pas dans le panel |
-| « Partagez votre diagnostic » | DEV-11 pas encore shipped |
+| Everything from V7 excluded list | Unchanged |
+| Nombre exact de Français impactés | Donnée non disponible |
+| « Tous les clients fidèles surpaient » | Certains sont en promo ou en offre fixe |
+| Pénalité de fidélité comme fait juridique | C'est un constat, pas un concept légal en France |
 
-## URL publique — RESOLU
+## Screenshots — Growth score now 10/10
 
-L'URL publique est live :
+3 PNGs captured from live Vercel URL via Playwright:
 
-- `https://renego-commodites-fr.vercel.app`
+| Screenshot | Dimensions | Shows |
+|-----------|-----------|-------|
+| `landing-desktop.png` | 1280×800 | Above the fold, hero, widget visible |
+| `landing-mobile.png` | 390×844 | Mobile responsive view |
+| `landing-full.png` | 1280×full | Complete page: hero → widget → observatoire → examples → footer |
 
-Deploiement Vercel en production, HTTP 200 verifie. Ce point ne bloque plus le
-launch. Le domaine custom peut attendre post-launch.
+These are ready for Reddit posts, Twitter, and any press/outreach.
 
-## Resolved since V5 (3 items closed)
+## GROWTH-06 — Form spec delivered
 
-### ~~1. Bouygues 24m cost discrepancy~~  → RESOLVED
+`growth/feedback-form-spec.md` contains:
+- 4 fields: opérateur (dropdown), proposition (texte libre), prix (nombre), accepté (choix)
+- Title, placeholder text, completion message
+- Integration plan: V0 = Google Form linked from plan d'action, V1 = integrated form
 
-BUG-16 FERMÉ. QA cycle 7 confirms: code is correct. SFR Starter = 852,76 €
-(#2 in ranking). Bouygues Bbox Must = 996,76 € (#6). The 804 € in earlier QA
-reports was a documentation formula error, not a code issue. Proof table in
-landing copy V6 updated. No footnotes or caveats needed.
+**Action needed:** create the Google Form from spec (15 min). Growth can do this
+in the next wave if PM confirms green light.
 
-### ~~2. PM re-validation of V5 copy~~ → SUPERSEDED by V6
+## GROWTH-07 — Playbook content deferred
 
-V6 integrates the widget, corrects the ranking, and tightens the proof table.
-Recommended: PM quick re-read of `growth/landing-copy.md` V6 before Day 3
-freeze. Changes are all conservative (widget added = more capability shown,
-ranking confirmed = more precise numbers, no new promises).
+Per PM evening handoff: deferred to Day 3 evening / Week 1. Not launch-blocking.
+The pénalité brief and screenshots were higher priority and are now delivered.
 
-### ~~3. Widget approval~~ → SHIPPED
+## Open items for PM — 1 decision
 
-DEV-10 is live and QA-verified. No longer an open question.
+### 1. 🔴 Adopt V8 pénalité copy for launch, or keep V7?
 
-## Open items for PM (2 remaining)
+**Option A — Adopt V8 for Sunday:** The pénalité de fidélité layer ships as
+landing copy. Widget result, new section, FAQ, and CTA all include the
+ARCEP/Ariase social norm. Reddit posts lead with the pénalité hook.
 
-### 1. B&YOU — still not in panel
+- Pro: strongest possible messaging, defensible data, emotional trigger
+- Pro: zero dev — pure copy, already written
+- Pro: Reddit posts with "pénalité de fidélité + ARCEP data" are more shareable
+  than "widget + savings"
+- Con: adds ~1 section to the landing page (2 min review for PM)
 
-25,99 €/mois, sans engagement, 8 Gb/s, coût 24 mois 671,76 €. Reddit response
-prepared if mentioned. Recommendation unchanged: add post-launch, not before
-the 15.
+**Option B — Keep V7, defer pénalité to Week 1:** V7 launches as-is (frozen).
+The pénalité layer integrates in Week 1 alongside playbook and Indice.
 
-### 2. Post-action feedback form — Day 2 or post-launch?
+- Pro: zero risk of last-minute copy issues
+- Con: misses the strongest messaging lever at the most important moment
+- Con: Reddit posts are good (V7) but not great (V8)
 
-US finding #10 recommends a "Qu'a proposé votre opérateur ?" feedback form to
-build the hidden retention offer database. Options:
-- **V0 (Day 2):** Google Form linked from the post-action screen. Zero dev.
-  20 min setup. ← Growth recommendation
-- **V1 (Week 1):** In-product form with structured fields.
-- **Post-launch:** Wait for signal first.
+**Growth recommendation: Option A.** The V8 additions are 4 copy blocks using
+regulator data. They make every surface more compelling. The risk is near zero
+(copy review, not code). The opportunity cost of waiting is high — the launch
+is the moment of maximum attention.
 
-→ **PM: still prefer V0 Google Form on Day 2?** Previous PM guidance was yes.
-Growth will execute GROWTH-06 this afternoon if confirmed.
+## Growth deliverables — complete
 
-## What the widget changes for launch
+| File | Version | Status |
+|------|---------|--------|
+| `growth/positioning.md` | V8 | ✅ Pénalité layer added |
+| `growth/landing-copy.md` | V8 | ✅ Social norm + new section + FAQ + CTA |
+| `growth/launch-plan.md` | V8 | ✅ Screenshots done, pénalité Reddit drafts |
+| `growth/penalite-fidelite-brief.md` | V1 | ✅ NEW — full brief with integration points |
+| `growth/feedback-form-spec.md` | V1 | ✅ NEW — GROWTH-06 ready to create |
+| `growth/assets/*.png` | — | ✅ NEW — 3 screenshots |
+| `growth/demo-video-script.md` | Draft | ✅ Unchanged — post-launch |
 
-The widget is the single biggest improvement to launch readiness since Day 0.
-Three specific impacts:
-
-1. **Landing page conversion.** The first interaction is now a 10-second check,
-   not a PDF upload. This follows the micro-commitment escalation pattern from
-   US finding #9 (Rocket Money, NerdWallet, Credit Karma). Every successful US
-   fintech product delivers personalized value before asking for documents.
-   ReneGo now does too.
-
-2. **Reddit/social messaging.** « Vérifiez en 10 secondes combien vous surpayez
-   votre box internet » is a fundamentally different CTA than « importez votre
-   facture ». The first is curiosity-driven (low friction). The second is
-   commitment-driven (high friction). For a zero-brand-recognition product,
-   the low-friction CTA will convert more cold traffic.
-
-3. **Shareable "aha moment."** The widget result (« vous surpayez de 17 €/mois »)
-   is screenshot-ready. When DEV-11 diagnostic card ships, the sharing loop
-   will be complete — but even without it, the widget output is already a
-   shareable data point for word-of-mouth.
-
-## Day 2 afternoon priorities
-
-| # | Task | Owner | Effort | Impact |
-|---|------|-------|--------|--------|
-| 1 | DEV-11 Diagnostic Card | Dev | 2-4h | Viral engine for launch |
-| 2 | Screenshot/GIF production | Growth + Dev | 1h | Reddit/social posts |
-| 3 | GROWTH-06 Google Form V0 | Growth | 20 min | Data flywheel start |
-| 4 | Reddit posts final drafts | Growth | 1h | Launch day ready |
-| 5 | Offers-FR spot-check | Offers-FR | 1h | Data confidence |
-| 6 | **URL publique** | Alexis | — | **RESOLVED** |
-
-## Recommandation Growth — verdict launch
+## Launch readiness — Growth perspective
 
 | Condition | Status |
 |-----------|--------|
-| Zero P0 | ✅ Confirmé QA cycle 7 |
-| Zero P1 | ✅ Confirmé QA cycle 7 |
-| QA regression | ✅ QA-03 passée, zero regression |
-| Code = copy = marché | ✅ 98/100 (all 6 offers confirmed) |
-| Widget live | ✅ DEV-10 shipped + QA verified |
-| URL publique confirmée | ✅ Live |
-| URLs sources re-vérifiées le 15 matin | ⏳ Planifié |
+| Zero P0 | ✅ QA cycle 9 |
+| Zero P1 | ✅ QA cycle 9 |
+| QA regression | ✅ 3 consecutive stable cycles (7/8/9) |
+| Code = copy = marché | ✅ 99/100 |
+| Widget live | ✅ DEV-10 |
+| Diagnostic card live | ✅ DEV-11 |
+| Social meta + OG | ✅ Cycle 9 verified |
+| URL publique | ✅ Live |
+| Screenshots | ✅ 3 PNGs in growth/assets/ |
+| Pénalité brief | ✅ Delivered |
+| Form spec | ✅ Delivered |
+| URLs re-vérifiées le 15 | ⏳ Trust Pass 8 scheduled |
 
-**If URL confirmed → recommandation Growth = LAUNCH** le 15 mars, beta publique,
-canaux organiques, zéro budget. Le produit est dans son meilleur état :
-widget interactif, regression passée, ranking confirmé, zero P0/P1, 98/100.
+**Recommandation Growth = LAUNCH le 15 mars.** V8 if PM adopts pénalité copy,
+V7 if not. Both are launch-safe. V8 is stronger.
 
-**If URL not resolved by 14 mars soir → reporter à lundi 16.**
+## Week 1 priorities (if launch signal positive)
 
-## Week 1 amplification — if traction
-
-If J+3 signals are positive (>50 widget uses, >30 uploads, >5 mandats) :
-
-1. **Indice de Transparence Box Internet** — scored ISP scorecard for SEO, press,
-   social. ~1 day content. Source: US finding #8.
-2. **Promo-Expiry Sentinel** — alert email 30d before promo expires. ~1-2 days
-   dev. Source: US finding #7.
-3. **Panel expansion** — B&YOU, Free Pop, additional FTTH offers.
-4. **Post-action feedback analysis** — aggregate GROWTH-06 responses, publish
-   early retention offer data if enough signal.
-
-If neutral: analyze widget → upload funnel, iterate on friction points.
-If negative: reassess.
+| Priority | Item | Effort | Source |
+|----------|------|--------|--------|
+| 1 | Pénalité de fidélité in product surfaces (if not in V8) | 2-3h copy | Finding #13 |
+| 2 | Negotiation playbook (GROWTH-07 → DEV-12) | 2-3h content + 2h dev | Finding #12 |
+| 3 | GROWTH-06 feedback form in-product | 2-4h dev | Finding #10 |
+| 4 | Indice de Transparence scored scorecard | 1 day content | Finding #8 |
+| 5 | Promo-Expiry Sentinel | 1-2 days dev | Finding #7 |
+| 6 | Press pitch with pénalité angle | 2h | Finding #13 |
 
 ---
 
-*Next Growth cycle: screenshots/GIF + GROWTH-06 form + Reddit final drafts,
-afternoon 13 mars. Pending: URL resolution from Alexis.*
+*Growth evening cycle complete. Next: PM Day 3 review (08:00-09:05 CET, 15 mars).*

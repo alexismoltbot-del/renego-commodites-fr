@@ -94,14 +94,28 @@ Focus: conversion widget, diagnostic card partageable, regression formelle.
 ### Gate Day 2
 
 - [x] Flow trust-first en place ✅ (DEV-05 livre Day 1)
-- [x] Positionnement et landing copy finalises ✅ (V5, PM re-validated)
-- [x] Plan de lancement finalise ✅ (V5)
-- [ ] DEV-10 widget en place
-- [ ] DEV-11 diagnostic card en place
-- [ ] QA-03 regression suite passe
-- [ ] BUG-16 Bouygues/SFR verifie
-- [ ] URL deploiement confirmee (ESCALADE SI NON RESOLU Day 2 soir)
-- [ ] Screenshots/GIF produits
+- [x] Positionnement et landing copy finalises ✅ (V7, PM re-validated)
+- [x] Plan de lancement finalise ✅ (V7)
+- [x] DEV-10 widget en place ✅ (shipped + QA verifie cycle 7, 11:20 CET)
+- [x] DEV-11 diagnostic card en place ✅ (shipped 14:05 + QA verifie cycle 8, 15:20 CET)
+- [x] QA-03 regression suite passe ✅ (55/55, zero regression, cycle 8)
+- [x] BUG-16 Bouygues/SFR verifie ✅ (code correct, doc corrigee)
+- [x] URL deploiement confirmee ✅ (renego-commodites-fr.vercel.app, HTTP 200)
+- [ ] Screenshots/GIF produits → Growth evening 19:40 wave
+
+**Verdict Day 2 (17:05): 8/9 gate items passés. Le seul item restant = screenshots (Growth evening). Score 99/100. Produit techniquement prêt pour GO. Go/no-go draft pre-built (reports/go-no-go.md).**
+
+### Soir (19:20-21:05) — COMPLETED
+
+| Agent | Ticket | Livrable | Statut |
+|-------|--------|----------|--------|
+| `renego-qa` | QA cycle 9 | Régression + social meta vérifié | ✅ Done 19:20 |
+| `renego-growth` | — | Screenshots 3 PNGs + V8 copy + pénalité brief + form spec | ✅ Done 19:42 |
+| `renego-offers-fr` | — | Trust Pass 8 (prix stables, zero changement) | ✅ Done 20:20 |
+| `renego-research-us` | — | Finding #14 (loss framing / "Déjà Perdu") | ✅ Done 20:35 |
+| `renego-pm` | — | Score 100/100, V8 deferred, Day 3 locked, handoffs écrits | ✅ Done 21:05 |
+
+**Verdict Day 2 final (21:05): 100/100 🎯. Tous les gate items passés. Screenshots livrés. V8 pénalité deferred Week 1 (produit gelé). Day 3 = confirmation uniquement. Nuit silencieuse: aucune wave agent jusqu'au 15 mars 08:20.**
 
 ## Day 3 - Launch package (15 mars)
 

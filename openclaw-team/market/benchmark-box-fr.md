@@ -3,7 +3,7 @@
 Releve effectue pour la session du 12 mars 2026.
 Usage: reference pour le dev et le QA.
 
-> **Derniere verification Offers-FR:** 13/03/2026 12:20 CET (Trust Pass 6).
+> **Derniere verification Offers-FR:** 13/03/2026 20:20 CET (Trust Pass 8).
 > Toutes les 4 URLs Source sont vivantes (200 OK). Aucun changement de prix detecte depuis Trust Pass 5.
 > Code aligne sur Red by SFR ✅. Orange introMonths corrige a 12 ✅ (BUG-14 ferme).
 > Orange intro price corrige a 29,99 EUR dans le code (BUG-15 ferme 06:05): inclut remise -8 EUR + ODR -5 EUR sur base 42,99 EUR. Benchmark aligne ci-dessous.
@@ -57,3 +57,5 @@ Les prix sont ceux affiches sur les sites publics des operateurs au 12 mars 2026
 | 13/03/2026 | 04:20 | Trust Pass 4 | 4/4 URLs 200 OK, aucun changement de prix, Orange introMonths corrige dans le code (BUG-14 ferme), BUG-15 post-promo toujours ouvert |
 | 13/03/2026 | 08:20 | Trust Pass 5 | 4/4 URLs 200 OK, aucun changement de prix. Benchmark aligne sur code post-BUG-15: Orange intro 29,99 EUR (remise -8 + ODR -5), standard 42,99 EUR confirme, cout 24 mois 924,76 EUR. Bouygues setup fee ecart 48 vs 49 EUR note (P2). |
 | 13/03/2026 | 12:20 | Trust Pass 6 | 4/4 URLs 200 OK. Aucun changement de prix. Mentions legales relues: Red 22,99 EUR (depuis 20/01/2026), SFR Starter 27,99 EUR (depuis 10/03/2026), Bouygues Must 35,99/42,99 EUR (frais 48 EUR), Orange 29,99/42,99 EUR (promo jusqu'au 08/04/2026). Code et benchmark alignes. |
+| 13/03/2026 | 16:20 | Trust Pass 7 | 4/4 URLs 200 OK. Aucun changement de prix. Mentions legales relues et stables: Red 22,99 EUR, SFR 27,99 EUR, Bouygues 35,99/42,99 EUR, Orange 29,99/42,99 EUR (promo jusqu'au 08/04/2026). B&YOU 25,99 EUR toujours hors panel (P2). Code et benchmark alignes. |
+| 13/03/2026 | 20:20 | Trust Pass 8 | 4/4 URLs 200 OK. Aucun changement de prix. Mentions legales stables: Red 22,99 EUR (depuis 20/01/2026), SFR Starter 27,99 EUR (depuis 10/03/2026), Bouygues Must 35,99/42,99 EUR (frais 48 EUR), Orange 29,99/42,99 EUR (promo jusqu'au 08/04/2026). B&YOU 25,99 EUR hors panel (P2). Code et benchmark alignes. |

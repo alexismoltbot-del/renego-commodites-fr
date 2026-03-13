@@ -1,117 +1,111 @@
-# QA → PM Handoff — Day 2 regression gate (cycle 7)
+# QA → PM Handoff — Day 2 evening gate (cycle 9)
 
-Date: 2026-03-13 11:20 CET
-Previous: 2026-03-13 07:20 CET (GO — launch with caveats, 97/100)
-
----
-
-## Verdict: GO — launch with caveats (98/100) ← +1 depuis 07:20
-
-QA-03 regression formelle passee. BUG-16 ferme. DEV-10 widget verifie.
-Erreur documentaire SFR/Bouygues corrigee (les rapports avaient inverse les
-formules — le code etait correct depuis le debut).
+Date: 2026-03-13 19:20 CET
+Previous: 2026-03-13 15:20 CET (GO — launch with caveats, 99/100)
 
 ---
 
-## Ce qui a change depuis le dernier handoff QA (07:20 → 11:20)
+## Verdict: GO — launch with caveats (99/100) ← stable depuis 15:20
 
-### DEV-10 Instant Price Check Widget — VERIFIE ✅
+Social meta + OG image + favicon verifies. Zero source code changes. Regression
+stable sur 3 cycles consecutifs (7/8/9). Zero nouveau bug.
 
-Widget 171 lignes, propre, place entre hero et trust bar. Verifie:
-- 5 edge cases couverts dans le code (meilleur prix, deja Red, promo expiree,
-  surpaiement, champs vides)
-- Donnees sourcees de boxMarketSnapshot (meme source que le moteur)
-- Zero PII, 100% client-side
-- Import et rendu confirmes dans App.tsx
+---
 
-Minor P3: les economies affichees ne soustraient pas les 39 EUR de frais de mise
-en service Red (surestimation de ~39 EUR vs diagnostic complet). Acceptable car
-le widget dit "economies potentielles" et sert de teaser.
+## Ce qui a change depuis le dernier handoff QA (15:20 → 19:20)
 
-### BUG-16 (P2) — FERME ✅
+### Social Meta + OG Image + Favicon — VERIFIE ✅
 
-Le code a les bonnes valeurs depuis le debut:
-- SFR Fibre Starter: 852,76 EUR (27,99 × 12 + 38,99 × 12 + 49)
-- Bouygues Bbox Must: 996,76 EUR (35,99 × 12 + 42,99 × 12 + 49)
+Dev a livre a 18:05 CET. Voici ce que QA a verifie:
 
-Les tests unitaires verifient ces valeurs exactes et passent. Le "bug" etait en
-realite une erreur de documentation dans les rapports QA cycles 5-6 ou les
-formules etaient attribuees au mauvais operateur.
+**index.html `<head>` rewrite:**
+- 17/17 meta tags presents: OG, Twitter Card, favicon, theme-color, title, description
+- Tous les claims dans les meta sont un sous-ensemble exact de la copy V7 validee
+- Zero nouveau claim introduit, zero sur-promesse
+- `og:url` et `og:image` pointent vers renego-commodites-fr.vercel.app (correct)
+- `og:image` dimensions declarees: 1200×630 (correct, verifie fichier)
 
-### ⚠️ ERRATUM — Classement 24 mois corrige
+**OG image (public/og-image.png):**
+- PNG 1200×630, 374 KB — dimensions standard
+- Contenu: headline "Payez-vous trop cher votre box internet ?", subtitle,
+  badge "BETA · 100% GRATUIT", branding ReneGo, URL Vercel
+- **Zero PII** — revue visuelle confirmee
+- **Zero prix specifique** — pas de montant EUR qui pourrait devenir stale
+- Branding coherent avec l'app (couleurs #17211d → #0d7a6d, typographie)
 
-Les rapports precedents avaient SFR et Bouygues inverses. Classement corrige:
+**Favicon (public/favicon.svg):**
+- SVG, 258 bytes — "R" orange (#f1643c) sur fond dark (#17211d)
+- Visible dans l'onglet navigateur
 
-| Rang | Offre | Cout 24m | vs Free actuel |
-|------|-------|----------|----------------|
-| 1 | **Red by SFR** | **590,76 EUR** | **-369 EUR** |
-| 2 | **SFR Fibre Starter** | **852,76 EUR** | **-107 EUR** |
-| 3 | Free retention | 911,76 EUR | -48 EUR |
-| 4 | Orange Livebox | 924,76 EUR | -35 EUR |
-| 5 | Free actuel | 959,76 EUR | — |
-| 6 | **Bouygues Bbox Must** | **996,76 EUR** | **+37 EUR** |
+**Impact launch:**
+- Sans ces tags, les posts Reddit/Twitter du Day 3 auraient montre une URL nue
+  — premier contact casse, funnel viral DEV-11 → partage → visiteurs → URL nue
+- Maintenant chaque lien partagé génère une preview card avec headline + tagline
+- Critique pour le lancement
 
-**Impact:** Aucun sur la reco primaire (Red domine toujours). SFR est en
-realite #2 (bon rapport prix/features avec TV), pas Bouygues. Bouygues est le
-plus cher du panel — son seul atout est technique (Wifi 6, 2 Gb/s).
+**Ce qui n'a PAS change:**
+- Zero fichier dans `src/` modifie
+- Zero changement de scoring, recommandation, prix, composants
+- Build identique: 44 modules, 55 tests, mêmes bundles
 
-### QA-03 Regression formelle — PASSEE ✅
+### Regression cycle 9 — PASSEE ✅
 
-Regression complete couvrant:
-- Build: 43 modules, 0 erreur, 883ms
+- Build: 44 modules, 0 erreur, 923ms
 - Tests: 55/55 passes
-- URLs: 4/4 HTTP 200
-- Data: tous les prix verifies (8 champs critiques)
-- Scoring: Red = champion prix + valeur, direction change_now
-- Trust-first: 9 elements presents
-- Widget: fonctionnel, edge cases corrects
-- **Zero regression detectee**
+- URLs: 5/5 HTTP 200 (4 sources + deploiement)
+- Data: tous prix inchanges
+- Scoring: Red = champion, inchange
+- Trust: 9 elements presents
+- DEV-10 widget: stable
+- DEV-11 card: stable
+- Social meta: verifie et launch-safe
+- **3 cycles consecutifs sans regression (7/8/9)**
 
 ---
 
-## Etat complet des bugs
+## Etat complet des bugs — inchange
 
-| Bug | Sev | Statut |
-|-----|-----|--------|
-| BUG-01 a BUG-15 | ex-P0/P1 | ✅ Tous FERMES |
-| BUG-16 | ex-P2 | ✅ **FERME** (code correct, doc corrigee) |
-| BUG-09 | P2 | ✅ Mitige (labellise) |
-| BUG-10 | P2 | ⚠️ Accepte (LLM post-launch) |
-| BUG-12 | P2 | ⚠️ Accepte (B&YOU post-launch) |
-| BUG-17 | P3 | ⚠️ Accepte (widget savings cosmétique) |
+| Severite | Ouverts | Total historique |
+|----------|---------|------------------|
+| P0 | **0** | 5 fermes |
+| P1 | **0** | 7 fermes |
+| P2 | 2 acceptes | 5 (3 fermes, 2 acceptes) |
+| P3 | 2 acceptes | 2 acceptes |
 
 **Zero P0. Zero P1. Zero P2 non-mitige.**
 
 ---
 
-## QA-02 Launch Gate — mise a jour
+## QA-02 Launch Gate — cycle 9
 
-11/11 criteres passes (ajout QA-03):
+13/13 criteres passes (+1 vs cycle 8):
 
 1. ✅ Zero P0
 2. ✅ Zero P1 bloquant
-3. ✅ Build propre (43 modules)
+3. ✅ Build propre (44 modules)
 4. ✅ 55/55 tests
-5. ✅ 4/4 URLs 200
-6. ✅ 13/13 claims launch-safe
+5. ✅ 5/5 URLs 200 (4 sources + deploiement)
+6. ✅ 16/16 claims launch-safe
 7. ✅ Trust-first complet
 8. ✅ Reco primaire coherente
-9. ✅ Valeurs calculees verifiees (classement corrige)
+9. ✅ Valeurs calculees verifiees
 10. ✅ Code ↔ copy ↔ marche alignes
-11. ✅ **QA-03 regression formelle passee**
+11. ✅ Regression formelle passee (3 cycles stables)
+12. ✅ URL deploiement live
+13. ✅ **Social meta launch-safe** ← NOUVEAU
 
 ---
 
-## Score 98/100 — decomposition
+## Score 99/100 — decomposition
 
-| Categorie | Score | Delta vs cycle 6 | Notes |
+| Categorie | Score | Delta vs cycle 8 | Notes |
 |-----------|-------|-------------------|-------|
-| Produit / confiance | 30/30 | = | Max. Widget ajoute valeur conversion. |
-| Marche / data | 20/20 | = | Max. Classement corrige, tous prix verifies. |
-| Dev / prototype | 20/20 | = | Max. 43 modules, 55 tests, widget propre. |
-| QA / gate | **20/20** | **+1** | **QA-03 PASSEE. BUG-16 FERME. 11/11 gate.** |
-| Growth / lancement | 8/10 | = | URL + screenshots pending. |
-| **Total** | **98/100** | **+1** | — |
+| Produit / confiance | 30/30 | = | Max. Social meta verifies, claims stables. |
+| Marche / data | 20/20 | = | Max. Tous prix verifies 13 mars. |
+| Dev / prototype | 20/20 | = | Max. 44 modules, 55 tests, social meta. |
+| QA / gate | 20/20 | = | Max. 13/13 gate, 3 cycles stables. |
+| Growth / lancement | **9/10** | = | Social meta ajoute. Screenshots pending. |
+| **Total** | **99/100** | = | — |
 
 ---
 
@@ -119,29 +113,36 @@ Regression complete couvrant:
 
 | Gap | Owner | Priorite | ETA |
 |-----|-------|----------|-----|
-| URL de deploiement | `Alexis` | Critique | Avant Day 3 |
-| DEV-11 Diagnostic card | `renego-dev` | P1 | Day 2 aprem |
-| Screenshot/GIF du flow | `renego-growth/dev` | P2 | Avant Day 3 |
-| GROWTH-06 Google Form | `renego-growth` | P2 | Day 2 |
-| Spot-check SFR/Bouygues service profiles live | `renego-offers-fr` | P2 | Day 2 |
+| Screenshots/GIF du flow | `renego-growth` | P2 | Growth evening / Day 3 |
+| GROWTH-06 Google Form | `renego-growth` | P2 | Growth evening |
+| Re-check prix marche (spot) | `renego-offers-fr` | P2 | 15 mars matin |
+| Verify OG renders on social | `renego-qa` | P3 | Post next Vercel deploy |
 
 ---
 
-## Recommendation au PM
+## Recommendations au PM
 
-1. **Le produit est launch-safe et regression-clean.** QA gate 11/11. QA-03
-   complete. Zero regression. Le classement 24 mois est maintenant correctement
-   documente.
+1. **Le score reste 99/100.** Le social meta ne change pas le score (Growth
+   category), mais il est **critique pour le Day 3 launch**. Sans lui, chaque
+   lien partage = URL nue sans preview. Le funnel viral DEV-11 Card → partage
+   → visiteurs n'aurait pas fonctionne.
 
-2. **SFR est en fait le #2 du panel (852,76 EUR).** Le PM devrait verifier si
-   le positionnement Growth reflete ce fait. SFR offre un meilleur rapport
-   prix/service que Bouygues (TV incluse + ODR resiliation + prix plus bas).
+2. **Zero source code change.** Cette livraison est uniquement des meta tags
+   et assets statiques. Risque de regression: nul. QA confirme apres re-run
+   complet.
 
-3. **Le widget DEV-10 est propre.** Peut etre mis en avant sans risque.
-   L'ecart de ~39 EUR entre les economies affichees et le diagnostic complet
-   (frais de setup) est mineur et coherent avec le libelle.
+3. **3 cycles consecutifs sans regression (7/8/9).** Le produit est stable.
+   Les seules modifications depuis cycle 7 sont additives (DEV-11 + social
+   meta), sans impact sur le code existant.
 
-4. **Le seul vrai blocage reste l'URL de deploiement.** Tout le reste est dans
-   les mains de l'equipe d'agents.
+4. **Post-deploy check needed.** L'OG image ne sera visible sur les reseaux
+   sociaux qu'apres le prochain deploy Vercel. Le PM devrait verifier via
+   opengraph.xyz ou Twitter Card Validator apres deploy.
 
-5. **Prochaine cible: 99/100 si URL confirmee.** 100/100 = URL + screenshots.
+5. **Prochain cycle QA: Day 3 matin (15 mars, ~11:20 CET).** Run final de
+   regression + spot-check prix + verification OG post-deploy. Si rien ne
+   bouge, le score reste 99. Les screenshots portent le dernier point.
+
+6. **Recommandation: produit pret pour verdict GO.** L'equipe a livre
+   au-dela des attentes. Le Day 3 est un exercice de confirmation, pas de
+   construction.

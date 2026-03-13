@@ -6,9 +6,9 @@ Purpose:
 - noter les variations de prix, de promo et de source;
 - signaler les URLs cassees et les changements qui doivent remonter au PM ou au Dev.
 
-## Releve du 13 mars 2026 — 12h20 CET (Trust Pass 6)
+## Releve du 13 mars 2026 — 20h20 CET (Trust Pass 8)
 
-> Mise a jour depuis Trust Pass 5. Toutes les 4 URLs du code sont 200 OK. Aucun changement de prix detecte. Mentions legales relues pour chaque operateur. Toutes les promos et offres restent actives aux memes conditions. Code, benchmark et watch alignes.
+> Mise a jour depuis Trust Pass 7. Toutes les 4 URLs du code sont 200 OK. Aucun changement de prix detecte. Mentions legales relues pour chaque operateur. Toutes les promos et offres restent actives aux memes conditions. Code, benchmark et watch alignes.
 
 ### 1. SFR Fibre Starter
 
@@ -27,6 +27,8 @@ Purpose:
 - **Trust Pass 4:** Prix stable (27,99 EUR confirme), URL stable (200 OK). Aucun changement. ✅
 - **Trust Pass 5 (08:20):** Prix stable 27,99 EUR. URL 200 OK. Mentions legales confirmees "offres a partir du 10/03/2026". Aucun changement. ✅
 - **Trust Pass 6 (12:20):** Prix stable 27,99 EUR. URL 200 OK. Mentions legales relues: "SFR Starter ADSL/FIBRE/THD : 27,99€/mois, engagement 12 mois". Frais 49 EUR, resiliation 59 EUR. Aucun changement. ✅
+- **Trust Pass 7 (16:20):** Prix stable 27,99 EUR. URL 200 OK. Mentions legales confirmees: offres a partir du 10/03/2026, frais 49 EUR, resiliation 59 EUR. Aucun changement. ✅
+- **Trust Pass 8 (20:20):** Prix stable 27,99 EUR. URL 200 OK. Mentions legales confirmees: "SFR Starter ADSL/FIBRE/THD : 27,99€/mois, engagement 12 mois". Frais 49 EUR, resiliation 59 EUR. Aucun changement. ✅
 
 ### 2. Bouygues Telecom Bbox Must Fibre
 
@@ -45,6 +47,8 @@ Purpose:
 - **Trust Pass 5 (08:20):** Page charge (200 OK). Mentions legales confirmees: Bbox Must 35,99 EUR/mois puis 42,99 EUR, engagement 1 an, frais mise en service **48 EUR** (code dit 49 EUR — ecart P2), frais resiliation **69 EUR**. Aucun changement de prix. ✅
 - **⚠️ ALERTE (inchangee):** Nouvelle offre **B&YOU Pure Fibre Plus a 25,99 EUR/mois sans engagement** (8 Gb/s, frais 48 EUR, resiliation 69 EUR, depuis le 02/02/2026). Ce n'est PAS dans notre panel. Cout 24 mois: 25,99 x 24 + 48 = 671,76 EUR. Moins bon que Red (590,76 EUR) mais meilleur debit et sans engagement. Mentions legales confirmees 13/03 08:20 dans le fetch Bouygues. A considerer pour le panel.
 - **Trust Pass 6 (12:20):** Page charge (200 OK). Mentions legales relues: "Bbox must fibre... 35,99€/mois... puis 42,99€/mois", engagement 1 an, frais 48 EUR, resiliation 69 EUR. B&YOU Pure Fibre Plus toujours a 25,99 EUR/mois. Aucun changement. ✅
+- **Trust Pass 7 (16:20):** Page charge (200 OK). Mentions legales confirmees: Bbox Must 35,99 EUR puis 42,99 EUR, engagement 1 an, frais 48 EUR, resiliation 69 EUR. B&YOU Pure Fibre Plus toujours a 25,99 EUR/mois sans engagement (depuis 02/02/2026). Aucun changement. ✅
+- **Trust Pass 8 (20:20):** Page charge (200 OK). Mentions legales confirmees: "Bbox must fibre... 35,99€/mois... puis 42,99€/mois", engagement 1 an, frais 48 EUR, resiliation 69 EUR. B&YOU Pure Fibre Plus toujours a 25,99 EUR/mois sans engagement (depuis 02/02/2026). Aucun changement. ✅
 
 ### 3. Orange Livebox Fibre
 
@@ -66,6 +70,8 @@ Purpose:
 - **✅ ALERTE POST-PROMO FERMEE (BUG-15 — ferme 06:05 CET):** Le dev a confirme via browser que le prix de base est 42,99 EUR. Le prix promo de 29,99 EUR resulte de 42,99 - 8 (remise) - 5 (ODR) = 29,99. Le code reflète maintenant `introMonthlyPriceEur: 29.99`, `standardMonthlyPriceEur: 42.99`. Cout 24 mois: 12 x 29,99 + 12 x 42,99 + 49 = 924,76 EUR. Benchmark aligne.
 - **Note ODR:** L'ODR Bienvenue (-5 EUR/mois) est un remboursement differe sur demande, pas une remise automatique sur facture. Le code l'inclut dans le prix promo, ce qui est optimiste. Le prix "sans ODR" serait 34,99 EUR/mois (42,99 - 8). A mentionner en note dans la recommandation si on veut etre conservateur.
 - **Trust Pass 6 (12:20):** URL 200 OK. Mentions legales relues: "Offres Livebox jusqu'au 08/04/2026", "remise de -8€/mois pendant 12 mois sur Livebox Fibre", "ODR Bienvenue -5€/mois pendant 12 mois". Frais 49 EUR offerts, resiliation 60 EUR. Aucun changement. ✅
+- **Trust Pass 7 (16:20):** URL 200 OK. Mentions legales confirmees: promo jusqu'au 08/04/2026, remise -8 EUR/mois 12 mois + ODR -5 EUR/mois 12 mois. Frais 49 EUR offerts, resiliation 60 EUR. Remboursement jusqu'a 150 EUR frais resiliation ancien operateur. Aucun changement. ✅
+- **Trust Pass 8 (20:20):** URL 200 OK. Mentions legales confirmees: "Offres Livebox jusqu'au 08/04/2026", "remise de -8€/mois pendant 12 mois sur Livebox Fibre", "ODR Bienvenue -5€/mois pendant 12 mois". Frais 49 EUR offerts, resiliation 60 EUR. Aucun changement. ✅
 
 ### 4. Red by SFR THE BOX Fibre
 
@@ -93,6 +99,8 @@ Purpose:
   - **Trust Pass 4:** Mentions legales relues: "offre à 22,99€/mois" (depuis 20/01/2026), frais 39 EUR, 1 Gb/s sym. Aucun changement. ✅
   - **Trust Pass 5 (08:20):** Mentions legales relues: "offre à 22,99€/mois" (depuis 20/01/2026), frais 39 EUR remboursables sur demande, frais resiliation 59 EUR, 1 Gb/s sym. Aucun changement. ✅
   - **Trust Pass 6 (12:20):** Mentions legales relues: "offre à 22,99€/mois" (depuis 20/01/2026), frais 39 EUR remboursables, resiliation 59 EUR, 1 Gb/s sym. Option SFR Box 8 a 1 EUR/mois pour 2 Gb/s (note). Aucun changement. ✅
+  - **Trust Pass 7 (16:20):** Mentions legales confirmees: 22,99 EUR/mois (depuis 20/01/2026), frais 39 EUR remboursables sur demande, resiliation 59 EUR, 1 Gb/s sym. Remboursement jusqu'a 100 EUR frais resiliation ancien operateur. Aucun changement. ✅
+  - **Trust Pass 8 (20:20):** Mentions legales confirmees: "offre à 22,99€/mois" (depuis 20/01/2026), frais 39 EUR remboursables sur demande, resiliation 59 EUR, 1 Gb/s sym. Aucun changement. ✅
 
 ### 5. Free — Freebox Revolution (reference)
 
@@ -150,7 +158,7 @@ Le dev a confirme via browser (06:05 CET) que le prix de base Orange est bien 42
 
 ## Verification prochaine
 
-Day 2 matin (14/03 ~08:00): refresh prix standard.
+Day 2 matin (14/03 ~08:00): refresh prix standard (Trust Pass 9).
 
 ## Historique des Trust Pass
 
@@ -162,3 +170,5 @@ Day 2 matin (14/03 ~08:00): refresh prix standard.
 | 4 | 13/03/2026 | 04:20 | Stable, BUG-14 ferme, BUG-15 ouvert |
 | 5 | 13/03/2026 | 08:20 | Stable, BUG-15 ferme, benchmark aligne |
 | 6 | 13/03/2026 | 12:20 | Stable, aucun changement. 4/4 URLs 200 OK. |
+| 7 | 13/03/2026 | 16:20 | Stable, aucun changement. 4/4 URLs 200 OK. Mentions legales confirmees. |
+| 8 | 13/03/2026 | 20:20 | Stable, aucun changement. 4/4 URLs 200 OK. Mentions legales confirmees. |
