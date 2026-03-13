@@ -1202,3 +1202,140 @@ h3 {
     width: 100%;
   }
 }
+
+/* ─── Diagnostic Card (DEV-11) ─── */
+
+.diagnostic-share {
+  padding: 36px;
+}
+
+.diagnostic-card-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.diagnostic-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.diagnostic-card-header h3 {
+  margin: 4px 0 0;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.diagnostic-card-subtitle {
+  margin: 6px 0 0;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+  max-width: 420px;
+}
+
+.diagnostic-card-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.size-toggle {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.size-btn {
+  padding: 8px 16px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  transition: background 0.15s, color 0.15s;
+}
+
+.size-btn:hover {
+  background: var(--bg-2);
+}
+
+.size-btn.is-active {
+  background: var(--accent);
+  color: white;
+}
+
+.diagnostic-card-preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  background: var(--bg-2);
+  border-radius: 20px;
+  padding: 24px;
+  position: relative;
+}
+
+.diagnostic-canvas {
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transform: scale(0.96);
+  transition: opacity 0.3s, transform 0.3s;
+  max-height: 600px;
+  width: auto;
+}
+
+.diagnostic-canvas.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.diagnostic-canvas-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+.diagnostic-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.diagnostic-card-hint {
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .diagnostic-share {
+    padding: 24px 18px;
+  }
+
+  .diagnostic-card-header {
+    flex-direction: column;
+  }
+
+  .diagnostic-card-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .diagnostic-canvas {
+    max-height: 480px;
+  }
+}

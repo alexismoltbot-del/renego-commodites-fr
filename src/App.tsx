@@ -4,6 +4,7 @@ import marcPortrait from "./assets/story-marc.svg";
 import sarahPortrait from "./assets/story-sarah.svg";
 import { PriceTrendChart } from "./components/PriceTrendChart";
 import { InstantPriceCheck } from "./components/InstantPriceCheck";
+import { DiagnosticCard } from "./components/DiagnosticCard";
 import { analyzeContractText } from "./lib/contractAnalysis";
 import { fetchDecisionMemo } from "./lib/api";
 import { formatMoney, formatSaving, formatScore } from "./lib/format";
@@ -652,6 +653,24 @@ export default function App() {
             </p>
           )}
         </section>
+
+        {decisionMemo && recommendedOffer && analysis ? (
+          <section className="diagnostic-share glass-panel">
+            <DiagnosticCard
+              currentProvider={analysis.contract.provider}
+              currentMonthlyPrice={analysis.contract.monthlyPriceEur}
+              bestProvider={recommendedOffer.provider}
+              bestOffer={recommendedOffer.offer}
+              bestMonthlyPrice={recommendedOffer.monthlyPriceEur}
+              savings24m={
+                (recommendedOffer.totalCost24mEur != null && analysis.contract.annualCostEur)
+                  ? Math.max(0, analysis.contract.annualCostEur * 2 - recommendedOffer.totalCost24mEur)
+                  : recommendedOffer.annualSavingEur * 2
+              }
+              ctaUrl="renego.fr"
+            />
+          </section>
+        ) : null}
 
         <section id="observatoire" className="observatory glass-panel">
           <div className="section-head">
