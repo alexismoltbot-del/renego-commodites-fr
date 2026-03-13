@@ -51,7 +51,7 @@ Rebase: 2026-03-12 21:05 CET (PM night triage)
 
 ### Bloc C: Formaliser la confiance (aprem QA + PM)
 
-- [ ] QA-02 Transformer le rapport QA en gate de lancement
+- [x] QA-02 Transformer le rapport QA en gate de lancement ✅ (11/11 criteres passes, QA cycle 7)
   - Owner: `renego-qa`
   - Priority: **P1**
   - AC: zero P0 ouvert, mitige chaque P1 accepte, checklist de gate dans `reports/qa-launch-gate.md`
@@ -70,7 +70,7 @@ Rebase: 2026-03-12 21:05 CET (PM night triage)
 
 ### Bloc D-bis: Conversion + viral (Day 2 Dev)
 
-- [ ] DEV-10 Instant Price Check widget sur la landing page
+- [x] DEV-10 Instant Price Check widget sur la landing page ✅ (shipped + QA verifie 11:20 CET)
   - Owner: `renego-dev`
   - Priority: **P1**
   - AC:
@@ -81,7 +81,7 @@ Rebase: 2026-03-12 21:05 CET (PM night triage)
   - Effort: 2-4h
   - Source: `handoffs/pm-to-dev-day2.md`, US research finding #9
 
-- [ ] DEV-11 Shareable Diagnostic Card apres chaque analyse
+- [x] DEV-11 Shareable Diagnostic Card apres chaque analyse ✅ (shipped 14:05 CET)
   - Owner: `renego-dev`
   - Priority: **P1**
   - AC:
@@ -103,12 +103,12 @@ Rebase: 2026-03-12 21:05 CET (PM night triage)
 
 ### Bloc F: Regression + data verification (Day 2 QA)
 
-- [ ] QA-03 Ajouter une mini regression suite launch
+- [x] QA-03 Ajouter une mini regression suite launch ✅ (55/55 passes, zero regression)
   - Owner: `renego-qa`
   - AC: build + flow critique + assertions de scoring minimum + 24m costs verifies dans l'UI
   - Source: `handoffs/pm-to-qa-day2.md`
 
-- [ ] BUG-16 Verifier ecart ranking Bouygues/SFR dans l'UI (P2)
+- [x] BUG-16 Verifier ecart ranking Bouygues/SFR dans l'UI (P2) ✅ (doc corrigee, code deja juste)
   - Owner: `renego-qa`
   - Priority: **P2**
   - AC: confirmer que l'UI affiche SFR Starter = 852,76 EUR et Bouygues = 996,76 EUR
@@ -116,23 +116,21 @@ Rebase: 2026-03-12 21:05 CET (PM night triage)
 
 ### Bloc G: Growth Day 2
 
+- [x] Screenshots/GIF du flow (Red comme reco primaire) ✅ (3 PNGs: desktop 1280×800, mobile 390×844, full-page — 19:42 CET)
+  - Owner: `renego-growth`
+  - Result: `growth/assets/landing-desktop.png`, `growth/assets/landing-mobile.png`, `growth/assets/landing-full.png`
+
 - [ ] GROWTH-06 Google Form "Qu'a propose votre operateur ?" (V0 feedback loop)
   - Owner: `renego-growth`
-  - Priority: **P2**
-  - AC: Google Form lie depuis l'ecran post-action, zero dev, 20 min setup
+  - Priority: **P2** — APPROVED for Day 3 morning (15 min, zero dev)
+  - AC: Google Form lie depuis le plan d'action, zero dev, spec ready at `growth/feedback-form-spec.md`
   - Source: US research finding #10
 
-- [ ] GROWTH-07 Playbook de negociation — PREP CONTENT ONLY
+- [ ] GROWTH-07 Playbook de negociation — PREP CONTENT ONLY — **DEFERRED Week 1**
   - Owner: `renego-growth`
-  - Priority: **P2**
+  - Priority: **P2** (deferred — Week 1 content sprint)
   - AC: fichier `growth/negotiation-playbook-content.md` avec scripts par operateur, numeros de retention, articles de loi, guide contre-offre. PAS d'integration code — prep content pour DEV-12 Week 1.
   - Source: US research finding #12
-  - Note: coupable si temps manque apres GROWTH-06 + screenshots
-
-- [ ] Screenshots/GIF du flow (Red comme reco primaire)
-  - Owner: `renego-growth`
-  - Priority: **P2**
-  - AC: 3-4 screenshots + 1 GIF optionnel dans `growth/assets/`
 
 ## Ready — Day 3 (15 mars, launch day)
 
@@ -150,7 +148,7 @@ Rebase: 2026-03-12 21:05 CET (PM night triage)
 
 ## Founder pass — 12 mars soir
 
-- [ ] GROWTH-03 Rewriter la landing sur une promesse operee, gratuite et sans commission
+- [x] GROWTH-03 Rewriter la landing sur une promesse operee, gratuite et sans commission ✅ (founder pass applique)
   - Owner: `renego-growth`
   - Priority: **P0**
   - AC:
@@ -159,7 +157,7 @@ Rebase: 2026-03-12 21:05 CET (PM night triage)
     - expliquer le mandat et la renegociation operee;
     - expliciter que le moteur est transparent et sait dire "ne changez pas".
 
-- [ ] GROWTH-04 Ajouter des cas clients illustratifs visuels
+- [x] GROWTH-04 Ajouter des cas clients illustratifs visuels ✅ (cas illustratifs ajoutes, etiquetage prudent)
   - Owner: `renego-growth`
   - Priority: **P1**
   - AC:
@@ -167,7 +165,7 @@ Rebase: 2026-03-12 21:05 CET (PM night triage)
     - clairement etiquetees comme illustratives jusqu'a preuve client reelle;
     - ton grand public, pas geek.
 
-- [ ] DEV-08 Rendre l'observatoire public sans import et le pousser comme page preuve
+- [x] DEV-08 Rendre l'observatoire public sans import et le pousser comme page preuve ✅ (public sans PDF)
   - Owner: `renego-dev`
   - Priority: **P0**
   - AC:
@@ -175,7 +173,7 @@ Rebase: 2026-03-12 21:05 CET (PM night triage)
     - courbes des principaux operateurs;
     - copy de contexte lisible grand public.
 
-- [ ] GROWTH-05 Storyboarder la video demo etape par etape
+- [x] GROWTH-05 Storyboarder la video demo etape par etape ✅ (`growth/demo-video-script.md` cree)
   - Owner: `renego-growth`
   - Priority: **P1**
   - AC:
@@ -192,7 +190,7 @@ Rebase: 2026-03-12 21:05 CET (PM night triage)
     - point de montage identifie dans le repo;
     - dependances et risques documentes.
 
-- [ ] QA-05 Relecture launch-safe des nouvelles promesses publiques
+- [x] QA-05 Relecture launch-safe des nouvelles promesses publiques ✅ (claims launch-safe verifies)
   - Owner: `renego-qa`
   - Priority: **P1**
   - AC:
@@ -201,6 +199,13 @@ Rebase: 2026-03-12 21:05 CET (PM night triage)
     - observatoire public relu.
 
 ## Stretch / Week 1
+
+- [ ] CONTENT-01 "Penalite de fidelite" content sprint (Finding #13)
+  - Owner: `renego-growth` + `renego-pm`
+  - Priority: **P1** (Week 1)
+  - AC: Brief dans `growth/penalite-fidelite-brief.md`, integration V8 copy (widget, card, playbook, landing), ARCEP/Ariase data sourced
+  - Source: US research finding #13 (Opower social norm)
+  - Depends on: GROWTH-07 + DEV-12 for full integration
 
 - [ ] DEV-12 Integrer le playbook de negociation dans le template Plan d'action
   - Owner: `renego-dev`

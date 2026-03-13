@@ -1,8 +1,8 @@
 # Handoff: Research-US → PM
 
-Date: 2026-03-13 (updated — finding #12 added, 12:35 CET)
+Date: 2026-03-13 (updated — finding #14 added, 20:35 CET)
 Source: `openclaw-team/market/us-comparables.md` (full sourced research)
-Status: complete (12 findings)
+Status: complete (14 findings)
 
 ---
 
@@ -10,9 +10,11 @@ Status: complete (12 findings)
 
 The US bill negotiation market is a **$1.2B market growing at ~15% CAGR**, dominated by 4 models. No equivalent product exists in France. The "box internet" vertical is a strong first target. Key lessons below.
 
+**NEW (Finding #14, 20:35 CET):** Every ReneGo message currently uses forward-looking gain framing ("économisez 369€"). The most effective US conversion trigger is backward-looking loss framing ("vous avez déjà perdu ~204€ depuis l'expiration de votre promo"). Prospect Theory says losses feel ~2× more intense than gains. This is a zero-dev copy change that reframes EVERY product surface. See Finding #14 below.
+
 ---
 
-## 12 Actionable Findings (updated 2026-03-13 12:35 CET — finding #12 added)
+## 14 Actionable Findings (updated 2026-03-13 20:35 CET — finding #14 added)
 
 ### 1. Performance-based pricing is the trust anchor — adopt it
 
@@ -281,6 +283,87 @@ Full analysis in `market/us-comparables.md` section 17.
 
 ---
 
+### 13. Add a "Social Norm Percentile" nudge to every product surface — the zero-dev psychological lever that amplifies all 12 other findings (NEW, 2026-03-13 16:35 CET)
+
+Opower (acquired by Oracle for **$532 million** in 2016) built its entire product on one behavioral science insight: **telling people how they compare to their PEERS changes behavior more effectively than telling them what they could save.** Opower sent Home Energy Reports comparing each household's usage to ~100 similar neighbors. Results, validated by **J-PAL randomized controlled trials across 60+ million utility customers**: 1.5–2.5% persistent energy savings, >20 TWh cumulative, >$2B saved globally. This is one of the most replicated findings in behavioral economics (Cialdini's social norms, Allcott 2011 QJE, Allcott & Rogers 2014 AER).
+
+**The gap in ReneGo: all 12 existing findings compare the user's bill to MARKET OFFERS (rational, System 2).** None compare it to OTHER PEOPLE (emotional, System 1). Behavioral economics consistently shows that social comparison drives action MORE effectively than rational price comparison — especially for one-time binary decisions like "switch ISP" (easier to trigger than Opower's sustained energy reduction).
+
+**The ARCEP/Ariase data that makes this immediately actionable:**
+- Average monthly broadband bill in France (2024): **€36.90 HT** (≈ €44.28 TTC), up €2.20 year-on-year. [FACT — ARCEP Telconomics 2025]
+- Entry-level fiber average price: **€28.59/month** (Ariase, Oct 2024). [FACT — connexionfrance.com citing Ariase]
+- Catalogue prices for NEW customers **dropped 5.9% in 2024** — while existing customer bills are RISING. [FACT — ARCEP Telconomics 2025]
+- This means the gap between "loyal customer price" and "new customer price" is **widening every year.** Loyal customers are systematically penalized.
+
+**The product move — a single line of copy at every touchpoint, zero dev:**
+
+1. **Widget result:** Add after the overpayment: *"📊 Les nouveaux abonnés fibre paient en moyenne 28,59 €/mois (Ariase, 2024). Vous payez 40% de plus qu'eux — pour le même service."* This transforms the message from "here's a cheaper option" to "new customers get a better deal than you, a loyal customer" — triggering the "sucker" emotion.
+
+2. **Full analysis:** Add a "Votre position par rapport au marché" section citing ARCEP/Ariase data: "Les nouveaux clients paient de moins en moins. Les anciens clients comme vous paient de plus en plus." — three layers of social comparison (descriptive norm, injunctive norm, identity threat).
+
+3. **Diagnostic card (Finding #11):** Add *"📊 40% de plus que les nouveaux abonnés"* to the shareable card. This changes the sharing motivation from embarrassment ("I overpay") to **outrage** ("the system penalizes loyalty") — outrage is far more shareable.
+
+4. **Negotiation playbook (Finding #12):** Add to script: *"Selon les données de l'ARCEP, les nouveaux abonnés fibre paient 28,59 €/mois en moyenne. Je paie 39,99 € — 40% de plus pour le même service, parce que je suis resté fidèle."* The ISP retention agent has heard "Red is cheaper" but has NOT heard "ARCEP data shows I'm paying 40% more than your average new customer." Statistical authority is harder to dismiss.
+
+5. **Landing page headline:** Change from "Payez-vous trop cher ?" to **"Les nouveaux abonnés fibre paient 28,59 €/mois. Et vous ?"** — social norm as the hook, not product benefit.
+
+**Why this changes what ReneGo should SAY:**
+
+The UK's Ofcom coined the term **"loyalty penalty"** in official regulatory publications (2018-2020) and forced providers to notify customers when their contract was ending. France (ARCEP) has NOT implemented equivalent protections. ReneGo can name the French version: **"pénalité de fidélité"** — the hidden surcharge loyal ISP customers pay compared to new subscribers.
+
+**Press/PR hook for Sunday:** *"Les clients fidèles des box internet paient en moyenne 40% de plus que les nouveaux abonnés — ReneGo calcule votre 'pénalité de fidélité'"* — uses ARCEP's own data, names a structural injustice millions of readers experience, irresistible for 60 Millions de Consommateurs / UFC-Que Choisir / Les Numériques.
+
+**Why this is the force multiplier for the entire product:** The social norm doesn't replace any existing finding — it amplifies ALL of them. Widget + social norm = stronger conversion. Card + social norm = more shares. Playbook + social norm = stronger negotiation. Scorecard + social norm = more resonant content. Sentinel + social norm = higher alert-to-action rate. It's the emotional substrate that makes every rational data point more compelling.
+
+**Total implementation effort: 2-3 hours of copy/content work, ZERO dev.** All changes use existing product surfaces. ARCEP/Ariase data points are publicly available and citable. By attributing the social norm to the French regulator (not ReneGo), the message borrows regulatory authority — exactly the mechanism that made Opower's neighbor comparison credible.
+
+→ **PM decisions needed:**
+- Should the "loyalty penalty" / "pénalité de fidélité" social norm line be added to the widget, analysis, diagnostic card, and playbook? (ZERO dev — copy/template changes only, 2-3h total)
+- Should the landing page headline use the social norm framing? ("Les nouveaux abonnés fibre paient 28,59 €/mois. Et vous ?")
+- Should the launch PR angle include the "loyalty penalty" narrative? (ARCEP-sourced data, Ofcom-validated concept, unoccupied in France)
+- Should "pénalité de fidélité" become a named concept in ReneGo's positioning vocabulary? (Coined term that creates category ownership)
+
+Full analysis in `market/us-comparables.md` section 18.
+
+---
+
+### 14. Reframe every number as retrospective loss, not prospective savings — the "Déjà Perdu" counter that makes inaction feel unbearable (NEW, 2026-03-13 20:35 CET)
+
+Every ReneGo product surface frames value as a **forward-looking gain**: "économisez 369 € sur 24 mois." But the most effective US fintech conversion triggers are **backward-looking losses**: Rocket Money's viral UGC "aha moment" is a creator discovering they've ALREADY BEEN PAYING for a forgotten subscription ("I've wasted $112 on Hulu Live over 8 months"). The thewaystowealth.com hands-on review confirms the emotional peak is learning about a plan "I wasn't aware of" — the shock of past overpayment, not the hope of future savings. CompareInternet.com's negotiation scripts are structured the same way: "I noticed my bill INCREASED" (past), "I've been a customer for [X] years" paying more than new subscribers the whole time (cumulative past loss).
+
+**The behavioral economics foundation is the strongest in the field:**
+- **Loss aversion (Kahneman & Tversky, 1979, Nobel Prize):** losses feel ~2× more intense than equivalent gains. "Vous avez perdu 204 €" is ~2× more motivating than "vous pourriez économiser 204 €." [FACT — Prospect Theory]
+- **Certainty effect:** past losses are certain (you DID lose that money). Future savings are probabilistic (you MIGHT save IF you act). Certainty is more motivating.
+- **"Pennies-a-Day" granularity (Gourville, JCR 1998):** expressing losses in daily terms ("0,57 € perdu par jour") makes them feel visceral and ongoing — like a leaky faucet. [FACT — Gourville (1998)]
+
+**ReneGo can calculate this from existing facture data.** French ISP factures show subscription/billing start date + current price. Standard promo = 12 months. Therefore: estimated promo expiry = subscription date + 12m. Cumulative overpayment since expiry = months since × (current price − best market price). Per-day loss = monthly gap ÷ 30.
+
+**Example:** Freebox user subscribed March 2024, promo expired March 2025, now pays 39,99 €/mois. Best market: Red by SFR at 22,99 €. Gap = 17 €/mois. 12 months since expiry = **204 € déjà perdus. 0,57 € par jour.** "Depuis l'expiration de votre promo Freebox il y a ~12 mois, vous avez déjà surpayé d'environ 204 €."
+
+**This changes what ReneGo should SAY across five surfaces, with zero-to-minimal dev:**
+
+1. **Widget result:** Add "Chaque jour que vous attendez, c'est 0,57 € de perdu." (Zero dev — copy line.)
+2. **Full analysis:** Add a "Perdu depuis l'expiration de votre promo" section with cumulative €, per-day €, and "demain, si rien ne change, ce sera X + Y €." (Minimal dev — one calculation using data already parsed from facture.)
+3. **Diagnostic card (Finding #11):** Change "Économie potentielle: 369 €" to **"Déjà perdu: ~204 €"** — more shocking, more shareable, triggers outrage not aspiration.
+4. **Negotiation playbook (Finding #12):** Add to call script: "Depuis l'expiration de ma promo il y a [N] mois, j'ai payé ~[X €] de plus que vos tarifs pour les nouveaux abonnés." This reframes the call from "give me a discount" to "I've been overcharged relative to your own pricing."
+5. **Landing page headline alternative:** "Combien avez-vous déjà perdu depuis la fin de votre promo box internet ?" — a question that creates a knowledge gap only ReneGo can fill.
+
+**Key distinction from Finding #13 (social norm):** #13 compares the user to OTHER PEOPLE ("vous payez 40% de plus que les nouveaux"). #14 compares the user to THEIR OWN PAST SELF — the version who paid the promo price. Different psychological mechanisms (social comparison vs. intrapersonal loss aversion), different emotional responses (outrage at unfairness vs. regret at personal inaction). **They stack:** "Vous avez déjà perdu ~204 € (Finding #14) — et les nouveaux abonnés paient toujours le prix que vous payiez avant (Finding #13)."
+
+**Why this is the single most impactful MESSAGING change for the remaining hours:** It transforms the fundamental grammar of every message from "ReneGo saves you X" (future, probabilistic, nice-to-have) to "your ISP has overcharged you X since your promo expired" (past, certain, demanding action). The ISP becomes the entity that harmed the user. ReneGo becomes the tool that reveals and stops the harm. Same data, same product, radically different emotional impact.
+
+**Total effort: 1-2h copy/content work + 1-2h dev for the promo-expiry calculation in the analysis template.**
+
+→ **PM decisions needed:**
+- Should the analysis output include a "Perdu depuis l'expiration de votre promo" retrospective calculation? (Minimal dev — validate that subscription date is extractable from facture parser.)
+- Should the diagnostic card lead with "Déjà perdu: ~X €" instead of "Économie potentielle: X €"? (Zero dev — template copy change.)
+- Should the landing page A/B test a loss-frame headline ("Combien avez-vous déjà perdu...?") vs. the social norm headline ("Les nouveaux abonnés paient 28,59 €. Et vous ?")?
+- Should per-day loss ("0,57 €/jour") be added to widget, analysis, and card? (Zero dev — template format change.)
+
+Full analysis in `market/us-comparables.md` section 19.
+
+---
+
 ## Whitespace Confirmed
 
 **No French product negotiates bills on behalf of consumers.** Existing French apps (Origame, Ideel, ReSubs, Bankin') only track subscriptions. HelloWatt compares energy prices but doesn't negotiate. The active negotiation + recommendation + execution flow that Renego targets is an unoccupied niche.
@@ -289,7 +372,9 @@ Full analysis in `market/us-comparables.md` section 17.
 
 ## Recommended Next Steps for PM
 
-1. **🔴 HIGHEST PRIORITY: Upgrade the "Plan d'action" to an operator-specific "Playbook de négociation"** — Finding #12. This is the single highest-ROI change before Sunday: **ZERO dev work** (content/template change only, 2-3h), closes the "last mile" between recommendation and user action, and creates the differentiation line NO French competitor can claim: "On ne vous dit pas juste quoi faire. On vous dit quoi DIRE." US telecom sites generate millions of visits/month from this exact content pattern. France has no equivalent — no FCC broadband labels, no operator-specific scripts, no data-connected playbooks. ReneGo can be the first.
+1. **🔴 HIGHEST PRIORITY: Reframe all product messaging from prospective savings to retrospective loss** — Finding #14. This is the single highest-leverage MESSAGING change remaining: 1-2h copy work (zero dev for most surfaces, 1-2h dev for the analysis calculation). Every other finding changes what ReneGo BUILDS or which PSYCHOLOGICAL LEVER it pulls. This one changes the **fundamental grammar** of every sentence: from "économisez 369€" (future, probabilistic, easy to defer) to "vous avez déjà perdu ~204€ depuis l'expiration de votre promo" (past, certain, demanding action). Prospect Theory (Nobel Prize 2002) shows losses feel ~2× more intense than equivalent gains. ReneGo already has the data to calculate cumulative past overpayment from the facture. The diagnostic card "Déjà perdu: ~204€" is more shocking, more shareable, and more viral than "Économie potentielle: 369€." This stacks with Finding #13 (social norm): "Vous avez déjà perdu 204€ (#14) — et les nouveaux abonnés paient toujours le prix que vous payiez avant (#13)." **Target: Day 3 morning — copy changes across widget, card, playbook, analysis template.**
+1. **🔴 HIGHEST PRIORITY: Add the "Social Norm Percentile" / "Pénalité de Fidélité" nudge to every product surface** — Finding #13. This is the single highest-leverage change remaining: ZERO dev (pure copy/content), 2-3 hours, and it **amplifies every other finding.** Opower built a $532M company on the principle that social/peer comparison drives more behavior change than rational price data — validated across 60M+ customers by J-PAL RCTs. ReneGo currently compares bills to MARKET OFFERS only (System 2, rational, easy to ignore). Adding one ARCEP-sourced line — "Les nouveaux abonnés paient 28,59 €/mois. Vous payez 40% de plus." — activates System 1 (emotional, identity-threatening, hard to ignore). The "pénalité de fidélité" framing names a structural injustice using the French regulator's own data, creates a press-ready narrative for Sunday, and is the force multiplier that makes the widget, card, playbook, and scorecard more compelling. Ofcom (UK) coined "loyalty penalty" and forced regulatory action; France (ARCEP) hasn't. ReneGo can own this concept.
+2. **🔴 HIGHEST PRIORITY: Upgrade the "Plan d'action" to an operator-specific "Playbook de négociation"** — Finding #12. This is the single highest-ROI change before Sunday: **ZERO dev work** (content/template change only, 2-3h), closes the "last mile" between recommendation and user action, and creates the differentiation line NO French competitor can claim: "On ne vous dit pas juste quoi faire. On vous dit quoi DIRE." US telecom sites generate millions of visits/month from this exact content pattern. France has no equivalent — no FCC broadband labels, no operator-specific scripts, no data-connected playbooks. ReneGo can be the first.
 2. **PRIORITY: Ship the "Shareable Diagnostic Card" as the zero-budget viral engine** — Finding #11. ReneGo has zero ad budget. Rocket Money spent $1.7M+ on professional content alone and allocated 64% of its TikTok budget to UGC of users showing their savings screens. ReneGo can replicate the same organic sharing mechanic for 2-4h of dev time by generating a branded, screenshot-ready diagnostic card after each analysis. This is the ONLY finding that solves organic amplification — every other finding brings users in or retains them, but none turns users into distributors. In France, the channel is WhatsApp groups, not TikTok. One card shared to a family group triggers "et toi, combien tu paies?" — exponential growth from zero. **Target: Day 2 alongside DEV-10 widget (shared visual/branding work).**
 2. **PRIORITY: Add the "Instant Price Check" widget to the landing page** — Finding #9. This is the missing conversion bridge. The landing page currently asks visitors to upload a PDF as the first action — too much friction for a zero-brand product. A 2-field widget ("opérateur + prix/mois") gives a personalized savings estimate in 10 seconds, using existing benchmark data. Zero PII, zero documents, 2-4h dev, 100% client-side. This is how Rocket Money, NerdWallet, and Credit Karma convert cold traffic. Without it, Findings #8's traffic and GROWTH-03's copy have nowhere to convert. **Target: Day 2 alongside GROWTH-03 rewrite.**
 2. **PRIORITY: Publish a scored "Indice de Transparence" as the launch's top-of-funnel** — Finding #8. Without it, ReneGo is a tool nobody knows about. With it, ReneGo is the entity that publicly rates French ISPs on pricing honesty — a press-ready, SEO-rich, shareable asset that drives discovery. Upgrade DEV-08 from price chart to scored scorecard. Lead launch comms with "le premier Indice de Transparence Box Internet en France." This is the cold-start acquisition engine that feeds everything else.

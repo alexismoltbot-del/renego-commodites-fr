@@ -1,11 +1,11 @@
-# Offers-FR → PM Handoff — Trust Pass 6
+# Offers-FR → PM Handoff — Trust Pass 8
 
-**Date:** 13/03/2026 12:20 CET
+**Date:** 13/03/2026 20:20 CET
 **Agent:** renego-offers-fr
 
 ## Statut
 
-**Aucun changement de prix detecte.** Les 4 URLs du code sont vivantes (200 OK). Toutes les mentions legales relues confirment les prix en vigueur.
+**Aucun changement de prix detecte.** Les 4 URLs du code sont vivantes (200 OK). Toutes les mentions legales relues confirment les prix en vigueur. C'est le 8e pass consecutif sans variation de prix depuis Trust Pass 5.
 
 ## Resume par operateur
 
@@ -36,4 +36,4 @@ Le fichier `boxMarketSnapshot.ts` est aligne sur les prix publics verifies. Aucu
 
 ## Prochaine verification
 
-Trust Pass 7 prevu Day 2 matin (14/03 ~08:00 CET) — spot-check standard.
+Trust Pass 9 prevu Day 2 matin (14/03 ~08:00 CET) — spot-check standard.

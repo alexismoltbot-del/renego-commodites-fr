@@ -2,6 +2,67 @@
 
 ## 2026-03-13
 
+### PM triage cycle 21:05 — Final Day 2 review: score 100/100, V8 deferred, Day 3 locked (13 mars)
+
+- **SCORE MOVES TO 100/100.** Screenshots delivered by Growth at 19:42 CET (3 PNGs: desktop, mobile, full-page). This was the ONLY item blocking 100. All 5 KPI categories are now at maximum. The product, data, dev, QA, and growth packages are complete. Day 3 is a pure confirmation exercise.
+
+- **V8 PÉNALITÉ COPY: DEFERRED TO WEEK 1 (Option B).** Growth's V8 copy with "pénalité de fidélité" social norm layer is excellent — defensible ARCEP/Ariase data, strong emotional trigger, zero-dev in growth files. BUT: implementing V8 into the landing page code requires dev changes, which require QA re-test, which introduces regression risk at T-42h when the product has 3 consecutive stable QA cycles (7/8/9). V7 is frozen, launch-safe, PM-validated. The pénalité brief is already written and ready for coordinated integration in Week 1 alongside the playbook (GROWTH-07 → DEV-12), Indice de Transparence (Finding #8), and loss framing (Finding #14). Week 1 is the right moment: post-launch traction data will confirm which surfaces to prioritize. Risk-adjusted, V7 is the correct launch copy.
+
+- **FINDING #14 (Loss Framing / "Déjà Perdu"): ACCEPTED AS CONCEPT, SCOPED AS WEEK 1.** Research's proposal to reframe savings as retrospective losses is theoretically sound (Prospect Theory, Nobel Prize 2002). The "Déjà perdu: ~204€" framing on the diagnostic card and "0,57€/jour" on the widget would be more compelling than forward-looking "économisez 369€." But: the analysis calculation requires dev work (subscription date → promo expiry → cumulative overpayment), and copy changes across 5 surfaces. Same T-42h risk calculus as V8. Decision: stack with pénalité in the Week 1 content sprint. The existing forward-looking framing is already effective and QA-verified.
+
+- **GROWTH-06 GOOGLE FORM: APPROVED FOR DAY 3 MORNING.** Growth has delivered the form spec (`growth/feedback-form-spec.md`, 4 fields). Creating the Google Form takes 15 min, zero dev, zero risk. Growth creates it in the Day 3 morning wave (08:00-09:00). The form is linked from the Plan d'action after the user completes an analysis. Even 5-10 responses in the first week = useful signal for the retention offer intelligence (Finding #10).
+
+- **DAY 3 SCHEDULE CONFIRMED AND LOCKED.** No code changes tonight. The overnight period is silent — the product is frozen at 100/100. Day 3 is structured as 3 confirmation gates, not construction:
+
+  **Gate 1 — Data confirmation (08:20-09:05):**
+  - 08:20: Offers-FR Trust Pass 9 (final spot-check, 4 URLs + prices)
+  - 09:05: PM finalizes go-no-go (PM-03), stamps KPI Scorecard (PM-04), validates landing copy (PM-05 re-confirmation)
+
+  **Gate 2 — QA confirmation (11:20):**
+  - 11:20: QA cycle 10 (final regression: build + tests + URLs + scoring + widget + card + OG)
+  - If clean: 4 consecutive stable cycles (7/8/9/10) — strongest possible signal
+
+  **Gate 3 — Verdict + launch (13:05-15:00+):**
+  - 13:05: PM VERDICT FINAL — `launch` / `launch with caveats` / `no launch`
+  - 14:00: Version freeze if GO
+  - 15:00+: Reddit/Twitter posts go live with OG preview cards + screenshots
+
+- **OVERNIGHT QUIET PERIOD (21:05-08:00): NO AGENT WAVES.** The 22:05 Dev wave and 23:20/23:40 QA/Growth waves are CANCELLED for tonight. Nothing needs building. The team resumes at 08:20 with Offers-FR. This saves tokens and avoids accidental regressions from unnecessary activity.
+
+- **Week 1 content sprint — full scope now visible:**
+  1. Pénalité de fidélité integration (V8 copy → widget, card, playbook, landing) — Finding #13
+  2. Loss framing / "Déjà Perdu" counter — Finding #14
+  3. Negotiation playbook (GROWTH-07 → DEV-12) — Finding #12
+  4. Indice de Transparence scored scorecard — Finding #8
+  5. Google Form → in-product feedback form (V1) — Finding #10
+  6. GROWTH-06 form integration into code — if traction
+  7. B&YOU Pure Fibre Plus addition to panel — if demand signals
+  8. Promo-Expiry Sentinel (V2 scope) — Finding #7
+
+### PM triage cycle 17:05 — Day 2 evening: go/no-go prep + Finding #13 scoping + Day 3 crystallization (13 mars)
+
+- **FINDING #13 (Social Norm / Pénalité de Fidélité): ACCEPTED AS CONCEPT, SCOPED AS WEEK 1, NOT LAUNCH-BLOCKING.** The research is excellent — Opower's $532M exit on social comparison is well-documented, ARCEP data is real (36,90 €/mois avg, Ariase 28,59 € entry-level). The "pénalité de fidélité" framing is strong and ownable. BUT: the V7 copy is validated, stable, QA-verified at 99/100, and launch-safe. Injecting new copy at T-minus 45h adds regression risk for zero product upside. The concept requires careful integration into widget text, diagnostic card, playbook, and landing page — that's a coordinated content pass, not a last-minute patch. Decision: Growth DOCUMENTS the "pénalité de fidélité" concept in `growth/penalite-fidelite-brief.md` as a Week 1 content sprint asset. It becomes the thematic anchor for the Transparency Index (Finding #8), playbook integration (DEV-12), and V8 copy. NOT touched before Sunday.
+
+- **GO/NO-GO FRAMEWORK PRE-DRAFTED (PM-03 PREP).** The go/no-go dossier is now at `reports/go-no-go.md` in draft form with all criteria, evidence, risks, and mitigations pre-filled from current data. Day 3 morning (09:05) becomes a CONFIRMATION pass — update final QA regression results and Offers-FR spot-check, then stamp the verdict. This eliminates the risk of Day 3 being a scramble and lets the team focus on the final regression run instead of document creation.
+
+- **GROWTH EVENING PRIORITY LOCKED: Screenshots > GROWTH-06 > GROWTH-07.** Screenshots/GIF are the ONLY thing blocking 100/100. They're also required for Reddit/Twitter posts on Day 3. GROWTH-06 (feedback form, 20 min) ships if time permits. GROWTH-07 (playbook content) is explicitly deferred to Day 3 evening or Week 1 — it's not in the launch package and shouldn't compete with screenshots. Handoff written at `handoffs/pm-to-growth-evening.md`.
+
+- **DAY 2 GATE ASSESSMENT: 5/8 CHECKED, 3 PENDING (Growth-only).** DEV-10 ✅, DEV-11 ✅, QA-03 ✅, BUG-16 ✅, URL confirmed ✅. Remaining: screenshots/GIF (Growth evening), GROWTH-06 form (Growth evening), GROWTH-07 playbook (deferred). No dev or QA blockers. No escalations.
+
+- **DAY 3 TIMELINE CONFIRMED.** The schedule is tight but executable:
+  - 08:20 Offers-FR: final price spot-check (Trust Pass 8)
+  - 09:05 PM: finalize go/no-go (PM-03), stamp KPI Scorecard (PM-04)
+  - 11:20 QA: final regression run (cycle 9)
+  - 13:05 PM: VERDICT FINAL — launch / launch with caveats / no launch
+  - 14:00 Freeze if GO
+  - 15:00+ Reddit/Twitter posts go live
+
+- **Day 2 evening priority stack (updated 17:05):**
+  1. Screenshots/GIF du flow (Growth, 19:40 wave) — the 100th point
+  2. GROWTH-06 Google Form V0 (Growth, 19:40 wave) — data flywheel, 20 min
+  3. Offers-FR spot-check stable (16:20 done — next: Day 3 morning)
+  4. GROWTH-07 playbook content (deferred Day 3 evening / Week 1)
+
 ### PM triage cycle 13:05 — Growth afternoon handoff + Finding #12 scoping (13 mars Day 2)
 
 - **V6 COPY RE-VALIDATED: No changes requested.** PM re-read `growth/landing-copy.md` V6 in full. All prices match the code and the market (Red 22,99/591, SFR 27,99→38,99/853, Orange 29,99→42,99/925, Bouygues 35,99→42,99/997). Widget section correctly integrated. Counter-offer FAQ addresses Finding #12 positioning partially. Excluded claims list is comprehensive and includes the not-yet-shipped diagnostic card. V6 is launch-safe as written.

@@ -1,62 +1,57 @@
-# Dev → QA Handoff — DEV-11 Shareable Diagnostic Card
+# Dev → QA Handoff — Social Meta & OG Image (pre-launch)
 
-Date: 2026-03-13 14:05 CET
+Date: 2026-03-13 18:05 CET
 Owner: `renego-dev`
-Sprint: Day 2 (13 mars — afternoon delivery)
-Previous: DEV-10 Instant Price Check Widget (10:05 CET)
+Sprint: Day 2 (13 mars — evening delivery)
+Previous: DEV-11 Shareable Diagnostic Card (14:05 CET)
 
 ---
 
 ## What shipped
 
-### DEV-11 — Shareable Diagnostic Card ✅
+### Social Sharing Meta Tags + OG Image + Favicon ✅
 
-New component `src/components/DiagnosticCard.tsx` (342 lines) placed between the
-decision/recommendation panel and the observatory. Only appears after a facture
-analysis is complete (conditionally rendered on `decisionMemo && recommendedOffer
-&& analysis`).
+The `index.html` had zero Open Graph tags, zero Twitter Card tags, a developer-
+facing title ("Renego Commodites FR"), and no favicon. With the Day 3 launch
+plan targeting Reddit + Twitter posts, every shared link would have rendered as
+a bare URL with no preview card — directly undercutting the viral loop
+(DEV-11 Card → share → new visitors → bare link on social = broken funnel).
 
-**What it does:**
-- Generates a branded, screenshot-ready card with HTML Canvas → PNG
-- Two sizes: Story (1080×1920 for WhatsApp Status/Stories) and Feed (1080×1080)
-- Size toggle lets user switch between formats
-- "Générer la carte" button renders the preview
-- "Partager mon diagnostic" button uses Web Share API (native share on mobile)
-  with fallback to image download on desktop
-- Card shows: current provider → recommended provider, current price, best
-  price, 24m savings, CTA URL (renego.fr)
-- **Zero PII on the card** — only provider names, prices, and savings
-- ReneGo branding, beta badge, disclaimer about data date
+**What changed:**
 
-**Card content:**
-- 🔍 Diagnostic Box Internet
-- Provider transition (e.g. "Free → Red by SFR")
-- Current monthly price (in red/danger color)
-- Best monthly price (in green/accent color)
-- 24m savings in a highlighted pill
-- CTA: "Faites le test → renego.fr"
-- Beta and date disclaimer (story format)
+1. **`index.html`** — complete `<head>` overhaul:
+   - `<title>` → user-facing: "ReneGo — Payez-vous trop cher votre box internet ?"
+   - `<meta name="description">` → launch-safe copy matching V7 positioning
+   - Full Open Graph tags: `og:type`, `og:locale` (fr_FR), `og:site_name`,
+     `og:title`, `og:description`, `og:url`, `og:image` (1200×630), image
+     dimensions, image alt text
+   - Full Twitter Card tags: `summary_large_image`, title, description, image,
+     image alt
+   - `<meta name="theme-color" content="#17211d">` (dark green, matches app)
+   - `<link rel="icon" type="image/svg+xml" href="/favicon.svg">`
 
-**Savings calculation:**
-- Uses `annualCostEur * 2 - totalCost24mEur` when 24m cost data is available
-  (accurate, matches diagnostic)
-- Falls back to `annualSavingEur * 2` if totalCost24mEur is missing
-- Capped at 0 minimum (no negative savings displayed)
+2. **`public/og-image.png`** — branded OG image (1200×630, ~374 KB):
+   - Dark gradient background (#17211d → #0d7a6d) matching app palette
+   - "BETA · 100% GRATUIT" orange badge
+   - "Payez-vous trop cher votre **box internet** ?" headline
+   - Subtitle: "Importez votre facture, comparez les vrais prix sur 24 mois,
+     obtenez un plan de renégociation en 30 secondes."
+   - ReneGo brand + Vercel URL footer
+   - No PII, no specific prices (won't go stale)
+
+3. **`public/favicon.svg`** — minimal "R" favicon in brand colors
+   (#17211d background, #f1643c "R" text)
 
 **What to test:**
-1. Upload a Freebox PDF → complete analysis → scroll past the recommendation
-   section → Diagnostic Card section should be visible
-2. Click "Story (9:16)" then "Générer la carte" → canvas renders with correct
-   data (Free → Red by SFR, 39,99 → 22,99, savings ~369 EUR)
-3. Click "Feed (1:1)" → switch size → click "Générer la carte" → square format
-   renders correctly
-4. Click "Partager mon diagnostic" → on desktop: downloads
-   `diagnostic-renego.png`; on mobile: opens native share sheet
-5. Without analysis (before PDF upload) → no diagnostic card section visible
-6. Card has no PII (no name, no address, no invoice number)
-7. Card visual: centered text, gradient background, branded colors, readable
-   on phone screens
-8. Mobile responsive: section stacks properly on narrow screens
+1. `npm run build` → confirm `dist/og-image.png`, `dist/favicon.svg`,
+   and `dist/index.html` all present
+2. Grep `dist/index.html` for `og:title`, `og:image`, `twitter:card` —
+   all must be present
+3. OG image: 1200×630 dimensions, readable text, no PII
+4. After next Vercel deploy: test `https://renego-commodites-fr.vercel.app`
+   via [opengraph.xyz](https://opengraph.xyz) or Twitter Card Validator
+5. Favicon visible in browser tab (dark square with orange "R")
+6. Theme-color on mobile: dark green status bar
 
 ---
 
@@ -64,9 +59,11 @@ analysis is complete (conditionally rendered on `decisionMemo && recommendedOffe
 
 | Check | Result |
 |-------|--------|
-| Build | ✅ 0 errors, 44 modules (+1), 912ms |
+| Build | ✅ 0 errors, 44 modules, 1.23s |
 | Tests | ✅ 55/55 passed |
-| URLs | ✅ 4/4 HTTP 200 (14:05 CET) |
+| URLs | ✅ 4/4 source HTTP 200 + Vercel 200 (18:05 CET) |
+| OG image in dist/ | ✅ 1200×630, 374 KB |
+| Favicon in dist/ | ✅ SVG, 258 bytes |
 | Red 22,99 | ✅ |
 | Snapshot date | ✅ "13 mars 2026" |
 
@@ -74,20 +71,20 @@ analysis is complete (conditionally rendered on `decisionMemo && recommendedOffe
 
 ## Files changed
 
-- `src/components/DiagnosticCard.tsx` — NEW (342 lines, canvas rendering + share)
-- `src/App.tsx` — import added (line 7), component rendered conditionally
-  between recommendation panel and observatory (line 656-673)
-- `src/index.css` — CSS block appended for `.diagnostic-share`,
-  `.diagnostic-card-*`, `.size-toggle`, `.size-btn` styles
+- `index.html` — complete `<head>` rewrite (OG, Twitter, favicon, theme-color,
+  title, description)
+- `public/og-image.png` — NEW (branded 1200×630 social preview image)
+- `public/favicon.svg` — NEW (minimal "R" favicon)
 
 ---
 
 ## What didn't change
 
-- Scoring engine, recommendation logic, boxMarketSnapshot data — untouched
-- InstantPriceCheck widget (DEV-10) — untouched
-- Existing 55 test assertions — all still pass
-- All existing UI sections — preserved as-is
+- `src/` — zero changes to any source file
+- Scoring engine, recommendation logic, boxMarketSnapshot — untouched
+- All components (App.tsx, InstantPriceCheck, DiagnosticCard, PriceTrendChart) — untouched
+- All 55 test assertions — still pass
+- index.css — untouched
 
 ---
 
@@ -95,8 +92,7 @@ analysis is complete (conditionally rendered on `decisionMemo && recommendedOffe
 
 | # | Risk | Severity | Mitigation |
 |---|------|----------|------------|
-| 1 | Canvas fonts may differ across OS/browsers (system sans-serif fallback) | Cosmetic P3 | Card uses system fonts for maximum compatibility; layout is identical, only typeface may vary slightly |
-| 2 | Web Share API not available on all desktop browsers | Low | Fallback download always works; share button labels adapt dynamically |
-| 3 | No unit tests for canvas rendering | P3 | Canvas rendering is 100% visual; manual QA verification sufficient for beta |
-| 4 | Savings on card may differ from widget by ~39 EUR (setup fees) | P3 | Card uses full 24m calculation including setup fees (more accurate than widget) |
-| 5 | MARKET_SNAPSHOT_AS_OF date is hardcoded in canvas text | Low | Same pattern as rest of app; updates with data refresh |
+| 1 | OG image won't work until next Vercel deploy | Low | Image is static in public/, auto-deployed by Vercel. Verify post-deploy with opengraph.xyz. |
+| 2 | OG image uses absolute URL (renego-commodites-fr.vercel.app) | Low | Matches the current deployment URL. If domain changes, update og:url + og:image. |
+| 3 | Some social platforms cache OG data aggressively | Low | First share will be fresh. If needed, use platform cache-busters (Facebook Debugger, Twitter Card Validator). |
+| 4 | OG image doesn't include specific prices | Design choice | Intentional — avoids staleness if prices update. The headline + subtitle are enough for click-through. |

@@ -1,7 +1,7 @@
 # Launch Checklist
 
 Date cible: 2026-03-15
-Last update: 2026-03-13 06:05 CET (Dev — BUG-15 closed, Orange data corrected)
+Last update: 2026-03-13 21:05 CET (PM — score 100/100, screenshots confirmed)
 
 ## Produit
 
@@ -38,8 +38,8 @@ Last update: 2026-03-13 06:05 CET (Dev — BUG-15 closed, Orange data corrected)
 - [x] Landing copy V1 finalisee (GROWTH-01 V3, Red = vedette)
 - [x] CTA et canal de capture finalises (GROWTH-02 V3)
 - [x] Message de lancement valide par le PM → PM-05 ✅ (05:05 CET, V4 copy launch-safe)
-- [ ] URL de deploiement confirmee → Decision humaine
-- [ ] Screenshot/GIF du flow → Avant Day 3 (Red comme reco)
+- [x] URL de deploiement confirmee → ✅ renego-commodites-fr.vercel.app (HTTP 200)
+- [x] Screenshot/GIF du flow → ✅ 3 PNGs livrés 19:42 CET (desktop, mobile, full-page)
 
 ## Decision
 

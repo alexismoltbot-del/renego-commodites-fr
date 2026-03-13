@@ -1,0 +1,1086 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ReneGo — Votre Concierge Box Internet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ============================================================
+         ReneGo — Variant B · Claude / Trust-First Concierge
+         Pattern: Billshark concierge simplicity + Trim reassurance
+         Adapted: editorial premium, mandat FR, transparence forte
+         ============================================================ */
+
+      :root {
+        --paper: #f6f1e8;
+        --paper-deep: #ede5d6;
+        --card: #fffdf8;
+        --card-warm: #faf6ee;
+        --ink: #1a1714;
+        --ink-soft: #3d3730;
+        --muted: #8a7f72;
+        --line: rgba(26, 23, 20, .10);
+        --line-strong: rgba(26, 23, 20, .18);
+        --accent: #0b6b65;
+        --accent-deep: #085550;
+        --accent-soft: rgba(11, 107, 101, .08);
+        --accent-glow: rgba(11, 107, 101, .12);
+        --warm: #c45d2c;
+        --warm-soft: rgba(196, 93, 44, .08);
+        --green: #1a8a5c;
+        --green-soft: rgba(26, 138, 92, .10);
+        --red-soft: rgba(180, 60, 50, .12);
+        --radius: 24px;
+        --radius-sm: 16px;
+        --radius-xs: 10px;
+      }
+
+      * { box-sizing: border-box; margin: 0; }
+      html { scroll-behavior: smooth; }
+
+      body {
+        font-family: "Manrope", system-ui, sans-serif;
+        background: var(--paper);
+        color: var(--ink);
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* --- ambient warmth --- */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background:
+          radial-gradient(ellipse 1000px 700px at 75% 0%, rgba(11,107,101,.06), transparent),
+          radial-gradient(ellipse 800px 500px at 10% 30%, rgba(196,93,44,.04), transparent);
+        z-index: 0;
+      }
+
+      main {
+        position: relative;
+        z-index: 1;
+        max-width: 1160px;
+        margin: 0 auto;
+        padding: 28px 24px 96px;
+      }
+
+      /* --- editorial type --- */
+      .serif { font-family: "Newsreader", Georgia, serif; }
+      .label {
+        font-family: "Manrope", sans-serif;
+        text-transform: uppercase;
+        letter-spacing: .12em;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--accent);
+      }
+      .label-muted {
+        font-family: "Manrope", sans-serif;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--muted);
+      }
+
+      /* --- topbar --- */
+      .topbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--line);
+      }
+      .chip {
+        padding: 8px 16px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all .2s;
+      }
+      .chip:hover { border-color: var(--accent); color: var(--accent); }
+      .chip-active {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: var(--accent-soft);
+      }
+      .spacer { flex: 1; }
+
+      /* --- cards --- */
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 28px 26px;
+        position: relative;
+        overflow: hidden;
+      }
+      .card-elevated {
+        box-shadow:
+          0 1px 2px rgba(26,23,20,.04),
+          0 8px 24px rgba(26,23,20,.06),
+          0 24px 64px rgba(26,23,20,.08);
+      }
+      .card-accent-top::before {
+        content: "";
+        position: absolute;
+        top: -1px; left: 24px; right: 24px;
+        height: 3px;
+        background: linear-gradient(90deg, var(--accent), var(--warm));
+        border-radius: 0 0 3px 3px;
+      }
+
+      /* === HERO === */
+      .hero {
+        display: grid;
+        grid-template-columns: 1.1fr .9fr;
+        gap: 22px;
+        margin-top: 32px;
+        align-items: start;
+      }
+
+      .hero-left { display: flex; flex-direction: column; gap: 20px; }
+
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-size: 13px;
+        font-weight: 700;
+        width: fit-content;
+      }
+      .hero-badge .dot {
+        width: 8px; height: 8px;
+        border-radius: 50%;
+        background: var(--accent);
+        animation: pulse-dot 2.5s ease-in-out infinite;
+      }
+
+      h1 {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: clamp(42px, 7vw, 80px);
+        line-height: .94;
+        letter-spacing: -.035em;
+        font-weight: 700;
+        color: var(--ink);
+      }
+      h1 em {
+        font-style: normal;
+        color: var(--accent);
+      }
+
+      .lede {
+        font-size: 18px;
+        line-height: 1.78;
+        color: var(--muted);
+        max-width: 580px;
+      }
+
+      .cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+
+      .cta-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 16px 28px;
+        border-radius: var(--radius-xs);
+        background: var(--ink);
+        color: var(--card);
+        font-weight: 700;
+        font-size: 15px;
+        text-decoration: none;
+        transition: transform .15s, box-shadow .15s;
+        box-shadow: 0 4px 20px rgba(26,23,20,.15);
+      }
+      .cta-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 30px rgba(26,23,20,.22);
+      }
+      .cta-primary svg { width: 16px; height: 16px; }
+
+      .cta-ghost {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 14px 20px;
+        border-radius: var(--radius-xs);
+        border: 1px solid var(--line-strong);
+        color: var(--ink-soft);
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all .2s;
+      }
+      .cta-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+      /* --- concierge panel (right of hero) --- */
+      .concierge-panel { display: flex; flex-direction: column; gap: 16px; }
+
+      .concierge-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 4px;
+      }
+      .concierge-status {
+        padding: 5px 12px;
+        border-radius: 999px;
+        background: var(--green-soft);
+        color: var(--green);
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      .savings-highlight {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: 56px;
+        font-weight: 700;
+        letter-spacing: -.03em;
+        line-height: 1;
+        color: var(--accent);
+      }
+      .savings-context {
+        font-size: 14px;
+        color: var(--muted);
+        line-height: 1.6;
+        margin-top: 6px;
+      }
+
+      .price-compare {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 8px;
+      }
+      .price-box {
+        padding: 14px 16px;
+        background: var(--card-warm);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-sm);
+      }
+      .price-box .label-muted { display: block; margin-bottom: 6px; }
+      .price-val { font-size: 22px; font-weight: 700; }
+      .price-val.old { color: #b43c32; text-decoration: line-through; text-decoration-color: rgba(180,60,50,.35); }
+      .price-val.new { color: var(--green); }
+
+      .trust-bar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 6px;
+      }
+      .trust-track {
+        flex: 1;
+        height: 6px;
+        border-radius: 999px;
+        background: var(--paper-deep);
+        overflow: hidden;
+      }
+      .trust-fill {
+        height: 100%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--accent), var(--green));
+        transition: width 1.4s cubic-bezier(.22,1,.36,1);
+      }
+      .trust-num {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--accent);
+        min-width: 38px;
+        text-align: right;
+      }
+
+      /* concierge timeline */
+      .timeline { display: flex; flex-direction: column; gap: 0; }
+      .timeline-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 12px 0;
+        border-top: 1px solid var(--line);
+        font-size: 13px;
+      }
+      .timeline-row:first-child { border-top: none; }
+      .timeline-dot {
+        width: 10px; height: 10px;
+        flex-shrink: 0;
+        border-radius: 50%;
+        margin-top: 4px;
+      }
+      .timeline-dot.done { background: var(--accent); }
+      .timeline-dot.active { background: var(--warm); animation: pulse-dot 2s ease-in-out infinite; }
+      .timeline-dot.pending { background: var(--line-strong); }
+      .timeline-text { color: var(--ink-soft); }
+      .timeline-text strong { display: block; font-weight: 600; margin-bottom: 2px; }
+      .timeline-text span { color: var(--muted); font-size: 12px; }
+
+      /* === CONDITIONS CLAIRES === */
+      .conditions {
+        margin-top: 28px;
+        padding: 20px 26px;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--line);
+        background: linear-gradient(135deg, var(--accent-soft), var(--warm-soft));
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px 36px;
+        align-items: center;
+      }
+      .cond-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--ink-soft);
+      }
+      .cond-check {
+        width: 22px; height: 22px;
+        border-radius: 50%;
+        background: var(--accent-glow);
+        color: var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 800;
+        flex-shrink: 0;
+      }
+
+      /* === EDITORIAL PROMISE BAND === */
+      .promise {
+        margin-top: 32px;
+        padding: 32px 36px;
+        border-radius: var(--radius);
+        background: var(--ink);
+        color: var(--card);
+        text-align: center;
+      }
+      .promise h2 {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: clamp(24px, 4vw, 38px);
+        font-weight: 600;
+        line-height: 1.2;
+        letter-spacing: -.02em;
+        margin-bottom: 10px;
+      }
+      .promise h2 em { font-style: italic; color: var(--paper); opacity: .7; }
+      .promise p {
+        font-size: 15px;
+        line-height: 1.7;
+        color: rgba(255,255,255,.55);
+        max-width: 640px;
+        margin: 0 auto;
+      }
+
+      /* === SECTION HEADINGS === */
+      .section-head {
+        display: flex;
+        align-items: baseline;
+        gap: 16px;
+        margin-top: 56px;
+        margin-bottom: 10px;
+      }
+      .section-head h2 {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: 30px;
+        font-weight: 600;
+        letter-spacing: -.02em;
+      }
+      .section-head .rule { flex: 1; height: 1px; background: var(--line); }
+
+      /* === KPIS === */
+      .kpis {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+        margin-top: 24px;
+      }
+      .kpi {
+        text-align: center;
+        padding: 24px 16px;
+      }
+      .kpi-val {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--accent);
+        margin-bottom: 6px;
+      }
+      .kpi-desc {
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      /* === PROCESS STEPS === */
+      .process {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+        margin-top: 24px;
+      }
+      .process-line {
+        grid-column: 1 / -1;
+        height: 2px;
+        background: linear-gradient(90deg, var(--accent), var(--warm), var(--accent));
+        border-radius: 999px;
+        opacity: .25;
+        margin-bottom: -6px;
+      }
+      .step {
+        position: relative;
+        padding-top: 40px;
+      }
+      .step-num {
+        position: absolute;
+        top: 26px;
+        left: 26px;
+        font-size: 11px;
+        font-weight: 800;
+        color: var(--accent);
+        opacity: .5;
+        letter-spacing: .05em;
+      }
+      .step h3 {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: 17px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+      .step p {
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      /* === PROOF SECTION === */
+      .proof {
+        display: grid;
+        grid-template-columns: 1.15fr .85fr;
+        gap: 16px;
+        margin-top: 24px;
+      }
+
+      /* comparison table */
+      .comp-table { width: 100%; border-collapse: collapse; }
+      .comp-table th {
+        text-align: left;
+        padding: 10px 14px;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+        color: var(--muted);
+        border-bottom: 1px solid var(--line-strong);
+        font-weight: 700;
+      }
+      .comp-table td {
+        padding: 13px 14px;
+        font-size: 14px;
+        border-bottom: 1px solid var(--line);
+        color: var(--ink-soft);
+      }
+      .comp-table tr:last-child td { border-bottom: none; }
+      .comp-table .best { color: var(--accent); font-weight: 700; }
+      .comp-table .reco-row { background: var(--accent-soft); }
+      .comp-table .reco-row td { color: var(--ink); font-weight: 600; }
+      .comp-table .savings { color: var(--green); font-weight: 600; }
+      .comp-table .current-row td { color: var(--muted); }
+
+      .cost-bar-wrap { display: flex; align-items: center; gap: 8px; }
+      .cost-bar {
+        flex: 1; height: 5px;
+        border-radius: 999px;
+        background: var(--paper-deep);
+      }
+      .cost-bar span {
+        display: block; height: 100%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--accent), var(--green));
+      }
+
+      /* trust checklist */
+      .trust-list { display: flex; flex-direction: column; }
+      .trust-item {
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+        padding: 15px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .trust-item:last-child { border-bottom: none; }
+      .trust-icon {
+        width: 34px; height: 34px;
+        flex-shrink: 0;
+        border-radius: var(--radius-xs);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 800;
+      }
+      .trust-icon.yes { background: var(--green-soft); color: var(--green); }
+      .trust-icon.no { background: var(--red-soft); color: #b43c32; }
+      .trust-item h4 {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 3px;
+      }
+      .trust-item p {
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 1.55;
+      }
+
+      /* === MANDATE === */
+      .mandate {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin-top: 24px;
+      }
+      .mandate-card {
+        border-top: 3px solid var(--accent);
+      }
+      .mandate-card h3 {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: 17px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+      .mandate-card p {
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      /* === TESTIMONIALS === */
+      .stories {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin-top: 24px;
+      }
+      .story {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .story-quote {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: 22px;
+        line-height: 1.3;
+        font-weight: 500;
+        color: var(--ink);
+        flex: 1;
+      }
+      .story-quote::before {
+        content: "\ab\a0";
+        color: var(--accent);
+        font-size: 28px;
+      }
+      .story-quote::after {
+        content: "\a0\bb";
+        color: var(--accent);
+        font-size: 28px;
+      }
+      .story-meta {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .story-avatar {
+        width: 36px; height: 36px;
+        border-radius: 50%;
+        background: var(--accent-soft);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--accent);
+      }
+      .story-name { font-size: 13px; font-weight: 600; }
+      .story-detail { font-size: 12px; color: var(--muted); }
+      .story-tag {
+        display: inline-flex;
+        width: fit-content;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 700;
+      }
+      .story-tag.kept { background: var(--accent-soft); color: var(--accent); }
+      .story-tag.saved { background: var(--green-soft); color: var(--green); }
+      .story-tag.switched { background: var(--warm-soft); color: var(--warm); }
+
+      /* === FINAL CTA === */
+      .final-cta {
+        margin-top: 64px;
+        text-align: center;
+        padding: 56px 32px;
+        border-radius: var(--radius);
+        background: var(--card);
+        border: 1px solid var(--line);
+        box-shadow: 0 24px 80px rgba(26,23,20,.08);
+      }
+      .final-cta h2 {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: clamp(28px, 5vw, 44px);
+        font-weight: 700;
+        letter-spacing: -.03em;
+        margin-bottom: 14px;
+        line-height: 1.1;
+      }
+      .final-cta h2 em {
+        font-style: italic;
+        color: var(--accent);
+      }
+      .final-cta p {
+        color: var(--muted);
+        font-size: 16px;
+        max-width: 560px;
+        margin: 0 auto 28px;
+        line-height: 1.7;
+      }
+
+      /* === FOOTER === */
+      .footer {
+        margin-top: 48px;
+        padding-top: 24px;
+        border-top: 1px solid var(--line);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px 28px;
+        justify-content: center;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      /* === ANIMATIONS === */
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(18px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      .anim { opacity: 0; animation: fadeUp .65s cubic-bezier(.22,1,.36,1) forwards; }
+      .anim-d1 { animation-delay: .1s; }
+      .anim-d2 { animation-delay: .2s; }
+      .anim-d3 { animation-delay: .3s; }
+      .anim-d4 { animation-delay: .4s; }
+      .anim-d5 { animation-delay: .5s; }
+      .anim-d6 { animation-delay: .6s; }
+
+      @keyframes pulse-dot {
+        0%, 100% { opacity: .5; transform: scale(1); }
+        50% { opacity: 1; transform: scale(1.3); }
+      }
+
+      /* === RESPONSIVE === */
+      @media (max-width: 1024px) {
+        .hero { grid-template-columns: 1fr; }
+        .proof { grid-template-columns: 1fr; }
+        .mandate { grid-template-columns: 1fr; }
+        .kpis { grid-template-columns: repeat(2, 1fr); }
+      }
+      @media (max-width: 768px) {
+        .process { grid-template-columns: 1fr 1fr; }
+        .stories { grid-template-columns: 1fr; }
+        .kpis { grid-template-columns: 1fr 1fr; }
+        main { padding: 16px 16px 64px; }
+      }
+      @media (max-width: 520px) {
+        .process { grid-template-columns: 1fr; }
+        .kpis { grid-template-columns: 1fr; }
+        .price-compare { grid-template-columns: 1fr; }
+        .conditions { flex-direction: column; gap: 10px; }
+        h1 { font-size: 38px; }
+        .savings-highlight { font-size: 44px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+
+      <!-- TOPBAR -->
+      <nav class="topbar">
+        <span class="chip chip-active">Variant B · Concierge Trust-First</span>
+        <span class="chip">Billshark × Trim → FR</span>
+        <span class="spacer"></span>
+        <a class="chip" href="./index.html">← Retour au lab</a>
+      </nav>
+
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero-left anim">
+          <div class="hero-badge">
+            <span class="dot"></span>
+            Concierge box internet
+          </div>
+          <h1>Vous mandatez.<br>On renégocie.<br>Vous <em>gardez tout.</em></h1>
+          <p class="lede">
+            ReneGo lit votre contrat, compare les offres du marché et renégocie
+            avec votre opérateur. Le diagnostic est gratuit, le raisonnement est
+            visible et aucune commission n'est prélevée sur vos économies. Si le
+            changement ne vaut pas l'effort, on vous le dit.
+          </p>
+          <div class="cta-row">
+            <a class="cta-primary" href="https://renego-commodites-fr.vercel.app">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              Lancer mon diagnostic gratuit
+            </a>
+            <a class="cta-ghost" href="#preuves">Voir comment ça marche ↓</a>
+          </div>
+        </div>
+
+        <div class="concierge-panel anim anim-d2">
+          <!-- Savings card -->
+          <div class="card card-elevated card-accent-top">
+            <div class="concierge-header">
+              <span class="label">Exemple de diagnostic</span>
+              <span class="concierge-status">● Économie détectée</span>
+            </div>
+            <div class="savings-highlight">– 369 €</div>
+            <div class="savings-context">
+              Économie potentielle sur 24 mois. L'offre recommandée est sourcée,
+              datée et vérifiable.
+            </div>
+
+            <div class="price-compare">
+              <div class="price-box">
+                <span class="label-muted">Vous payez</span>
+                <div class="price-val old">39,99 €/mois</div>
+              </div>
+              <div class="price-box">
+                <span class="label-muted">Offre recommandée</span>
+                <div class="price-val new">24,61 €/mois</div>
+              </div>
+            </div>
+
+            <div style="margin-top:12px">
+              <span class="label-muted" style="display:block;margin-bottom:8px">Indice de confiance</span>
+              <div class="trust-bar">
+                <div class="trust-track"><div class="trust-fill" style="width:88%"></div></div>
+                <span class="trust-num">88 %</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Concierge timeline -->
+          <div class="card" style="padding:20px 22px">
+            <span class="label" style="display:block;margin-bottom:10px">Votre concierge en action</span>
+            <div class="timeline">
+              <div class="timeline-row">
+                <span class="timeline-dot done"></span>
+                <div class="timeline-text">
+                  <strong>Facture analysée</strong>
+                  <span>Contrat Free, engagement terminé, 39,99 €/mois</span>
+                </div>
+              </div>
+              <div class="timeline-row">
+                <span class="timeline-dot done"></span>
+                <div class="timeline-text">
+                  <strong>Marché scanné</strong>
+                  <span>6 offres comparées, 2 recommandations produites</span>
+                </div>
+              </div>
+              <div class="timeline-row">
+                <span class="timeline-dot active"></span>
+                <div class="timeline-text">
+                  <strong>Négociation en cours</strong>
+                  <span>Prise de contact opérateur pour rétention ou switch</span>
+                </div>
+              </div>
+              <div class="timeline-row">
+                <span class="timeline-dot pending"></span>
+                <div class="timeline-text">
+                  <strong>Offre finale à valider</strong>
+                  <span>Vous vérifiez et signez — uniquement si ça vaut le coup</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONDITIONS CLAIRES -->
+      <div class="conditions anim anim-d3">
+        <div class="cond-item"><div class="cond-check">✓</div> Diagnostic 100 % gratuit</div>
+        <div class="cond-item"><div class="cond-check">✓</div> Aucune commission sur vos économies</div>
+        <div class="cond-item"><div class="cond-check">✓</div> Aucune modification sans votre accord</div>
+        <div class="cond-item"><div class="cond-check">✓</div> Vous vérifiez l'offre avant de signer</div>
+      </div>
+
+      <!-- EDITORIAL PROMISE -->
+      <div class="promise anim anim-d4">
+        <h2>Moins de facture. Moins de charge mentale.<br>Plus de <em>clarté.</em></h2>
+        <p>
+          Un concierge ne vend rien. Il analyse, négocie, explique — puis il vous
+          laisse décider. C'est ça, le mandat ReneGo.
+        </p>
+      </div>
+
+      <!-- KPIS -->
+      <section class="kpis anim anim-d4">
+        <div class="card kpi">
+          <div class="kpi-val">6</div>
+          <div class="kpi-desc">Offres comparées<br>et datées</div>
+        </div>
+        <div class="card kpi">
+          <div class="kpi-val">2</div>
+          <div class="kpi-desc">Recommandations<br>prix pur / rapport qualité-prix</div>
+        </div>
+        <div class="card kpi">
+          <div class="kpi-val">100 %</div>
+          <div class="kpi-desc">Du raisonnement<br>visible et traçable</div>
+        </div>
+        <div class="card kpi">
+          <div class="kpi-val">0 €</div>
+          <div class="kpi-desc">De commission<br>sur vos économies</div>
+        </div>
+      </section>
+
+      <!-- PROCESS -->
+      <div class="section-head" id="preuves">
+        <span class="label">Processus</span>
+        <h2>Comment ça marche</h2>
+        <div class="rule"></div>
+      </div>
+      <section class="process anim anim-d5">
+        <div class="process-line"></div>
+        <article class="card step">
+          <span class="step-num">01</span>
+          <h3>Envoyez votre facture</h3>
+          <p>On lit le contrat en détail : prix, engagement, frais cachés, services inclus. Rien ne sort de l'analyse sans votre accord.</p>
+        </article>
+        <article class="card step">
+          <span class="step-num">02</span>
+          <h3>On scanne le marché</h3>
+          <p>Observatoire public et snapshot daté. Chaque prix est sourcé pour que la recommandation reste défendable et vérifiable.</p>
+        </article>
+        <article class="card step">
+          <span class="step-num">03</span>
+          <h3>On renégocie pour vous</h3>
+          <p>Rétention avec votre opérateur ou switch vers une meilleure offre. Vous recevez un compte-rendu à chaque étape.</p>
+        </article>
+        <article class="card step">
+          <span class="step-num">04</span>
+          <h3>Vous validez et signez</h3>
+          <p>L'offre finale est devant vous. Vous souscrivez uniquement si elle vous convient. Sinon, rien ne change.</p>
+        </article>
+      </section>
+
+      <!-- PROOF SECTION -->
+      <div class="section-head">
+        <span class="label">Preuves</span>
+        <h2>Pourquoi cette offre gagne</h2>
+        <div class="rule"></div>
+      </div>
+      <section class="proof">
+        <article class="card card-elevated">
+          <span class="label" style="display:block;margin-bottom:16px">Comparaison détaillée · horizon 24 mois</span>
+          <table class="comp-table">
+            <thead>
+              <tr>
+                <th>Opérateur</th>
+                <th>Coût total 24m</th>
+                <th>Coût relatif</th>
+                <th>vs. actuel</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="reco-row">
+                <td class="best">Red by SFR ★</td>
+                <td>590,76 €</td>
+                <td>
+                  <div class="cost-bar-wrap"><div class="cost-bar"><span style="width:64%"></span></div></div>
+                </td>
+                <td class="savings">– 369 €</td>
+              </tr>
+              <tr>
+                <td>Bouygues B&amp;You</td>
+                <td>647,76 €</td>
+                <td>
+                  <div class="cost-bar-wrap"><div class="cost-bar"><span style="width:70%"></span></div></div>
+                </td>
+                <td class="savings">– 312 €</td>
+              </tr>
+              <tr>
+                <td>SFR Fibre Starter</td>
+                <td>852,76 €</td>
+                <td>
+                  <div class="cost-bar-wrap"><div class="cost-bar"><span style="width:92%"></span></div></div>
+                </td>
+                <td class="savings">– 107 €</td>
+              </tr>
+              <tr>
+                <td>Free (rétention)</td>
+                <td>911,76 €</td>
+                <td>
+                  <div class="cost-bar-wrap"><div class="cost-bar"><span style="width:99%"></span></div></div>
+                </td>
+                <td style="color:var(--muted)">– 48 €</td>
+              </tr>
+              <tr class="current-row">
+                <td>Votre offre actuelle</td>
+                <td>959,76 €</td>
+                <td>
+                  <div class="cost-bar-wrap"><div class="cost-bar"><span style="width:100%;background:rgba(180,60,50,.3)"></span></div></div>
+                </td>
+                <td>—</td>
+              </tr>
+            </tbody>
+          </table>
+        </article>
+
+        <article class="card card-elevated">
+          <span class="label" style="display:block;margin-bottom:14px">Engagements de transparence</span>
+          <div class="trust-list">
+            <div class="trust-item">
+              <div class="trust-icon yes">✓</div>
+              <div>
+                <h4>Observatoire public visible</h4>
+                <p>Les données marché sont consultables sans import ni inscription.</p>
+              </div>
+            </div>
+            <div class="trust-item">
+              <div class="trust-icon yes">✓</div>
+              <div>
+                <h4>Raisonnement accessible</h4>
+                <p>Chaque recommandation explique pourquoi une offre gagne — en langage simple.</p>
+              </div>
+            </div>
+            <div class="trust-item">
+              <div class="trust-icon yes">✓</div>
+              <div>
+                <h4>Mandat explicite et révocable</h4>
+                <p>Vous décidez quand ReneGo conseille et quand il agit. Aucune action sans feu vert.</p>
+              </div>
+            </div>
+            <div class="trust-item">
+              <div class="trust-icon yes">✓</div>
+              <div>
+                <h4>Vérification avant signature</h4>
+                <p>Vous validez l'offre finale. Pas de souscription surprise.</p>
+              </div>
+            </div>
+            <div class="trust-item">
+              <div class="trust-icon no">✗</div>
+              <div>
+                <h4>Commission cachée</h4>
+                <p>Zéro commission. Vos économies vous reviennent intégralement.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- MANDATE -->
+      <div class="section-head">
+        <span class="label">Mandat</span>
+        <h2>Votre contrôle, garanti</h2>
+        <div class="rule"></div>
+      </div>
+      <section class="mandate">
+        <article class="card mandate-card">
+          <h3>Aucune modification sans accord</h3>
+          <p>Votre contrat actuel ne change pas tant que vous n'avez pas explicitement validé la nouvelle offre. Un mandat, pas un blanc-seing.</p>
+        </article>
+        <article class="card mandate-card">
+          <h3>Recommandation ≠ vente</h3>
+          <p>Si le gain est trop faible ou les conditions moins bonnes, ReneGo recommande de ne pas bouger. Protéger le client, c'est aussi ça.</p>
+        </article>
+        <article class="card mandate-card">
+          <h3>Données utilisées, pas stockées</h3>
+          <p>Votre facture sert à l'analyse. Elle n'est ni revendue, ni conservée au-delà du diagnostic. Vous restez propriétaire de vos données.</p>
+        </article>
+      </section>
+
+      <!-- TESTIMONIALS -->
+      <div class="section-head">
+        <span class="label">Témoignages</span>
+        <h2>Ce qu'ils en disent</h2>
+        <div class="rule"></div>
+      </div>
+      <section class="stories">
+        <article class="card story">
+          <div class="story-quote">Le plus rassurant, c'est qu'on m'a dit de ne pas changer.</div>
+          <div>
+            <span class="story-tag kept">Recommandation : rester</span>
+          </div>
+          <div class="story-meta">
+            <div class="story-avatar">S</div>
+            <div>
+              <div class="story-name">Sarah</div>
+              <div class="story-detail">Cas illustratif · Gain trop faible pour justifier les démarches</div>
+            </div>
+          </div>
+        </article>
+        <article class="card story">
+          <div class="story-quote">Je payais 49 € depuis des années sans m'en rendre compte.</div>
+          <div>
+            <span class="story-tag saved">– 286 € sur 24 mois</span>
+          </div>
+          <div class="story-meta">
+            <div class="story-avatar">I</div>
+            <div>
+              <div class="story-name">Isabelle</div>
+              <div class="story-detail">Cas illustratif · Angle mort financier rendu visible</div>
+            </div>
+          </div>
+        </article>
+        <article class="card story">
+          <div class="story-quote">J'ai juste eu l'offre finale à signer. Le reste a été géré.</div>
+          <div>
+            <span class="story-tag switched">Switch opérateur</span>
+          </div>
+          <div class="story-meta">
+            <div class="story-avatar">M</div>
+            <div>
+              <div class="story-name">Marc</div>
+              <div class="story-detail">Cas illustratif · Travail lourd disparu, clarté conservée</div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- FINAL CTA -->
+      <section class="final-cta">
+        <h2>Votre facture mérite<br>un <em>second avis.</em></h2>
+        <p>
+          Le diagnostic est gratuit, le raisonnement est visible, aucune action
+          n'est prise sans votre accord et vos économies vous reviennent
+          intégralement. Voyez par vous-même.
+        </p>
+        <a class="cta-primary" href="https://renego-commodites-fr.vercel.app" style="margin:0 auto">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          Lancer mon diagnostic
+        </a>
+      </section>
+
+      <!-- FOOTER -->
+      <footer class="footer">
+        <span>Variant B · Claude / Trust-First Concierge</span>
+        <span>Inspiré par Billshark + Trim (US)</span>
+        <span>Adapté au marché français</span>
+        <span>Prototype statique — Design Lab ReneGo</span>
+      </footer>
+
+    </main>
+  </body>
+</html>

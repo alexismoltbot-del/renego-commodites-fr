@@ -1,29 +1,33 @@
 # Positioning — ReneGo Box Internet France
 
-Date: 2026-03-13 (V6 — Day 2 midday cycle)
+Date: 2026-03-13 (V8 — Day 2 evening cycle)
 Agent: renego-growth
-Status: V6 — widget shipped, regression passed, QA 98/100, ranking confirmed
-Previous: V5 2026-03-13 07:40 CET
+Status: V8 — screenshots captured, pénalité de fidélité brief delivered, social
+  meta QA-verified (cycle 9), 99/100, URL live
+Previous: V7 2026-03-13 15:40 CET
 
 ---
 
-## What changed in V6
+## What changed in V8
 
-- **DEV-10 Instant Price Check widget SHIPPED and QA-verified** (10:05 CET).
-  The landing page now has a 2-field widget above the fold: operator dropdown +
-  monthly price → instant savings estimate in 10 seconds. 5 edge cases verified
-  by QA, zero PII, data aligned with the engine. This changes the value
-  proposition: visitors get personalized value before uploading anything.
-- **QA-03 Regression formelle PASSÉE** (11:20 CET). Zero regressions across
-  build, tests, URLs, data, scoring, and trust elements. First formal regression
-  gate of the sprint.
-- **BUG-16 FERMÉ** (11:20 CET). SFR/Bouygues ranking was a doc error in earlier
-  QA cycles — code was always correct. Definitive ranking: SFR Starter #2
-  (852,76 €), Bouygues #6 (996,76 €). The Bouygues "804 €" in V5 was wrong.
-- **QA score: 98/100** (up from 97). +1 from QA gate maxed (20/20). QA-03
-  regression + BUG-16 closure + DEV-10 verification.
-- **Bouygues discrepancy RESOLVED.** No more open data questions. All 6 offers
-  in the ranking are confirmed and aligned across code, copy, and market.
+- **Screenshots captured** — 3 PNGs in `growth/assets/`: landing-desktop.png,
+  landing-mobile.png, landing-full.png. Reddit/social posts now have visual
+  assets. This closes the LAST item blocking 100/100 on Growth.
+- **"Pénalité de fidélité" concept briefed** — `growth/penalite-fidelite-brief.md`
+  delivered with ARCEP/Ariase data, integration points, and draft copy lines.
+  PM to decide if V8 copy goes into the Sunday launch or stays Week 1.
+- **GROWTH-06 feedback form spec ready** — `growth/feedback-form-spec.md`
+  delivered with fields, title, and integration plan. Google Form to be created.
+- **Social meta + OG image QA-verified** (cycle 9, 19:20 CET). Every shared
+  link now generates a branded preview card. 17/17 meta tags confirmed.
+- **Social norm / pénalité de fidélité layer added to positioning.**
+  New problem #6, new proof dimension, new "Why now" point. All claims
+  sourced from ARCEP Telconomics 2025 and Ariase — defensible and verifiable.
+  This is the single highest-leverage messaging addition identified by Research
+  (finding #13, Opower $532M precedent). Zero dev. Pure copy.
+- **Negotiation playbook angle sharpened** — "On ne vous dit pas juste quoi
+  faire. On vous dit quoi DIRE" framing prepped. Content file GROWTH-07
+  deferred to Day 3 evening / Week 1 per PM guidance.
 
 ---
 
@@ -56,11 +60,24 @@ post-promo à un instant donné — les promos standard durent 6 à 12 mois.
    partir, les opérateurs sortent des offres de rétention non publiées. Sans
    savoir ce qui existe, le consommateur négocie à l'aveugle. [INFERENCE —
    based on US research finding #10, `market/us-comparables.md` section 15]
-4. **Personne ne le fait à votre place — jusqu'ici.** Aux États-Unis, Rocket
+4. **Le consommateur est seul face au service rétention.** Quand vous appelez
+   pour résilier, l'agent en face a un script, un CRM, et des contre-offres
+   calibrées. Vous n'avez rien — ni les prix du marché, ni le coût réel de
+   votre forfait, ni le script pour négocier. [INFERENCE — based on US research
+   finding #12, `market/us-comparables.md` section 17]
+5. **Personne ne le fait à votre place — jusqu'ici.** Aux États-Unis, Rocket
    Money (10M+ utilisateurs, acquis $1,275Mds) négocie pour le consommateur. En
    France, il n'existe que des comparateurs passifs (Origame, Ideel) qui ne
    négocient rien, ne calculent pas le coût réel sur 24 mois, et ne détectent
    pas les pièges post-promo. [FACT — `market/us-comparables.md` section 8]
+6. **La fidélité est pénalisée, et personne ne le chiffre.** Les prix catalogue
+   pour les nouveaux abonnés fibre ont baissé de 5,9% en 2024. Les factures des
+   clients existants ont augmenté de 2,20 €/an (ARCEP, Telconomics 2025). Un
+   abonné post-promo à 39,99 €/mois paie 40% de plus que le prix moyen d'un
+   nouvel abonné fibre (28,59 €/mois, Ariase oct. 2024) — pour le même service.
+   L'écart se creuse chaque année. Au Royaume-Uni, Ofcom a nommé ce phénomène
+   « loyalty penalty » et forcé les opérateurs à agir. En France, rien.
+   [FACT — ARCEP Telconomics 2025, Ariase via connexionfrance.com, Ofcom 2018-2020]
 
 ## Promesse
 
@@ -73,7 +90,7 @@ commission.**
 - **Vérification instantanée en 10 secondes** — widget sur la landing page :
   choisissez votre opérateur, entrez votre prix, voyez immédiatement combien
   vous surpayez par rapport à la meilleure offre fibre. Sans upload, sans
-  inscription, sans donnée personnelle. [DEV-10 SHIPPED, QA-verified 11:20 CET]
+  inscription, sans donnée personnelle. [DEV-10 SHIPPED, QA-verified]
 - Extraction automatique de votre facture PDF (opérateur, forfait, prix)
 - Comparaison avec 4+ offres sourcées, datées, avec lien opérateur vérifiable
 - Calcul du coût total 24 mois : prix promo + prix post-promo + frais
@@ -86,6 +103,11 @@ commission.**
   24 mois vs la Freebox, un chiffre qu'il faut mettre en face de l'effort)
 - Plan d'action étape par étape avec owner (vous ou l'opérateur) et prochaine
   action
+- **Carte diagnostic partageable** — après chaque analyse, une carte visuelle
+  branded (Stories + feed) avec vos 4 chiffres clés : prix actuel, prix
+  recommandé, économie 24m, URL. Partagez d'un tap via WhatsApp, Instagram, ou
+  téléchargez. Zéro donnée personnelle sur la carte. [DEV-11 SHIPPED,
+  QA-verified cycle 8]
 - **Renégociation opérée sur mandat explicite** : vous donnez mandat, ReneGo
   porte la négociation, vous validez l'offre finale avant souscription
 - **Observatoire public** : courbes de prix des principaux opérateurs, visible
@@ -98,6 +120,8 @@ commission.**
 - Mobile, énergie, assurance
 - Alerte proactive d'expiration de promo (prévu V2, pas V1)
 - Base de données d'offres de rétention cachées (prévu V2, pas V1)
+- Playbook de négociation intégré au produit (contenu en préparation, pas
+  encore dans le flow — prévu semaine 1)
 - B&YOU dans le panel (à évaluer post-launch)
 
 ## Preuve — les 4 piliers
@@ -117,6 +141,13 @@ commission.**
    et les prix utilisés sont vérifiables. 100% gratuit, aucune commission,
    aucune rétro-commission opérateur. Si ReneGo recommande Red by SFR, c'est
    parce que c'est le moins cher — pas parce que Red paie pour être là.
+5. **Pénalité de fidélité chiffrée.** ReneGo ne compare pas seulement votre
+   facture aux offres du marché — il la compare aussi à ce que paient les
+   nouveaux abonnés (28,59 €/mois en moyenne selon Ariase, 2024). Cette donnée
+   ARCEP/Ariase transforme un constat rationnel (« il existe moins cher ») en
+   prise de conscience émotionnelle (« je paie 40% de plus que quelqu'un qui
+   vient d'arriver pour le même service »). Source neutre, calcul vérifiable.
+   [FACT — Ariase oct. 2024, ARCEP Telconomics 2025]
 
 ## Angle de différenciation
 
@@ -128,24 +159,26 @@ commission.**
 | Aucune action proposée | Plan d'action personnalisé + renégociation opérée |
 | Pas de recommandation argumentée | Reco principale avec trade-offs explicites |
 | N'anticipent pas la contre-offre | Prépare à la conversation avec le service rétention |
-| Interface passive (consultez) | Interface active (vérifiez, importez, comprenez, mandatez) |
+| Interface passive (consultez) | Interface active (vérifiez, importez, comprenez, partagez, mandatez) |
+| Résultat meurt à l'écran | Carte diagnostic partageable d'un tap — le résultat se diffuse |
 | Pas de données publiques structurées | Observatoire public avec sources et dates |
+| Pas de comparaison au marché global | Pénalité de fidélité chiffrée : « vous payez X% de plus que les nouveaux abonnés » (ARCEP/Ariase) |
 | Boîte noire | Open source — vérifiez le code, les prix, le scoring |
 
 **Ce que ReneGo n'est PAS :** un comparateur de plus. Les comparateurs montrent
 les prix promo. ReneGo montre le coût réel, détecte les pièges, recommande,
-et agit pour vous avec votre accord. C'est la différence entre un prospectus
-et un conseiller.
+prépare à la négociation, et agit pour vous avec votre accord. C'est la
+différence entre un prospectus et un conseiller.
 
 ## Objections anticipées
 
 | Objection | Réponse |
 |-----------|---------|
 | « Comment vous gagnez de l'argent ? » | On ne gagne rien. Beta gratuite, open source. Pas de commission, pas de rétro-commission opérateur. Le modèle viendra si l'outil est utile. |
-| « Mes données sont en sécurité ? » | On vous demande uniquement ce qu'il faut pour analyser votre contrat et opérer la renégociation. Aucun accès opérateur sans votre mandat explicite. |
+| « Mes données sont en sécurité ? » | On vous demande uniquement ce qu'il faut pour analyser votre contrat et opérer la renégociation. Aucun accès opérateur sans votre mandat explicite. La carte diagnostic ne contient aucune donnée personnelle — juste des prix et des économies. |
 | « Les prix vont changer demain ! » | Probablement. C'est un snapshot daté. On affiche la date du relevé partout. Vérifiez le lien source avant d'agir. |
 | « Pourquoi je ne ferais pas ça moi-même ? » | Vous pouvez. Mais calculer le coût 24 mois de 4+ offres avec frais, promo, post-promo, engagement et options prend du temps. On le fait en secondes et on négocie pour vous si vous le souhaitez. |
-| « C'est juste un comparateur de plus. » | Non. Un comparateur liste des offres. ReneGo analyse votre facture, calcule le vrai coût, détecte les pièges, recommande et agit sur mandat. La différence entre un menu et un médecin. |
+| « C'est juste un comparateur de plus. » | Non. Un comparateur liste des offres. ReneGo analyse votre facture, calcule le vrai coût, détecte les pièges, recommande, génère votre carte diagnostic et agit sur mandat. La différence entre un menu et un médecin. |
 | « C'est une beta, pas une entreprise. » | Exact. C'est pour ça qu'on ne promet rien qu'on ne peut pas prouver. Chiffres sourcés, code ouvert, disclaimer visible. On préfère être honnête et utile que poli et vague. |
 | « Vous allez changer mon forfait sans me demander ? » | Jamais. La souscription finale est toujours validée par vous. On recommande, on négocie avec votre mandat, vous décidez. |
 | « Red by SFR n'a pas de TV ! » | Exact — c'est le trade-off. Red est le champion prix (591 € sur 24 mois) mais offre 35 chaînes via l'app, pas de décodeur. Si la TV est essentielle, SFR Starter (160 chaînes, 853 €) est l'alternative. |
@@ -170,12 +203,17 @@ et un conseiller.
 5. **L'observatoire est prêt.** ReneGo peut déjà montrer publiquement ce que les
    opérateurs ne montrent pas clairement : le coût réel après la promo, avec
    sources et dates. C'est une preuve concrète dès le jour 1.
+6. **L'écart loyal/nouveau se creuse.** Les prix catalogue baissent (−5,9% en
+   2024, ARCEP) pendant que les factures post-promo augmentent (+2,20 €/an).
+   Plus on attend, plus la pénalité de fidélité grandit. ReneGo la rend
+   visible et personnelle au moment où l'écart est le plus large jamais
+   mesuré. [FACT — ARCEP Telconomics 2025]
 
 ## Positionnement résumé (une phrase)
 
 **ReneGo est le premier service français qui analyse votre facture box internet,
-calcule le vrai coût sur 24 mois, et renégocie pour vous — gratuitement, sans
-commission, en toute transparence.**
+calcule le vrai coût sur 24 mois, chiffre votre pénalité de fidélité, et
+renégocie pour vous — gratuitement, sans commission, en toute transparence.**
 
 ## Tonalité
 
@@ -189,19 +227,19 @@ commission, en toute transparence.**
 
 ## Évolutions futures (hors scope lancement, ne pas annoncer)
 
-- **Carte diagnostic partageable.** Après l'analyse, une carte visuelle
-  (1080×1920 Stories + 1080×1080 feed) avec les 4 chiffres clés : prix actuel,
-  prix recommandé, économie 24m, URL. Bouton « Partager mon diagnostic » via
-  Web Share API. Le moteur de viralité organique à zéro budget — chaque carte
-  partagée en WhatsApp group est une acquisition gratuite.
-  [Source : US research finding #11, `market/us-comparables.md` section 16.
-  DEV-11 prévu Day 2 après-midi.]
+- **Playbook de négociation opérateur.** Scripts par opérateur avec le numéro de
+  rétention, un script mot pour mot, les articles de loi à invoquer, et un
+  guide pour évaluer la contre-offre. Contenu en préparation (GROWTH-07),
+  intégration dans le template plan d'action prévue semaine 1 (DEV-12). US
+  finding #12 : HighSpeedInternet.com génère 2,68M visites/mois sur ce type
+  de contenu. Aucun équivalent en France.
+  [Source : `market/us-comparables.md` section 17]
 - **Base de données d'offres de rétention cachées.** Feedback loop post-action :
   « Qu'a proposé votre opérateur ? » Les réponses créent un dataset unique sur
   les contre-offres non publiées des ISP français — donnée qu'aucun comparateur
   ne détient. 10-20 réponses/opérateur = utile. 100 = autorité.
   [Source : US research finding #10, `market/us-comparables.md` section 15.
-  GROWTH-06 Google Form V0 prévu Day 2.]
+  GROWTH-06 Google Form V0 en préparation Day 2.]
 - **Promo-Expiry Sentinel.** Alerte email 30j avant expiration de votre promo.
   Transforme le produit de « conseil ponctuel » en « surveillance continue ».
   [Source : US research finding #7, `market/us-comparables.md` section 12]
@@ -221,7 +259,10 @@ commission, en toute transparence.**
 *Ce positionnement ne contient que des claims vérifiables à la date du 13 mars
 2026. Chaque affirmation est traçable dans le benchmark
 (`market/benchmark-box-fr.md`), la veille FR (`market/fr-offers-watch.md`), la
-recherche US (`market/us-comparables.md`), ou le code source. Code et copy sont
-alignés — confirmé par QA cycle 7 regression (11:20 CET, 13 mars). Orange
-vérifié depuis la page opérateur live. Widget DEV-10 QA-verified. QA score:
-98/100. Regression: zero. Launch gate: 11/11.*
+recherche US (`market/us-comparables.md`), les données ARCEP (Telconomics 2025),
+Ariase (oct. 2024 via connexionfrance.com), ou le code source. Code et copy sont
+alignés — confirmé par QA cycle 9 regression (19:20 CET, 13 mars). Widget
+DEV-10 QA-verified. Diagnostic card DEV-11 QA-verified. Social meta QA-verified
+(cycle 9, 17/17 tags). URL live et confirmée. Screenshots 3× dans
+`growth/assets/`. QA score: 99/100. Regression: 3 cycles stables (7/8/9).
+Launch gate: 13/13.*
