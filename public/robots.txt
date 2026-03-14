@@ -1,0 +1,6 @@
+# ReneGo — Comparateur box internet France
+User-agent: *
+Allow: /
+Disallow: /design-lab/
+
+Sitemap: https://renego-commodites-fr.vercel.app/sitemap.xml

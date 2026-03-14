@@ -65,7 +65,7 @@ export function InstantPriceCheck() {
   const canCheck = operator !== "" && priceInput !== "";
 
   return (
-    <section className="price-check glass-panel">
+    <section id="price-check" className="price-check glass-panel">
       <div className="price-check-inner">
         <div className="price-check-header">
           <p className="eyebrow">Vérification instantanée</p>

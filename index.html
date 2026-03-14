@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- Font preconnect + stylesheet (moved from CSS @import for faster first paint) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
     <!-- Title & Description -->
     <title>ReneGo — Payez-vous trop cher votre box internet ?</title>
     <meta
@@ -28,6 +33,32 @@
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="ReneGo — Comparez les vrais prix box internet sur 24 mois" />
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://renego-commodites-fr.vercel.app/" />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "ReneGo",
+      "url": "https://renego-commodites-fr.vercel.app",
+      "description": "Comparez les vrais prix box internet sur 24 mois et obtenez un plan de renégociation. 100% gratuit, sans commission.",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR"
+      },
+      "inLanguage": "fr-FR",
+      "author": {
+        "@type": "Organization",
+        "name": "ReneGo"
+      }
+    }
+    </script>
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />

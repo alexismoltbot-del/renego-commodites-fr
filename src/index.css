@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap");
+/* Fonts loaded via <link> in index.html for faster first paint */
 
 :root {
   color-scheme: light;
@@ -1338,4 +1338,25 @@ h3 {
   .diagnostic-canvas {
     max-height: 480px;
   }
+}
+
+/* ── Post-widget observatory link ── */
+
+.post-widget-link {
+  text-align: center;
+  margin: 10px auto 0;
+  width: min(1280px, 100%);
+  position: relative;
+  z-index: 1;
+}
+
+.post-widget-link a {
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.post-widget-link a:hover {
+  color: var(--accent-2);
 }

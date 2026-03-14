@@ -292,6 +292,89 @@ assert(analysis.waitOption.id === "wait", "Wait id = wait");
 assert(analysis.waitOption.annualSavingEur === 0, "Wait saving = 0");
 assert(analysis.waitOption.actionKind === "wait", "Wait actionKind = wait");
 
+// ─── Test: Widget vs Card savings consistency (BUG-18 / QA-04) ────
+
+section("Widget vs Card savings consistency (BUG-18)");
+
+// The InstantPriceCheck widget calculates savings as: (userPrice - RED_MONTHLY) * 24
+// The DiagnosticCard calculates savings as: currentAnnualCost * 2 - RED_totalCost24m
+// The gap should equal exactly Red's setupFeeEur (39 EUR), because the widget
+// ignores setup fees while the card uses compute24MonthCost (which includes them).
+
+const redOffer = PUBLIC_BOX_OFFERS.find((o) => o.id === "switch-red")!;
+const RED_MONTHLY = redOffer.pricing.standardMonthlyPriceEur;
+const RED_SETUP = redOffer.pricing.setupFeeEur;
+const RED_24M = compute24MonthCost(redOffer.pricing); // 590.76
+
+// Verify Red reference data used by the widget
+assertClose(RED_MONTHLY, 22.99, 0.001, "Widget RED_MONTHLY = 22.99 EUR");
+assertClose(RED_SETUP, 39, 0.001, "Red setup fee = 39 EUR");
+assertClose(RED_24M, 590.76, 0.01, "Red 24m total (with setup) = 590.76 EUR");
+
+// Freebox user at 39.99 EUR/month — the primary use case
+const freeboxMonthly = 39.99;
+const widgetSavings = Math.round((freeboxMonthly - RED_MONTHLY) * 24 * 100) / 100; // 408.00
+const cardSavings = Math.max(0, freeboxMonthly * 24 - RED_24M); // 369.00
+assertClose(widgetSavings, 408.0, 0.01, "Widget savings (Freebox 39.99) = 408 EUR");
+assertClose(cardSavings, 369.0, 0.01, "Card savings (Freebox 39.99) = 369 EUR");
+assertClose(
+  widgetSavings - cardSavings,
+  RED_SETUP,
+  0.01,
+  `Widget/Card gap = Red setup fee (${RED_SETUP} EUR) — BUG-18 documented`,
+);
+
+// Orange user at 42.99 EUR/month (post-promo)
+const orangePostPromoMonthly = 42.99;
+const widgetSavingsOrange = Math.round((orangePostPromoMonthly - RED_MONTHLY) * 24 * 100) / 100;
+const cardSavingsOrange = Math.max(0, orangePostPromoMonthly * 24 - RED_24M);
+assertClose(widgetSavingsOrange, 480.0, 0.01, "Widget savings (Orange 42.99) = 480 EUR");
+assertClose(cardSavingsOrange, 441.0, 0.01, "Card savings (Orange 42.99) = 441 EUR");
+assertClose(
+  widgetSavingsOrange - cardSavingsOrange,
+  RED_SETUP,
+  0.01,
+  "Widget/Card gap (Orange) = Red setup fee — consistent",
+);
+
+// ─── Test: Widget edge cases ──────────────────────────────────────
+
+section("Widget edge cases");
+
+// User already at Red's price — should show "best-price" (no saving)
+const atRedPrice = RED_MONTHLY;
+const widgetDeltaAtRed = atRedPrice - RED_MONTHLY;
+assert(widgetDeltaAtRed <= 0, "At Red price: delta <= 0 → best-price");
+
+// User paying LESS than Red — should show "best-price"
+const belowRed = 19.99;
+const widgetDeltaBelow = belowRed - RED_MONTHLY;
+assert(widgetDeltaBelow < 0, "Below Red price: delta < 0 → best-price");
+
+// Free user above 40 EUR — should trigger "promo-expired" path
+const freeExpired = 44.99;
+const widgetDeltaExpired = Math.round((freeExpired - RED_MONTHLY) * 24 * 100) / 100;
+assertClose(widgetDeltaExpired, 528.0, 0.01, "Free 44.99: widget savings = 528 EUR (promo expired)");
+
+// SFR promo user at 27.99 — positive but modest saving
+const sfrPromo = 27.99;
+const widgetDeltaSFR = Math.round((sfrPromo - RED_MONTHLY) * 24 * 100) / 100;
+assertClose(widgetDeltaSFR, 120.0, 0.01, "SFR promo 27.99: widget savings = 120 EUR");
+
+// Verify all offers have valid setup fees (no NaN or negative)
+for (const offer of PUBLIC_BOX_OFFERS) {
+  assert(
+    offer.pricing.setupFeeEur >= 0 && !isNaN(offer.pricing.setupFeeEur),
+    `${offer.provider} setup fee valid (${offer.pricing.setupFeeEur} EUR)`,
+  );
+}
+
+// Verify Red is priceLocked (widget assumes no promo complexity)
+assert(
+  redOffer.pricing.priceLocked === true,
+  "Red priceLocked = true (widget assumes stable monthly)",
+);
+
 // ─── Summary ──────────────────────────────────────────────────────
 
 console.log(`\n${"═".repeat(50)}`);

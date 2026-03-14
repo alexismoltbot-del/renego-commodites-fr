@@ -304,8 +304,8 @@ export default function App() {
               />
               Importer une facture PDF
             </label>
-            <a className="button button-secondary" href="#observatoire">
-              Voir l'evolution des offres
+            <a className="button button-secondary" href="#price-check">
+              Vérifier mon prix en 10 secondes
             </a>
           </div>
         </section>
@@ -344,6 +344,8 @@ export default function App() {
 
 
       <InstantPriceCheck />
+
+      <p className="post-widget-link"><a href="#observatoire">Voir l'observatoire des prix ↓</a></p>
 
       <section className="trust-bar">
         <div className="trust-bar-inner">
