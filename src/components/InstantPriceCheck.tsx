@@ -8,7 +8,8 @@ type CheckResult =
   | { kind: "overpaying"; delta: number; savings24m: number; operator: string }
   | { kind: "best-price" }
   | { kind: "already-red" }
-  | { kind: "promo-expired"; delta: number; savings24m: number; operator: string };
+  | { kind: "promo-expired"; delta: number; savings24m: number; operator: string }
+  | { kind: "modest-savings"; delta: number; savings24m: number; operator: string };
 
 const OPERATORS = [
   { value: "", label: "Votre opérateur" },
@@ -33,6 +34,10 @@ function checkPrice(operator: string, price: number): CheckResult {
 
   if (operator === "Free" && price > 40) {
     return { kind: "promo-expired", delta, savings24m, operator };
+  }
+
+  if (delta < 5) {
+    return { kind: "modest-savings", delta, savings24m, operator };
   }
 
   return { kind: "overpaying", delta, savings24m, operator };
@@ -147,6 +152,25 @@ export function InstantPriceCheck() {
                   Sur 24 mois : <strong>{result.savings24m.toFixed(0)} € d'économies potentielles</strong>.
                 </p>
               </>
+            )}
+            {result.kind === "modest-savings" && (
+              <>
+                <p className="result-headline">
+                  L'écart est de <strong>{result.delta.toFixed(2)} €/mois</strong> avec
+                  Red by SFR ({RED_MONTHLY.toFixed(2)} €/mois).
+                </p>
+                <p className="result-detail">
+                  Sur 24 mois : <strong>{result.savings24m.toFixed(0)} € d'économies potentielles</strong> — avant frais de mise en service.
+                </p>
+                <p className="result-hint result-hint-trust">
+                  ✓ Pour un écart aussi modeste, changer d'opérateur ne vaut pas toujours le coup.
+                </p>
+              </>
+            )}
+            {result.kind === "modest-savings" && (
+              <p className="result-cta">
+                <a href="#observatoire">Surveillez l'observatoire des prix</a> — si les tarifs bougent, vous le verrez ici.
+              </p>
             )}
             {result.kind === "best-price" && (
               <p className="result-headline result-positive">
