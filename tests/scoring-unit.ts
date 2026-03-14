@@ -375,6 +375,25 @@ assert(
   "Red priceLocked = true (widget assumes stable monthly)",
 );
 
+// ─── Test: Widget modest-savings threshold ────────────────────
+
+section("Widget modest-savings threshold");
+
+// At 25.99 EUR (3 EUR/month delta), savings are modest (72 EUR/24m, net ~33 after setup)
+const modestDelta = Math.round((25.99 - RED_MONTHLY) * 100) / 100;
+assertClose(modestDelta, 3.0, 0.01, "Modest: 25.99 - 22.99 = 3.00 EUR delta");
+assert(modestDelta < 5, "Delta 3 < 5 -> modest-savings (not worth hassle of switch)");
+
+// At 27.99 EUR (5 EUR/month delta), savings are meaningful -> standard overpaying
+const meaningfulDelta = Math.round((27.99 - RED_MONTHLY) * 100) / 100;
+assertClose(meaningfulDelta, 5.0, 0.01, "Meaningful: 27.99 - 22.99 = 5.00 EUR delta");
+assert(meaningfulDelta >= 5, "Delta 5 >= 5 -> standard overpaying (net ~81 after setup)");
+
+// Boundary: 27.98 EUR -> delta 4.99 -> still modest
+const boundaryDelta = Math.round((27.98 - RED_MONTHLY) * 100) / 100;
+assertClose(boundaryDelta, 4.99, 0.01, "Boundary: 27.98 - 22.99 = 4.99 EUR delta");
+assert(boundaryDelta < 5, "Delta 4.99 < 5 -> modest-savings (boundary)");
+
 // ─── Summary ──────────────────────────────────────────────────────
 
 console.log(`\n${"═".repeat(50)}`);

@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from "react";
+import { MARKET_SNAPSHOT_AS_OF } from "../lib/boxMarketSnapshot";
 
 type DiagnosticCardProps = {
   currentProvider: string;
@@ -203,7 +204,7 @@ function renderCard(
     ctx.fillStyle = "#53615c";
     ctx.font = `${22 * scale}px sans-serif`;
     ctx.fillText(
-      "Prix relev\u00E9s le 13 mars 2026 \u00B7 Beta \u00B7 R\u00E9sultats indicatifs",
+      "Prix relev\u00E9s le " + MARKET_SNAPSHOT_AS_OF + " \u00B7 Beta \u00B7 R\u00E9sultats indicatifs",
       cx,
       h - 80 * scale,
     );
