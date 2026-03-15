@@ -47,7 +47,7 @@ export type RetentionSnapshot = {
   source: OfferSource;
 };
 
-export const MARKET_SNAPSHOT_AS_OF = "13 mars 2026";
+export const MARKET_SNAPSHOT_AS_OF = "15 mars 2026";
 
 export const FREEBOX_REFERENCE_SERVICE: BoxServiceProfile = {
   tvLabel: "TV by CANAL + bouquet TV",
@@ -136,7 +136,7 @@ export const PUBLIC_BOX_OFFERS: PublicBoxOfferSnapshot[] = [
       introMonthlyPriceEur: 35.99,
       introMonths: 12,
       standardMonthlyPriceEur: 42.99,
-      setupFeeEur: 49,
+      setupFeeEur: 48,
       priceLocked: false,
     },
     service: {
