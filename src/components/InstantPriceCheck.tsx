@@ -4,6 +4,19 @@ import { PUBLIC_BOX_OFFERS } from "../lib/boxMarketSnapshot";
 const RED_OFFER = PUBLIC_BOX_OFFERS.find((o) => o.id === "switch-red")!;
 const RED_MONTHLY = RED_OFFER.pricing.standardMonthlyPriceEur;
 
+function getOperatorNewCustomerInfo(operatorValue: string): { price: number; offer: string } | undefined {
+  const offerIdMap: Record<string, string> = {
+    "Orange": "switch-orange",
+    "SFR": "switch-sfr",
+    "Bouygues": "switch-bouygues",
+  };
+  const offerId = offerIdMap[operatorValue];
+  if (!offerId) return undefined;
+  const offer = PUBLIC_BOX_OFFERS.find((o) => o.id === offerId);
+  if (!offer?.pricing.introMonthlyPriceEur) return undefined;
+  return { price: offer.pricing.introMonthlyPriceEur, offer: offer.offer };
+}
+
 type CheckResult =
   | { kind: "overpaying"; delta: number; savings24m: number; operator: string }
   | { kind: "best-price" }
@@ -68,6 +81,15 @@ export function InstantPriceCheck() {
   }
 
   const canCheck = operator !== "" && priceInput !== "";
+
+  const loyaltyInfo = (() => {
+    if (!showResult || !result || !operator) return null;
+    const info = getOperatorNewCustomerInfo(operator);
+    if (!info) return null;
+    const price = parseFloat(priceInput.replace(",", "."));
+    if (isNaN(price) || price <= info.price) return null;
+    return { newPrice: info.price, offerName: info.offer };
+  })();
 
   return (
     <section id="price-check" className="price-check glass-panel">
@@ -137,6 +159,12 @@ export function InstantPriceCheck() {
                 <p className="result-detail">
                   Sur 24 mois : <strong>{result.savings24m.toFixed(0)} € d'économies potentielles</strong>.
                 </p>
+                {loyaltyInfo && (
+                  <p className="result-hint">
+                    💡 À titre de comparaison, {operator} affiche {loyaltyInfo.newPrice.toFixed(2)}&nbsp;€/mois
+                    pour les nouveaux clients ({loyaltyInfo.offerName}).
+                  </p>
+                )}
               </>
             )}
             {result.kind === "promo-expired" && (
@@ -165,11 +193,21 @@ export function InstantPriceCheck() {
                 <p className="result-hint result-hint-trust">
                   ✓ Pour un écart aussi modeste, changer d'opérateur ne vaut pas toujours le coup.
                 </p>
+                {loyaltyInfo && (
+                  <p className="result-hint">
+                    💡 {operator} affiche {loyaltyInfo.newPrice.toFixed(2)}&nbsp;€/mois pour ses nouveaux
+                    clients ({loyaltyInfo.offerName}). Un simple appel au service client peut suffire.
+                  </p>
+                )}
               </>
             )}
             {result.kind === "modest-savings" && (
               <p className="result-cta">
-                <a href="#observatoire">Surveillez l'observatoire des prix</a> — si les tarifs bougent, vous le verrez ici.
+                {loyaltyInfo ? (
+                  <><a href="#hero-upload">Importez votre facture</a> pour le diagnostic complet — gratuit et sans engagement.</>
+                ) : (
+                  <><a href="#observatoire">Surveillez l'observatoire des prix</a> — si les tarifs bougent, vous le verrez ici.</>
+                )}
               </p>
             )}
             {result.kind === "best-price" && (
