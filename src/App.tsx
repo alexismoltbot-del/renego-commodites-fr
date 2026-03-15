@@ -291,7 +291,7 @@ export default function App() {
             l'offre finale, puis vous decidez. 100% gratuit, sans commission.
           </p>
           <div className="hero-actions">
-            <label className="button button-primary uploader">
+            <label id="hero-upload" className="button button-primary uploader">
               <input
                 type="file"
                 accept=".pdf"
