@@ -69,9 +69,9 @@ section("compute24MonthCost");
 const sfrPricing = PUBLIC_BOX_OFFERS.find((o) => o.id === "switch-sfr")!.pricing;
 assertClose(compute24MonthCost(sfrPricing), 852.76, 0.01, "SFR 24m = 852.76 EUR");
 
-// Bouygues: 12×35.99 + 12×42.99 + 49 = 431.88 + 515.88 + 49 = 996.76
+// Bouygues: 12×35.99 + 12×42.99 + 48 = 431.88 + 515.88 + 48 = 995.76
 const bouyguesPricing = PUBLIC_BOX_OFFERS.find((o) => o.id === "switch-bouygues")!.pricing;
-assertClose(compute24MonthCost(bouyguesPricing), 996.76, 0.01, "Bouygues 24m = 996.76 EUR");
+assertClose(compute24MonthCost(bouyguesPricing), 995.76, 0.01, "Bouygues 24m = 995.76 EUR");
 
 // Orange: 12×29.99 + 12×42.99 + 49 = 359.88 + 515.88 + 49 = 924.76
 const orangePricing = PUBLIC_BOX_OFFERS.find((o) => o.id === "switch-orange")!.pricing;
