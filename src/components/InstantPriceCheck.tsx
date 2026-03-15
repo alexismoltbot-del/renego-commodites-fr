@@ -184,7 +184,7 @@ export function InstantPriceCheck() {
             )}
             {(result.kind === "overpaying" || result.kind === "promo-expired") && (
               <p className="result-cta">
-                Importez votre facture pour le diagnostic complet — gratuit et sans engagement.
+                <a href="#hero-upload">Importez votre facture pour le diagnostic complet</a> — gratuit et sans engagement.
               </p>
             )}
           </div>
