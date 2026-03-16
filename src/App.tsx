@@ -513,6 +513,49 @@ export default function App() {
                 <p className="push-copy">{decisionMemo.pushReason}</p>
               ) : null}
 
+              {decisionMemo.negotiateFirst ? (
+                <div className="negotiate-first-panel">
+                  <article className="voie-card voie-a">
+                    <div className="voie-header">
+                      <span className="voie-badge voie-badge-primary">Recommandé</span>
+                      <h3>Voie A — Négociez avec {decisionMemo.negotiateFirst.currentProvider}</h3>
+                      <p className="voie-subtitle">📞 Un appel de 20 minutes. Taux de succès : &gt;90%.</p>
+                    </div>
+                    <div className="voie-body">
+                      <div className="voie-lever">
+                        <p><strong>Votre levier :</strong> vous payez {decisionMemo.negotiateFirst.currentMonthlyPriceEur.toFixed(2)} €/mois.</p>
+                        <p>{decisionMemo.negotiateFirst.currentProvider} propose la {decisionMemo.negotiateFirst.sameIspNewCustomerOffer} à {decisionMemo.negotiateFirst.sameIspNewCustomerPriceEur.toFixed(2)} € aux nouveaux clients.</p>
+                        <p>{decisionMemo.negotiateFirst.batnaProvider} propose une offre équivalente à {decisionMemo.negotiateFirst.batnaMonthlyPriceEur.toFixed(2)} €/mois.</p>
+                      </div>
+                      <div className="voie-script">
+                        <p className="eyebrow">Script d'ouverture</p>
+                        <blockquote>"{decisionMemo.negotiateFirst.openingScript}"</blockquote>
+                      </div>
+                      <div className="voie-threshold">
+                        <p><strong>Si l'agent propose une offre de rétention :</strong></p>
+                        <ul>
+                          <li>En dessous de ~{decisionMemo.negotiateFirst.retentionCompetitiveThresholdEur} €/mois : compétitif — à vous de décider</li>
+                          <li>Au-dessus : la Voie B reste la meilleure option financière</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </article>
+                  <article className="voie-card voie-b">
+                    <div className="voie-header">
+                      <span className="voie-badge voie-badge-secondary">Si la négociation échoue</span>
+                      <h3>Voie B — Changez pour {recommendedOffer.provider} {recommendedOffer.offer}</h3>
+                      <p className="voie-subtitle">{recommendedOffer.priceLabel}{recommendedOffer.priceLocked ? " · Prix fixe" : ""}{(recommendedOffer.commitmentMonths ?? 0) === 0 ? " · Sans engagement" : ""}</p>
+                    </div>
+                    <div className="voie-body">
+                      <p>Économie : {formatSaving(recommendedOffer.annualSavingEur)} / an, soit {formatMoney((recommendedOffer.totalCost24mEur != null && analysis) ? Math.max(0, analysis.contract.annualCostEur * 2 - recommendedOffer.totalCost24mEur) : recommendedOffer.annualSavingEur * 2)} sur 24 mois.</p>
+                      {recommendedOffer.decoderIncluded === false ? (
+                        <p className="voie-tradeoff">⚠️ Cette offre ne comprend pas de décodeur TV ni de bouquet TV inclus.</p>
+                      ) : null}
+                    </div>
+                  </article>
+                </div>
+              ) : null}
+
               {priceChampionOffer || valueChampionOffer ? (
                 <div className="lens-grid">
                   {priceChampionOffer ? (
