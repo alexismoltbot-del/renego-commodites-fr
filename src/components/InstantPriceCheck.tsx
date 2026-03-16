@@ -193,21 +193,11 @@ export function InstantPriceCheck() {
                 <p className="result-hint result-hint-trust">
                   ✓ Pour un écart aussi modeste, changer d'opérateur ne vaut pas toujours le coup.
                 </p>
-                {loyaltyInfo && (
-                  <p className="result-hint">
-                    💡 {operator} affiche {loyaltyInfo.newPrice.toFixed(2)}&nbsp;€/mois pour ses nouveaux
-                    clients ({loyaltyInfo.offerName}). Un simple appel au service client peut suffire.
-                  </p>
-                )}
               </>
             )}
             {result.kind === "modest-savings" && (
               <p className="result-cta">
-                {loyaltyInfo ? (
-                  <><a href="#hero-upload">Importez votre facture</a> pour le diagnostic complet — gratuit et sans engagement.</>
-                ) : (
-                  <><a href="#observatoire">Surveillez l'observatoire des prix</a> — si les tarifs bougent, vous le verrez ici.</>
-                )}
+                <a href="#observatoire">Surveillez l'observatoire des prix</a> — si les tarifs bougent, vous le verrez ici.
               </p>
             )}
             {result.kind === "best-price" && (
