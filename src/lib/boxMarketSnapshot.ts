@@ -47,7 +47,7 @@ export type RetentionSnapshot = {
   source: OfferSource;
 };
 
-export const MARKET_SNAPSHOT_AS_OF = "15 mars 2026";
+export const MARKET_SNAPSHOT_AS_OF = "16 mars 2026";
 
 export const FREEBOX_REFERENCE_SERVICE: BoxServiceProfile = {
   tvLabel: "TV by CANAL + bouquet TV",
