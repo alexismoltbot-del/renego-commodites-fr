@@ -211,9 +211,14 @@ export function InstantPriceCheck() {
               </p>
             )}
             {(result.kind === "overpaying" || result.kind === "promo-expired") && (
-              <p className="result-cta">
-                <a href="#hero-upload">Importez votre facture pour le diagnostic complet</a> — gratuit et sans engagement.
-              </p>
+              <>
+                <p className="result-negotiate-hint">
+                  💬 Appelez votre opérateur avec ce chiffre — ou découvrez l'offre qui vous fera économiser le plus.
+                </p>
+                <p className="result-cta">
+                  <a href="#hero-upload">Importez votre facture pour le diagnostic complet</a> — gratuit et sans engagement.
+                </p>
+              </>
             )}
           </div>
         )}

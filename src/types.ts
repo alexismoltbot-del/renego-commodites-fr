@@ -135,6 +135,19 @@ export type PriceSeries = {
 
 export type DecisionDirection = "change_now" | "renegotiate_now" | "wait_watch";
 
+
+export type NegotiateFirstData = {
+  currentProvider: string;
+  currentMonthlyPriceEur: number;
+  sameIspNewCustomerPriceEur: number;
+  sameIspNewCustomerOffer: string;
+  batnaProvider: string;
+  batnaMonthlyPriceEur: number;
+  batnaOffer: string;
+  openingScript: string;
+  retentionCompetitiveThresholdEur: number;
+};
+
 export type DecisionMemo = {
   engineMode: "heuristic" | "gpt-5.4" | "claude-opus-4-6";
   modelLabel: string;
@@ -159,6 +172,8 @@ export type DecisionMemo = {
   };
   executionSections: ActionSection[];
   nextBestAlternativeId?: string;
+  negotiateFirst?: NegotiateFirstData;
+  switchFallbackSections?: ActionSection[];
 };
 
 export type AnalysisResult = {

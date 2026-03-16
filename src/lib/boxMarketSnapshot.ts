@@ -49,6 +49,9 @@ export type RetentionSnapshot = {
 
 export const MARKET_SNAPSHOT_AS_OF = "16 mars 2026";
 
+export const FREE_PUBLIC_NEW_CUSTOMER_PRICE_EUR = 29.99;
+export const FREE_PUBLIC_NEW_CUSTOMER_OFFER = "Freebox Pop";
+
 export const FREEBOX_REFERENCE_SERVICE: BoxServiceProfile = {
   tvLabel: "TV by CANAL + bouquet TV",
   tvChannels: 220,

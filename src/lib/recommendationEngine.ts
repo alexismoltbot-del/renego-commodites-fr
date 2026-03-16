@@ -1,3 +1,5 @@
+import { FREE_PUBLIC_NEW_CUSTOMER_OFFER, FREE_PUBLIC_NEW_CUSTOMER_PRICE_EUR } from "./boxMarketSnapshot";
+
 import type {
   ActionSection,
   ActionTask,
@@ -6,6 +8,7 @@ import type {
   ComparisonRow,
   DecisionDirection,
   DecisionMemo,
+  NegotiateFirstData,
 } from "../types";
 
 type OfferScoreBreakdown = {
@@ -342,6 +345,82 @@ function buildWaitSections(): ActionSection[] {
   ];
 }
 
+
+function buildNegotiateFirstData(
+  analysis: AnalysisResult,
+  batnaOffer: CandidateOffer,
+): NegotiateFirstData {
+  const currentPrice = analysis.contract.monthlyPriceEur;
+  const openingScript =
+    `Bonjour, je suis client Free depuis plusieurs années. Je constate que votre site propose la ${FREE_PUBLIC_NEW_CUSTOMER_OFFER} à ${FREE_PUBLIC_NEW_CUSTOMER_PRICE_EUR.toFixed(2)} € aux nouveaux clients, alors que je paie ${currentPrice.toFixed(2)} €. Je souhaite un réalignement tarifaire, sinon j'envisage de changer d'opérateur.`;
+
+  return {
+    currentProvider: analysis.contract.provider,
+    currentMonthlyPriceEur: currentPrice,
+    sameIspNewCustomerPriceEur: FREE_PUBLIC_NEW_CUSTOMER_PRICE_EUR,
+    sameIspNewCustomerOffer: FREE_PUBLIC_NEW_CUSTOMER_OFFER,
+    batnaProvider: batnaOffer.provider,
+    batnaMonthlyPriceEur: batnaOffer.monthlyPriceEur,
+    batnaOffer: batnaOffer.offer,
+    openingScript,
+    retentionCompetitiveThresholdEur: 27,
+  };
+}
+
+function buildNegotiateFirstSections(
+  analysis: AnalysisResult,
+  batnaOffer: CandidateOffer,
+): ActionSection[] {
+  return [
+    {
+      title: "Voie A \u2014 Négociez avec Free (le plus rapide)",
+      summary: "Un appel de 20 minutes au service rétention. Taux de succès estimé : >90%.",
+      steps: [
+        {
+          id: "negotiate-prep",
+          title: "Préparer vos arguments",
+          detail: `Vous payez ${formatCurrency(analysis.contract.monthlyPriceEur)}/mois. Free propose la ${FREE_PUBLIC_NEW_CUSTOMER_OFFER} à ${FREE_PUBLIC_NEW_CUSTOMER_PRICE_EUR.toFixed(2)} €/mois aux nouveaux clients. ${batnaOffer.provider} propose ${formatCurrency(batnaOffer.monthlyPriceEur)}/mois prix fixe. Ce sont vos deux leviers.`,
+          owner: "outil",
+          channel: "interface",
+          proof: "Script pré-rempli avec vos données",
+          automation: "auto",
+          status: "ready",
+        },
+        {
+          id: "negotiate-call",
+          title: "Appeler le 3244 (service rétention Free)",
+          detail: `Script d'ouverture : "Bonjour, je suis client Free depuis plusieurs années. Je constate que votre site propose la ${FREE_PUBLIC_NEW_CUSTOMER_OFFER} à ${FREE_PUBLIC_NEW_CUSTOMER_PRICE_EUR.toFixed(2)} € aux nouveaux clients, alors que je paie ${analysis.contract.monthlyPriceEur.toFixed(2)} €. Je souhaite un réalignement tarifaire, sinon j'envisage de changer d'opérateur."`,
+          owner: "utilisateur",
+          channel: "3244 / chat",
+          proof: "Compte rendu de l'appel",
+          automation: "manuelle",
+          status: "waiting_user",
+        },
+        {
+          id: "negotiate-evaluate",
+          title: "Évaluer l'offre de rétention",
+          detail: `Si Free propose en dessous de ~27 €/mois : compétitif — à vous de décider. Au-dessus : la Voie B (${batnaOffer.provider} à ${batnaOffer.monthlyPriceEur.toFixed(2)} €/mois) reste la meilleure option financière.`,
+          owner: "utilisateur",
+          channel: "interface",
+          proof: "Choix documenté",
+          automation: "assistee",
+          status: "waiting_user",
+        },
+        {
+          id: "negotiate-verify",
+          title: "Vérifier les nouvelles conditions",
+          detail: "L'outil contrôle qu'aucun engagement caché ou option parasite n'est ajouté à l'offre de rétention.",
+          owner: "outil",
+          channel: "pdf/email",
+          proof: "Contrôle récapitulatif",
+          automation: "assistee",
+          status: "waiting_provider",
+        },
+      ],
+    },
+  ];
+}
+
 function buildWhyBullets(
   analysis: AnalysisResult,
   selectedOffer: CandidateOffer,
@@ -395,9 +474,35 @@ export function buildHeuristicDecisionMemo(analysis: AnalysisResult): DecisionMe
     direction = "wait_watch";
   }
 
-  const executionSections =
+  const switchSections =
     direction === "change_now"
       ? buildSwitchSections(selectedOffer, analysis)
+      : [];
+
+  const negotiateFirstData =
+    direction === "change_now"
+      ? buildNegotiateFirstData(analysis, selectedOffer)
+      : undefined;
+
+  const negotiateFirstSections =
+    direction === "change_now"
+      ? buildNegotiateFirstSections(analysis, selectedOffer)
+      : [];
+
+  const switchFallbackSections =
+    direction === "change_now"
+      ? [
+          {
+            title: `Voie B \u2014 Changez pour ${selectedOffer.provider} (l'économie maximale)`,
+            summary: `Si la négociation n'aboutit pas ou si vous préférez l'économie maximum : ${selectedOffer.provider} ${selectedOffer.offer} — ${selectedOffer.priceLabel}.`,
+            steps: switchSections.flatMap((section) => section.steps),
+          },
+        ]
+      : [];
+
+  const executionSections =
+    direction === "change_now"
+      ? [...negotiateFirstSections, ...switchFallbackSections]
       : direction === "renegotiate_now"
         ? buildRetentionSections()
         : buildWaitSections();
@@ -416,15 +521,13 @@ export function buildHeuristicDecisionMemo(analysis: AnalysisResult): DecisionMe
     direction,
     headline:
       direction === "change_now"
-        ? selectedOffer.decoderIncluded === false
-          ? `${selectedOffer.provider} est le meilleur prix du marche, mais sans decodeur TV : un compromis a peser.`
-          : `Le meilleur compromis prix/features pousse maintenant vers ${selectedOffer.provider}.`
+        ? `Voie A : négociez avec ${analysis.contract.provider}. Voie B : changez pour ${selectedOffer.provider}.`
         : direction === "renegotiate_now"
           ? "La renegociation immediate reste le meilleur ratio qualite / effort."
           : "Attendre reste possible, mais ce n'est pas le choix economique optimal.",
     recommendationLabel:
       direction === "change_now"
-        ? "Changer maintenant"
+        ? "Négocier d'abord, changer si besoin"
         : direction === "renegotiate_now"
           ? "Garder et renegocier"
           : "Attendre",
@@ -438,9 +541,7 @@ export function buildHeuristicDecisionMemo(analysis: AnalysisResult): DecisionMe
       direction === "change_now" ? "Confiance moyenne a elevee" : "Confiance elevee",
     explanationForUser:
       direction === "change_now"
-        ? selectedOffer.decoderIncluded === false
-          ? `${selectedOffer.provider} propose le prix le plus bas du marche, prix fixe, sans engagement. Attention : cette offre ne comprend ni decodeur TV ni bouquet TV inclus. Si la TV de la Freebox est importante, c'est un compromis a considerer. Economie estimee : ${Math.round(selectedOffer.annualSavingEur)} EUR / an.`
-          : `Le moteur separe maintenant le prix pur du rapport prix/features. En prix pur, ${priceChampion?.provider ?? selectedOffer.provider} gagne. Mais ${selectedOffer.provider} conserve un meilleur equilibre entre economie, TV et debit, avec ${Math.round(selectedOffer.annualSavingEur)} EUR d'economie annuelle.`
+        ? `Le plus rapide : appelez ${analysis.contract.provider} (20 min, taux de succès >90%). Votre levier : ${analysis.contract.provider} propose la ${FREE_PUBLIC_NEW_CUSTOMER_OFFER} à ${FREE_PUBLIC_NEW_CUSTOMER_PRICE_EUR.toFixed(2)} € aux nouveaux clients, et ${selectedOffer.provider} propose ${selectedOffer.monthlyPriceEur.toFixed(2)} €/mois prix fixe. Si la négociation n'aboutit pas, ${selectedOffer.provider} ${selectedOffer.offer} reste la meilleure option financière : ${Math.round(selectedOffer.annualSavingEur)} EUR d'économie annuelle.`
         : `Le gain existe, mais la friction d'un switch n'est pas justifiee. La bonne decision est de comprimer le prix chez l'operateur actuel.`,
     whyThisChoice: buildWhyBullets(analysis, selectedOffer, selectedComparison),
     pushReason:
@@ -459,5 +560,7 @@ export function buildHeuristicDecisionMemo(analysis: AnalysisResult): DecisionMe
     },
     executionSections,
     nextBestAlternativeId,
+    negotiateFirst: negotiateFirstData,
+    switchFallbackSections: switchFallbackSections.length > 0 ? switchFallbackSections : undefined,
   };
 }
