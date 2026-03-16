@@ -5,6 +5,7 @@ import sarahPortrait from "./assets/story-sarah.svg";
 import { PriceTrendChart } from "./components/PriceTrendChart";
 import { InstantPriceCheck } from "./components/InstantPriceCheck";
 import { DiagnosticCard } from "./components/DiagnosticCard";
+import { EmbedSection } from "./components/EmbedSection";
 import { analyzeContractText } from "./lib/contractAnalysis";
 import { fetchDecisionMemo } from "./lib/api";
 import { formatMoney, formatSaving, formatScore } from "./lib/format";
@@ -896,6 +897,8 @@ export default function App() {
           )}
         </section>
       </main>
+
+      <EmbedSection />
 
       <footer className="product-footer">
         <p>
