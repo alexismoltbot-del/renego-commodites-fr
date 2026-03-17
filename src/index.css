@@ -1484,3 +1484,65 @@ h3 {
     grid-template-columns: 1fr;
   }
 }
+
+/* ─── Embed Section (DEV-16) ─── */
+
+.embed-section {
+  width: min(1280px, 100%);
+  margin: 28px auto 0;
+  position: relative;
+  z-index: 1;
+}
+
+.embed-inner {
+  padding: 28px;
+}
+
+.embed-inner h2 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(1.3rem, 2.4vw, 1.8rem);
+  margin: 0 0 8px;
+  line-height: 1.2;
+}
+
+.embed-subtitle {
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  margin: 0 0 20px;
+  max-width: 600px;
+}
+
+.embed-code-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.embed-code {
+  margin: 0;
+  padding: 18px;
+  border-radius: 14px;
+  background: var(--surface-strong);
+  border: 1px solid var(--line);
+  font-size: 0.82rem;
+  line-height: 1.55;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+  color: var(--ink);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+.embed-copy-btn {
+  align-self: flex-start;
+  min-width: 160px;
+  height: 44px;
+  font-size: 0.88rem;
+}
+
+.embed-note {
+  margin: 16px 0 0;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  font-style: italic;
+}
